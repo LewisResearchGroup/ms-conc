@@ -1,0 +1,54 @@
+git clone git@github.com:soerendip/ms-conc.git
+l
+mv scripts/* . 
+git commit -am '..'
+git push
+ca lrg
+ca LRG
+l
+ca py3
+l
+l
+pip install -e . 
+vi setup.py 
+code . 
+ssh pp-prod
+l
+pip install -e . 
+pip install streamlit
+pip install -e . 
+streamlit App.py 
+streamlit -run App.py 
+streamlit --run App.py 
+streamlit run App.py 
+streamlit run App.py 
+streamlit run App.py 
+streamlit run App.py 
+pip install -e . 
+streamlit run App.py 
+streamlit run App.py 
+streamlit run App.py --port 8052
+streamlit run App.py --host localhost:8052
+streamlit run App.py 
+streamlit run App.py 
+conda create -n ms-conc python=3.7
+ca ms-conc
+pip install -e . 
+pip install -e . 
+..
+streamlit run App.py 
+streamlit run App.py 
+conda env export | grep streamlit
+streamlit run App.py 
+streamlit run App.py 
+streamlit run App.py 
+streamlit run App.py 
+git status
+git add --all
+git push 
+l
+mv App.py streamlit_app.py
+l
+vi requirements.txt
+git status
+git add requirements.txt streamlit_app.py 
