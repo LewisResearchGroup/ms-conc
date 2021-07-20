@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 import os
-from ms_mint.Mint import Mint
+# from ms_mint.Mint import Mint
 
 def classic_lstsqr(x_list, y_list):
     """ Computes the least-squares solution to a linear matrix equation by fixing the slope to 1
@@ -148,22 +148,22 @@ def conc_from_matrix(matrix):
 #     print(conc)
     return np.array(conc)
 
-def concentrations_from_mint(mint):
-    ''' this function works for the LSARP dataset format in which
-    is extracted from the file names.....'''
-    files = np.array(mint.results.ms_file)
+# def concentrations_from_mint(mint):
+#     ''' this function works for the LSARP dataset format in which
+#     is extracted from the file names.....'''
+#     files = np.array(mint.results.ms_file)
     
-    _, idx = np.unique(files, return_index=True)
-    unique_files = files[np.sort(idx)]
-    std_files = []
-    for el in unique_files:
-        if ('dard' in el) == True:
-            std_files.append(el)
-    conc = []
-    for el in std_files:
-        conc.append(float(el.split('/')[-1].split('dard-')[-1].split('nm')[0]))
+#     _, idx = np.unique(files, return_index=True)
+#     unique_files = files[np.sort(idx)]
+#     std_files = []
+#     for el in unique_files:
+#         if ('dard' in el) == True:
+#             std_files.append(el)
+#     conc = []
+#     for el in std_files:
+#         conc.append(float(el.split('/')[-1].split('dard-')[-1].split('nm')[0]))
         
-    return conc
+#     return conc
 
 
 def standard_matrix(mint, by = 'peak_max'):
