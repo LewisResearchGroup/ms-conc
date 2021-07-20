@@ -1,4 +1,3 @@
-from lrg_omics import LRG_TEST_DATA
 import pandas as pd
 import numpy as np
 import os
