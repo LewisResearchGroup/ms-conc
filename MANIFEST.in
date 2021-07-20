@@ -1,0 +1,2 @@
+include versioneer.py
+include ms_mint_conc/_version.py
