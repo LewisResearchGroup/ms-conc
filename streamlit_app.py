@@ -50,13 +50,13 @@ st.write('''
          # APP for computing the concentrations by using standard curves
          
          ### this app should be able to process both Mint and Maven results ....
-         ####    1) A table with the information of standard samples (metadata) is requiered alongside with the metabolomic results. To upload them click botoms in the left side 
+         ####    1) A table with the information of standard samples (metadata) is requiered alongside with the metabolomic results. Upload them by clicking in the left side buttons  
          ####    --> the table should contain the file names of standard samples as column names (without the file extension)
-         ####    --> the first column correspond to the peaklabels for the metabolites in the standard samples
+         ####    --> the first column correspond to the peak labels for the metabolites in the standard samples
          ####    --> please make sure that the metabolites in the metadata agree with the metabolites on the results table
          ''')
 
-st.image('picture_4_app.png', width=700, caption = 'Figure 1 example of metadata information table')
+st.image('picture_4_app.png', width=700, caption = 'Figure 1 example of metadata information table. The file names should be contained in the column names. The column `peak_label` correspond to the compounds in the standard samples.')
 
 st.write('''
          ####    2) When the metadata and the results files are uploaded, a table with the parameters of standard curves and the results with the transformations will be generated automatically
