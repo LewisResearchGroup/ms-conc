@@ -70,7 +70,7 @@ std_info = st.sidebar.file_uploader( 'upload standard information file ..')
 
 try:
     s_st = SessionState.get(std_information = pd.read_csv(std_info))
-    st.write('## your information file:')
+    st.write('## your standard samples metadata file:')
     st.write(s_st.std_information)
 
 except:
@@ -116,13 +116,13 @@ try:
     
         s_st.ces.fit(s_st.x_train, s_st.y_train)
         st.write('''the standard curves have being fitted ....
-             you can download the parameters of the standard curves....''')    
+             you can download the parameters of the standard curves....''')
         st.write(s_st.ces.params_.sort_values(by = ['peak_label']))
-        tmp_download_link = download_link(s_st.ces.params_, 'parameters.csv', 'Click here to download your data!')
+        
+        tmp_download_link = download_link(s_st.ces.params_, 'parameters.csv', 'Click here to download your standard courves results!')
         st.markdown(tmp_download_link, unsafe_allow_html=True)
             
         
-#         if st.button('''you can transform your data'''):
         s_st.X = s_st.raw_results[['ms_file','peak_label', s_st.by_]].rename(columns={s_st.by_:'value'})
 #         st.write(s_st.X.sort_values(by = ['peak_label']))
         s_st.X['pred_conc'] = s_st.ces.predict(s_st.X).pred_conc

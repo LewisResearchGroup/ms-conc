@@ -79,6 +79,13 @@ def calibration_curves(x_train, y_train):
         calibration_curves.lin_range_max[calibration_curves.peak_label == col] = max(x_c) 
         calibration_curves.intercept[calibration_curves.peak_label == col] = y_inter
         calibration_curves.slope[calibration_curves.peak_label == col] = 1
+        
+        
+    calibration_curves['lin_scale_range_min'] = calibration_curves.lin_range_min + calibration_curves.intercept
+    calibration_curves['lin_scale_range_max'] = calibration_curves.lin_range_max + calibration_curves.intercept
+    
+    calibration_curves.lin_scale_range_min = calibration_curves.lin_scale_range_min.apply(lambda x: np.exp(x))
+    calibration_curves.lin_scale_range_max = calibration_curves.lin_scale_range_max.apply(lambda x: np.exp(x))
 #         print(len(calibration_curves))
     return calibration_curves
 
@@ -228,7 +235,8 @@ def mint_train_set(mint_results, by = 'peak_max'):
 
      
 
-def transform(X, calibration_curve):
+def transform(X, calibration_curves):
+    calibration_curve = calibration_curves[['peak_label', 'slope', 'intercept', 'lin_range_min', 'lin_range_max']]
     X0 = X.copy().fillna(0)
     r_min = 0
     r_max = 0
@@ -258,8 +266,8 @@ def train_to_validation(X, Y, curves):
     X0['true_conc'] = Y
     
     curves0= curves.copy().fillna(0.0000001)
-    curves0['Y_min'] = np.exp( curves0.intercept +  curves0.slope * curves0.lin_range_min - .5 )
-    curves0['Y_max'] = np.exp( curves0.intercept +  curves0.slope * curves0.lin_range_max + .5)
+    curves0['Y_min'] = np.exp( curves0.intercept +  curves0.slope * curves0.lin_range_min - .01)
+    curves0['Y_max'] = np.exp( curves0.intercept +  curves0.slope * curves0.lin_range_max + .01)
     
     X0['Y_min'] = 0.0
     X0['Y_max'] = 0.0
