@@ -72,7 +72,6 @@ try:
     s_st = SessionState.get(std_information = pd.read_csv(std_info))
     st.write('## your standard samples metadata file:')
     st.write(s_st.std_information)
-
 except:
     st.write('## no information file have being uploaded')
     
@@ -117,17 +116,18 @@ try:
         s_st.ces.fit(s_st.x_train, s_st.y_train)
         st.write('''the standard curves have being fitted ....
              you can download the parameters of the standard curves....''')
-        st.write(s_st.ces.params_.sort_values(by = ['peak_label']))
+        s_st.linear_scale_parameters = s_st.ces.params_.sort_values(by = ['peak_label']).drop(['slope', 'intercept','lin_range_min', 'lin_range_max'], axis = 1)
+        st.write(s_st.linear_scale_parameters)
         
-        tmp_download_link = download_link(s_st.ces.params_, 'parameters.csv', 'Click here to download your standard courves results!')
+        tmp_download_link = download_link(s_st.linear_scale_parameters, 'parameters.csv', 'Click here to download your standard courves results!')
         st.markdown(tmp_download_link, unsafe_allow_html=True)
             
         
         s_st.X = s_st.raw_results[['ms_file','peak_label', s_st.by_]].rename(columns={s_st.by_:'value'})
-#         st.write(s_st.X.sort_values(by = ['peak_label']))
+#    st.write(s_st.X.sort_values(by = ['peak_label']))
         s_st.X['pred_conc'] = s_st.ces.predict(s_st.X).pred_conc
-#         st.write(s_st.X)
-#             X['pred_conc'] = ces.predict(X).pred_conc
+#     st.write(s_st.X)
+#         X['pred_conc'] = ces.predict(X).pred_conc
         st.write(s_st.X)
         tmp_download_link = download_link(s_st.X, 'results.csv', 'Click here to download transformed data!')
         st.markdown(tmp_download_link, unsafe_allow_html=True)

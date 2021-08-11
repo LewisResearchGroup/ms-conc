@@ -266,8 +266,8 @@ def train_to_validation(X, Y, curves):
     X0['true_conc'] = Y
     
     curves0= curves.copy().fillna(0.0000001)
-    curves0['Y_min'] = np.exp( curves0.intercept +  curves0.slope * curves0.lin_range_min - .01)
-    curves0['Y_max'] = np.exp( curves0.intercept +  curves0.slope * curves0.lin_range_max + .01)
+    curves0['Y_min'] = np.exp( curves0.intercept +  curves0.slope * curves0.lin_range_min - .05)
+    curves0['Y_max'] = np.exp( curves0.intercept +  curves0.slope * curves0.lin_range_max + .05)
     
     X0['Y_min'] = 0.0
     X0['Y_max'] = 0.0
