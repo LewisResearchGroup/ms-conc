@@ -3,7 +3,7 @@ from ms_mint_conc import ConcentrationEstimator as CE
 from ms_mint_conc import AppState as AS
 from ms_mint_conc import SessionState
 from ms_mint_conc.SessionState import get
-
+import matplotlib.pyplot as plt
 import os
 import pandas as pd
 import datetime
@@ -99,10 +99,13 @@ try:
         
     if s_st.program == 'Maven':
         s_st.by_ = 'value'
+#         st.write('im here')
 #     ## this line will transform the maven table to the shape of Mint.....
         s_st.raw_results = cc.info_from_Maven(s_st.raw_results)
+#         st.write('im here')
         s_st.std_results = cc.setting_from_stdinfo(s_st.std_information, s_st.raw_results)
         s_st.std_results.sort_values(by = ['peak_label','STD_CONC', s_st.by_ ], inplace = True)
+        
 
         
 except:
@@ -126,6 +129,7 @@ try:
         s_st.X = s_st.raw_results[['ms_file','peak_label', s_st.by_]].rename(columns={s_st.by_:'value'})
 #    st.write(s_st.X.sort_values(by = ['peak_label']))
         s_st.X['pred_conc'] = s_st.ces.predict(s_st.X).pred_conc
+        s_st.X['in_range'] = s_st.ces.predict(s_st.X).in_range
 #     st.write(s_st.X)
 #         X['pred_conc'] = ces.predict(X).pred_conc
         st.write(s_st.X)
@@ -149,17 +153,33 @@ try:
         
         y_train_corrected = cc.train_to_validation(s_st.x_train, s_st.y_train, s_st.ces.params_ )
         x_viz = s_st.x_train.copy()
-    
+        x_viz['pred_conc'] = s_st.ces.predict(x_viz).pred_conc
+        
+        
         x_viz['Concentration'] = s_st.y_train
+        
     
         x_viz['Corr_Concentration'] = y_train_corrected
     
         x_viz = x_viz.fillna(-1.0)
     
         x_viz['in_range'] = x_viz.Corr_Concentration.apply(lambda x: heav(x))
+        x_viz = x_viz[x_viz.Concentration > 0.00000001]
 
-        c = alt.Chart(x_viz[x_viz.peak_label == s_st.cp]).mark_circle().encode(alt.X('Concentration', scale=alt.Scale(type='log')), 
-                      alt.Y('value', scale=alt.Scale(type='log')), color='in_range').configure_axis(grid=False, domain=False)
-        st.write(c)
+#         c1 = alt.Chart(x_viz[x_viz.peak_label == s_st.cp]).mark_circle().encode(alt.X('Concentration', scale=alt.Scale(type='log')), 
+#                       alt.Y('value', scale=alt.Scale(type='log')), color='in_range').configure_axis(grid=False, domain=False)
+        
+#         c2 = alt.Chart(x_viz[x_viz.peak_label == s_st.cp]).mark_line().encode(alt.X('pred_conc', scale=alt.Scale(type='log')), 
+#                       alt.Y('value', scale=alt.Scale(type='log')))
+        
+        dat = x_viz[x_viz.peak_label == s_st.cp]
+        fig = plt.figure()
+        for inr in np.unique(dat.in_range):
+            plt.plot(dat.Concentration[dat.in_range == inr], dat.value[dat.in_range == inr], 'o')
+        plt.plot(dat.pred_conc, dat.value)
+        plt.xscale('log')
+        plt.yscale('log')
+        
+        st.write(fig)
 except:
     st.write('')

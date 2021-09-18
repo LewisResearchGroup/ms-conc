@@ -67,13 +67,16 @@ def calibration_curves(x_train, y_train):
         y = np.array(y_train[x_train.peak_label == col])
 #         y = conc
 #         print(x)
-        y = y[x > 1.]
-        x = x[x > 1.]
+        y = y[x > 0.000000001]
+        x = x[x > 0.000000001]
+   
+        x = x[y > 0.000000001]
+        y = y[y > 0.000000001]        
 #         print(y[0])
         y = np.log(y)
         x = np.log(x)
         if len(x > 2):
-            y_inter , x_c , _ = find_linear_range(x, y, 0.25)
+            y_inter , x_c , _ = find_linear_range(x, y, 0.15)
 #             print(min(x_c))
         calibration_curves.lin_range_min[calibration_curves.peak_label == col] = min(x_c) 
         calibration_curves.lin_range_max[calibration_curves.peak_label == col] = max(x_c) 
@@ -247,15 +250,16 @@ def transform(X, calibration_curves):
         
         value = X0.loc[X0.peak_label == peak_label, 'value']
         conc = to_conc(slope, intercept, value)
+        inrange = np.ones(len(conc))
         
-        df = pd.DataFrame({'value': value, 'pred_conc': conc})
-        df.loc[df.value<np.exp(lin_range_min), 'pred_conc'] = None
-        df.loc[df.value>np.exp(lin_range_max), 'pred_conc'] = None
+        df = pd.DataFrame({'value': value, 'pred_conc': conc, 'in_range': inrange})
+        df.loc[df.value<np.exp(lin_range_min), 'in_range'] = 0
+        df.loc[df.value>np.exp(lin_range_max), 'in_range'] = 0
         df['peak_label'] = peak_label
        
         results.append(df)
         
-    df_conc = pd.concat(results).loc[X0.index, ['peak_label', 'pred_conc']]
+    df_conc = pd.concat(results).loc[X0.index, ['peak_label', 'pred_conc', 'in_range']]
     return df_conc
 
 def train_to_validation(X, Y, curves):
@@ -266,8 +270,8 @@ def train_to_validation(X, Y, curves):
     X0['true_conc'] = Y
     
     curves0= curves.copy().fillna(0.0000001)
-    curves0['Y_min'] = np.exp( curves0.intercept +  curves0.slope * curves0.lin_range_min - .05)
-    curves0['Y_max'] = np.exp( curves0.intercept +  curves0.slope * curves0.lin_range_max + .05)
+    curves0['Y_min'] = np.exp( curves0.intercept +  curves0.slope * curves0.lin_range_min - .01)
+    curves0['Y_max'] = np.exp( curves0.intercept +  curves0.slope * curves0.lin_range_max + .01)
     
     X0['Y_min'] = 0.0
     X0['Y_max'] = 0.0
