@@ -113,10 +113,16 @@ except:
 
 try:
     if len(s_st.std_results) > 1:
+        
+        
+        s_st.fl = st.selectbox('''select the flexibility for your fit \n''' ,(True, False))
+        st.write(s_st.fl)
+        
         s_st.ces = CE.ConcentrationEstimator()
         s_st.x_train, s_st.y_train = cc.training_from_standard_results(s_st.std_results, by = s_st.by_)
-    
-        s_st.ces.fit(s_st.x_train, s_st.y_train)
+        s_st.ces.fit(s_st.x_train, s_st.y_train, v_slope = s_st.fl)
+        
+        
         st.write('''the standard curves have being fitted ....
              you can download the parameters of the standard curves....''')
         s_st.linear_scale_parameters = s_st.ces.params_.sort_values(by = ['peak_label']).drop(['slope', 'intercept','lin_range_min', 'lin_range_max'], axis = 1)

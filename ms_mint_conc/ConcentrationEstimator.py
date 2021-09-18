@@ -3,12 +3,16 @@ import pandas as pd
 class ConcentrationEstimator():
     def __init__(self):
         self.params_ = pd.DataFrame()
-#         self.x_var = x_var
         
-    def fit(self, X, y):
-        self.params_ = cc.calibration_curves( X , y)
-#         pass
-#       X here should be the same shape.... 
+#     def fit(self, X, y):
+#         self.params_ = cc.calibration_curves( X , y)
+
+    def fit(self, X, y, v_slope = False):
+        if v_slope:
+            self.params_ = cc.calibration_curves_variable_slope( X , y)
+        else:
+            self.params_ = cc.calibration_curves( X , y)
+            
     def predict(self, X):
         return cc.transform(X, self.params_ )
 #         pass
