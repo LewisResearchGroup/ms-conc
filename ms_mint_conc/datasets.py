@@ -1,5 +1,5 @@
 import pandas as pd
-from .calibration_curves import calibration_curves, calibration_curves_variable_slope
+from .calibration_curves import calibration_curves, calibration_curves_variable_slope, calibration_curves_variable_slope_interval
 
 
 def make_curve():
@@ -43,4 +43,17 @@ def make_calibration_data_variable_slope():
     y_train = curve_long['Conc']
 
     cc = calibration_curves_variable_slope(X_train, y_train)
+    return X_train, y_train, cc
+
+
+def make_calibration_data_variable_slope_interval():
+    curve = make_curve()
+
+    curve_long = curve.melt(id_vars='peak_label', var_name='Conc', value_name='value')
+    curve_long['Conc'] = curve_long.Conc.apply(lambda x: float( x.replace('nm', '')) )
+
+    X_train = curve_long[['peak_label', 'value']]
+    y_train = curve_long['Conc']
+
+    cc = calibration_curves_variable_slope_interval(X_train, y_train, [0.5,1.5])
     return X_train, y_train, cc
