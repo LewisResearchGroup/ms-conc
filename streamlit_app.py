@@ -188,7 +188,7 @@ try:
         fig = plt.figure()
         for inr in np.unique(dat.in_range):
             plt.plot(dat.Concentration[dat.in_range == inr], dat.value[dat.in_range == inr], 'o')
-        plt.plot(dat.pred_conc, dat.value)
+        plt.plot(dat.pred_conc[dat.in_range == 1.0], dat.value[dat.in_range == 1.0])
         plt.xscale('log')
         plt.yscale('log')
         

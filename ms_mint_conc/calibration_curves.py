@@ -21,7 +21,7 @@ def classic_lstsqr(x_list, y_list):
     
     y_hat = y_interc + slope * x_list
     
-    residual = sum((y_list - y_hat)**2)/N
+    residual = sum((y_list - y_hat)**2)/ N
     r_ini = (y_list[0] - y_hat[0])**2
     r_last = (y_list[-1] - y_hat[-1])**2
     
@@ -163,11 +163,11 @@ def calibration_curves(x_train, y_train):
         y = np.array(y_train[x_train.peak_label == col])
 #         y = conc
 #         print(x)
-        y = y[x > 0.00000000001]
-        x = x[x > 0.00000000001]
+        y = y[x > 0.0000000000001]
+        x = x[x > 0.0000000000001]
    
-        x = x[y > 0.00000000001]
-        y = y[y > 0.00000000001]        
+        x = x[y > 0.0000000000001]
+        y = y[y > 0.0000000000001]        
 #         print(y[0])
         y = np.log(y)
         x = np.log(x)
@@ -213,11 +213,11 @@ def calibration_curves_variable_slope(x_train, y_train):
         y = np.array(y_train[x_train.peak_label == col])
 #         y = conc
 #         print(x)
-        y = y[x > 0.00000000001]
-        x = x[x > 0.00000000001]
+        y = y[x > 0.0000000000001]
+        x = x[x > 0.0000000000001]
    
-        x = x[y > 0.00000000001]
-        y = y[y > 0.00000000001]        
+        x = x[y > 0.0000000000001]
+        y = y[y > 0.0000000000001]        
 #         print(y[0])
         y = np.log(y)
         x = np.log(x)
@@ -263,11 +263,11 @@ def calibration_curves_variable_slope_interval(x_train, y_train, interval):
         y = np.array(y_train[x_train.peak_label == col])
 #         y = conc
 #         print(x)
-        y = y[x > 0.00000000001]
-        x = x[x > 0.00000000001]
+        y = y[x > 0.0000000000001]
+        x = x[x > 0.0000000000001]
    
-        x = x[y > 0.00000000001]
-        y = y[y > 0.00000000001]        
+        x = x[y > 0.0000000000001]
+        y = y[y > 0.0000000000001]        
 #         print(y[0])
         y = np.log(y)
         x = np.log(x)
@@ -398,7 +398,7 @@ def to_conc(slope, intercept, point_vector):
     adds the intercept and makes the back-transformation 
     to linear scale...
     '''
-    return np.exp(slope * np.log(point_vector + 0.0000001) + intercept)
+    return np.exp(slope * np.log(point_vector + 0.000000000001) + intercept)
 
 def mint_train_set(mint_results, by = 'peak_max'):
     '''this function takes the results of mint and returns the training X and Y sets 
@@ -450,9 +450,9 @@ def train_to_validation(X, Y, curves):
     X0 = X.copy()
     X0['true_conc'] = Y
     
-    curves0= curves.copy().fillna(0.0000001)
-    curves0['Y_min'] = np.exp( curves0.intercept +  curves0.slope * curves0.lin_range_min - .01)
-    curves0['Y_max'] = np.exp( curves0.intercept +  curves0.slope * curves0.lin_range_max + .01)
+    curves0= curves.copy().fillna(0.0000000000001)
+    curves0['Y_min'] = np.exp( curves0.intercept +  curves0.slope * curves0.lin_range_min)
+    curves0['Y_max'] = np.exp( curves0.intercept +  curves0.slope * curves0.lin_range_max)
     
     X0['Y_min'] = 0.0
     X0['Y_max'] = 0.0
