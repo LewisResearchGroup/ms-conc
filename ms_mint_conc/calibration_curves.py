@@ -25,7 +25,7 @@ def classic_lstsqr(x_list, y_list):
     r_ini = (y_list[0] - y_hat[0])**2
     r_last = (y_list[-1] - y_hat[-1])**2
     
-    return (y_interc, residual, r_ini, r_last )
+    return y_interc, residual, r_ini, r_last
 
 
 def classic_lstsqr_variable_slope(x_list, y_list):
@@ -52,7 +52,7 @@ def classic_lstsqr_variable_slope(x_list, y_list):
     r_ini = (y_list[0] - y_hat[0])**2
     r_last = (y_list[-1] - y_hat[-1])**2
     
-    return (y_interc, slope, residual, r_ini, r_last )
+    return y_interc, slope, residual, r_ini, r_last
 
 def classic_lstsqr_variable_slope_interval(x_list, y_list, slope_interval):
     """ Computes the least-squares solution to a linear matrix equation 
@@ -84,7 +84,7 @@ def classic_lstsqr_variable_slope_interval(x_list, y_list, slope_interval):
     r_ini = (y_list[0] - y_hat[0])**2
     r_last = (y_list[-1] - y_hat[-1])**2
     
-    return (y_interc, slope, residual, r_ini, r_last )
+    return y_interc, slope, residual, r_ini, r_last
 
 
 def find_linear_range(x , y , th):
@@ -148,7 +148,7 @@ def calibration_curves(x_train, y_train):
     calibration_curves = pd.DataFrame(
                     columns=['peak_label', 'slope', 
                              'intercept', 'lin_range_min', 
-                             'lin_range_max'] # try this way
+                             'lin_range_max', 'N_points'] # try this way
                               )
     calibration_curves.peak_label = np.unique(x_train.peak_label)
     
@@ -178,13 +178,13 @@ def calibration_curves(x_train, y_train):
         calibration_curves.lin_range_max[calibration_curves.peak_label == col] = max(x_c) 
         calibration_curves.intercept[calibration_curves.peak_label == col] = y_inter
         calibration_curves.slope[calibration_curves.peak_label == col] = 1
+        calibration_curves.N_points[calibration_curves.peak_label == col] = len(x_c)
         
-        
-    calibration_curves['lin_scale_range_min'] = calibration_curves.lin_range_min + calibration_curves.intercept
-    calibration_curves['lin_scale_range_max'] = calibration_curves.lin_range_max + calibration_curves.intercept
+    calibration_curves['LLOQ'] = calibration_curves.lin_range_min + calibration_curves.intercept
+    calibration_curves['LLUQ'] = calibration_curves.lin_range_max + calibration_curves.intercept
     
-    calibration_curves.lin_scale_range_min = calibration_curves.lin_scale_range_min.apply(lambda x: np.exp(x))
-    calibration_curves.lin_scale_range_max = calibration_curves.lin_scale_range_max.apply(lambda x: np.exp(x))
+    calibration_curves.LLOQ = calibration_curves.LLOQ.apply(lambda x: np.exp(x))
+    calibration_curves.LLUQ = calibration_curves.LLUQ.apply(lambda x: np.exp(x))
 #         print(len(calibration_curves))
     return calibration_curves
 
@@ -198,7 +198,7 @@ def calibration_curves_variable_slope(x_train, y_train):
     calibration_curves = pd.DataFrame(
                     columns=['peak_label', 'slope', 
                              'intercept', 'lin_range_min', 
-                             'lin_range_max'] # try this way
+                             'lin_range_max','N_points'] # try this way
                               )
     calibration_curves.peak_label = np.unique(x_train.peak_label)
     
@@ -228,13 +228,13 @@ def calibration_curves_variable_slope(x_train, y_train):
         calibration_curves.lin_range_max[calibration_curves.peak_label == col] = max(x_c) 
         calibration_curves.intercept[calibration_curves.peak_label == col] = y_inter
         calibration_curves.slope[calibration_curves.peak_label == col] = slope
+        calibration_curves.N_points[calibration_curves.peak_label == col] = len(x_c)
         
-        
-    calibration_curves['lin_scale_range_min'] = calibration_curves.slope * calibration_curves.lin_range_min + calibration_curves.intercept
-    calibration_curves['lin_scale_range_max'] = calibration_curves.slope * calibration_curves.lin_range_max + calibration_curves.intercept
+    calibration_curves['LLOQ'] = calibration_curves.slope * calibration_curves.lin_range_min + calibration_curves.intercept
+    calibration_curves['LLUQ'] = calibration_curves.slope * calibration_curves.lin_range_max + calibration_curves.intercept
     
-    calibration_curves.lin_scale_range_min = calibration_curves.lin_scale_range_min.apply(lambda x: np.exp(x))
-    calibration_curves.lin_scale_range_max = calibration_curves.lin_scale_range_max.apply(lambda x: np.exp(x))
+    calibration_curves.LLOQ = calibration_curves.LLOQ.apply(lambda x: np.exp(x))
+    calibration_curves.LLUQ = calibration_curves.LLUQ.apply(lambda x: np.exp(x))
 #         print(len(calibration_curves))
     return calibration_curves
 
@@ -248,7 +248,7 @@ def calibration_curves_variable_slope_interval(x_train, y_train, interval):
     calibration_curves = pd.DataFrame(
                     columns=['peak_label', 'slope', 
                              'intercept', 'lin_range_min', 
-                             'lin_range_max'] # try this way
+                             'lin_range_max', 'N_points'] 
                               )
     calibration_curves.peak_label = np.unique(x_train.peak_label)
     
@@ -278,13 +278,13 @@ def calibration_curves_variable_slope_interval(x_train, y_train, interval):
         calibration_curves.lin_range_max[calibration_curves.peak_label == col] = max(x_c) 
         calibration_curves.intercept[calibration_curves.peak_label == col] = y_inter
         calibration_curves.slope[calibration_curves.peak_label == col] = slope
-        
-        
-    calibration_curves['lin_scale_range_min'] = calibration_curves.slope * calibration_curves.lin_range_min + calibration_curves.intercept
-    calibration_curves['lin_scale_range_max'] = calibration_curves.slope * calibration_curves.lin_range_max + calibration_curves.intercept
+        calibration_curves.N_points[calibration_curves.peak_label == col] = len(x_c)
+            
+    calibration_curves['LLOQ'] = calibration_curves.slope * calibration_curves.lin_range_min + calibration_curves.intercept
+    calibration_curves['LLUQ'] = calibration_curves.slope * calibration_curves.lin_range_max + calibration_curves.intercept
     
-    calibration_curves.lin_scale_range_min = calibration_curves.lin_scale_range_min.apply(lambda x: np.exp(x))
-    calibration_curves.lin_scale_range_max = calibration_curves.lin_scale_range_max.apply(lambda x: np.exp(x))
+    calibration_curves.LLOQ = calibration_curves.LLOQ.apply(lambda x: np.exp(x))
+    calibration_curves.LLUQ = calibration_curves.LLUQ.apply(lambda x: np.exp(x))
 #         print(len(calibration_curves))
     return calibration_curves
 
