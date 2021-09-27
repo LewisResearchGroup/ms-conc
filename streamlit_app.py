@@ -131,7 +131,8 @@ try:
         
         st.write('''the standard curves have being fitted ....
              you can download the parameters of the standard curves....''')
-        s_st.linear_scale_parameters = s_st.ces.params_.sort_values(by = ['peak_label']).drop(['intercept','lin_range_min', 'lin_range_max'], axis = 1)
+        s_st.linear_scale_parameters = s_st.ces.params_.sort_values(by = ['peak_label']).drop(['intercept','lin_range_min', 'lin_range_max', 'slope'], axis = 1)
+#         s_st.linear_scale_parameters.rename(columns={})
         st.write(s_st.linear_scale_parameters)
         
         tmp_download_link = download_link(s_st.linear_scale_parameters, 'parameters.csv', 'Click here to download your standard courves results!')
@@ -188,7 +189,7 @@ try:
         fig = plt.figure()
         for inr in np.unique(dat.in_range):
             plt.plot(dat.Concentration[dat.in_range == inr], dat.value[dat.in_range == inr], 'o')
-        plt.plot(dat.pred_conc, dat.value)
+        plt.plot(dat.pred_conc[dat.in_range == 1.0], dat.value[dat.in_range == 1.0])
         plt.xscale('log')
         plt.yscale('log')
         
