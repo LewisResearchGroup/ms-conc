@@ -83,7 +83,10 @@ try:
     s_st.raw_results = pd.read_csv(results_file)
     st.write('## your metabolomic results file:')
     st.write(s_st.raw_results)
+except:
+    st.write('## no results file have being uploaded')
     
+try:
     s_st.program = st.selectbox('''select the program used for generating the data''' , ('Mint', 'Maven'))
     
     if s_st.program == 'Mint':
@@ -105,11 +108,9 @@ try:
 #         st.write('im here')
         s_st.std_results = cc.setting_from_stdinfo(s_st.std_information, s_st.raw_results)
         s_st.std_results.sort_values(by = ['peak_label','STD_CONC', s_st.by_ ], inplace = True)
-        
-
-        
 except:
-    st.write('## no results file have being uploaded')
+    st.write('## no program have being selected')
+
 
 try:
     if len(s_st.std_results) > 1:
@@ -160,36 +161,42 @@ try:
     st.write(s_st.cp)
 
 
-    s_st.viz_restult = st.button('''plot results''')
 
-    if s_st.viz_restult:
         
-        y_train_corrected = cc.train_to_validation(s_st.x_train, s_st.y_train, s_st.ces.params_ )
-        x_viz = s_st.x_train.copy()
-        x_viz['pred_conc'] = s_st.ces.predict(x_viz).pred_conc
+    y_train_corrected = cc.train_to_validation(s_st.x_train, s_st.y_train, s_st.ces.params_ )
+    x_viz = s_st.x_train.copy()
+    x_viz['pred_conc'] = s_st.ces.predict(x_viz).pred_conc
         
         
-        x_viz['Concentration'] = s_st.y_train
+    x_viz['Concentration'] = s_st.y_train
         
     
-        x_viz['Corr_Concentration'] = y_train_corrected
+    x_viz['Corr_Concentration'] = y_train_corrected
     
-        x_viz = x_viz.fillna(-1.0)
+    x_viz = x_viz.fillna(-1.0)
     
-        x_viz['in_range'] = x_viz.Corr_Concentration.apply(lambda x: heav(x))
-        x_viz = x_viz[x_viz.Concentration > 0.00000001]
+    x_viz['in_range'] = x_viz.Corr_Concentration.apply(lambda x: heav(x))
+    x_viz = x_viz[x_viz.Concentration > 0.00000001]
 
-#         c1 = alt.Chart(x_viz[x_viz.peak_label == s_st.cp]).mark_circle().encode(alt.X('Concentration', scale=alt.Scale(type='log')), 
+#     c1 = alt.Chart(x_viz[x_viz.peak_label == s_st.cp]).mark_circle().encode(alt.X('Concentration', scale=alt.Scale(type='log')), 
 #                       alt.Y('value', scale=alt.Scale(type='log')), color='in_range').configure_axis(grid=False, domain=False)
         
-#         c2 = alt.Chart(x_viz[x_viz.peak_label == s_st.cp]).mark_line().encode(alt.X('pred_conc', scale=alt.Scale(type='log')), 
+#     c2 = alt.Chart(x_viz[x_viz.peak_label == s_st.cp]).mark_line().encode(alt.X('pred_conc', scale=alt.Scale(type='log')), 
 #                       alt.Y('value', scale=alt.Scale(type='log')))
         
-        dat = x_viz[x_viz.peak_label == s_st.cp]
-        fig = plt.figure()
+    dat = x_viz[x_viz.peak_label == s_st.cp]
+        
+    s_st.xlabel = st.text_input("please enter the x-label", 'concentration (μM)')
+    s_st.ylabel = st.text_input("please enter the y-label", 'intensity (AU)')
+               
+    s_st.viz_restult = st.button('''plot results''')
+    if s_st.viz_restult:        
+        fig = plt.figure(figsize = (4,4))
         for inr in np.unique(dat.in_range):
             plt.plot(dat.Concentration[dat.in_range == inr], dat.value[dat.in_range == inr], 'o')
         plt.plot(dat.pred_conc[dat.in_range == 1.0], dat.value[dat.in_range == 1.0])
+        plt.xlabel(s_st.xlabel, fontsize = 14)
+        plt.ylabel(s_st.ylabel, fontsize = 14)
         plt.xscale('log')
         plt.yscale('log')
         
