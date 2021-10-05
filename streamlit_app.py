@@ -44,7 +44,7 @@ def download_link(object_to_download, download_filename, download_link_text):
     return f'<a href="data:file/txt;base64,{b64}" download="{download_filename}">{download_link_text}</a>'
 
 # st.write("a logo and text next to eachother")
-col1, mid, col2 = st.beta_columns([10,1,25])
+col1, mid, col2 = st.columns([10,1,25])
 with col1:
     st.image('logo.png', width=140)
 with col2:
