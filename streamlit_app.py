@@ -43,11 +43,14 @@ def download_link(object_to_download, download_filename, download_link_text):
 
     return f'<a href="data:file/txt;base64,{b64}" download="{download_filename}">{download_link_text}</a>'
 
-
-# st.image('linear_range_finder.png', width=800)
-
+# st.write("a logo and text next to eachother")
+col1, mid, col2 = st.beta_columns([10,1,25])
+with col1:
+    st.image('logo.png', width=140)
+with col2:
+    st.write('# SCALiR: APP for computing the concentrations by using standard curves')
 st.write('''
-         # APP for computing the concentrations by using standard curves
+         
          
          ### This app can process both MINT and MAVEN result datasets.
          ####    1) A table with the concentrations of standard samples (metadata) is required. Upload by clicking the button on the left. Follow the link to find a standards concentrations file template.
