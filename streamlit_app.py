@@ -10,7 +10,6 @@ import datetime
 import numpy as np
 import glob
 import re
-# import altair as alt
 
 import streamlit as st
 import base64
@@ -19,8 +18,15 @@ from io import BytesIO
 
 def heav(x):
     if x > 0.0:
-        return 1.0
+        return 1
     return 0.5
+
+def info_from_Mint_dense(mint_):
+    '''this function reads mint dense shape format dataframe and transforms it to the full results format'''
+    
+    out_df = mint_.melt(id_vars=["peak_label"],  var_name="cp",  value_name="peak_max")
+    out_df.rename(columns={'peak_label':'ms_file', 'cp':'peak_label'}, inplace = True)
+    return out_df
 
 def download_link(object_to_download, download_filename, download_link_text):
     """
@@ -106,10 +112,10 @@ try:
             except:
                 s_st.by_ = 'peak_max'
                 
-        if s_st.mint_table_type == 'dense peak_max':
-            
+        if s_st.mint_table_type == 'dense peak_max':          
             s_st.raw_results = info_from_Mint_dense(s_st.raw_results)
-            print(s_st.raw_results)
+#             st.write(s_st.raw_results)
+            
             s_st.by_ = 'peak_max'
              
     if s_st.program == 'Maven':
@@ -118,12 +124,12 @@ try:
 
     
     s_st.std_results = cc.setting_from_stdinfo(s_st.std_information, s_st.raw_results)
-    st.write(s_st.by_)
+#     st.write(s_st.by_)
     s_st.std_results.sort_values(by = ['peak_label','STD_CONC', s_st.by_ ], inplace = True)
     st.write('here i am')
     
-except Exception:
-    traceback.print_exc()
+except:
+    st.write('## Data uploading or parameter setings not complete')
 
 
 try:
@@ -159,10 +165,12 @@ try:
         tmp_download_link = download_link(s_st.linear_scale_parameters, 'parameters.csv', 'Click here to download your standard courves results!')
         st.markdown(tmp_download_link, unsafe_allow_html=True)
             
-        
+#         st.write(s_st.raw_results)
         s_st.X = s_st.raw_results[['ms_file','peak_label', s_st.by_]].rename(columns={s_st.by_:'value'})
-#    st.write(s_st.X.sort_values(by = ['peak_label']))
+        
+#         st.write(s_st.X)
         s_st.X['pred_conc'] = s_st.ces.predict(s_st.X).pred_conc
+#         st.write(s_st.X)
         s_st.X['in_range'] = s_st.ces.predict(s_st.X).in_range
 #     st.write(s_st.X)
 #         X['pred_conc'] = ces.predict(X).pred_conc
@@ -197,25 +205,20 @@ try:
     
     x_viz['in_range'] = x_viz.Corr_Concentration.apply(lambda x: heav(x))
     x_viz = x_viz[x_viz.Concentration > 0.00000001]
-
-#     c1 = alt.Chart(x_viz[x_viz.peak_label == s_st.cp]).mark_circle().encode(alt.X('Concentration', scale=alt.Scale(type='log')), 
-#                       alt.Y('value', scale=alt.Scale(type='log')), color='in_range').configure_axis(grid=False, domain=False)
-        
-#     c2 = alt.Chart(x_viz[x_viz.peak_label == s_st.cp]).mark_line().encode(alt.X('pred_conc', scale=alt.Scale(type='log')), 
-#                       alt.Y('value', scale=alt.Scale(type='log')))
         
     dat = x_viz[x_viz.peak_label == s_st.cp]
-    st.write(dat)    
+#     st.write(dat)
+    
     s_st.xlabel = st.text_input("please enter the x-label", s_st.cp + ' concentration (μM)')
     s_st.ylabel = st.text_input("please enter the y-label", s_st.cp + ' intensity (AU)')
                
 #     s_st.viz_restult = st.button('''plot results''')
 #     if s_st.viz_restult:        
     fig = plt.figure(figsize = (4,4))
-    for inr, colo in zip([0,1], ['gray', 'black']):
+    for inr, colo in zip( [0.5, 1]   , ['gray', 'black']):
         plt.plot(dat.Concentration[dat.in_range == inr], dat.value[dat.in_range == inr], 'o', color = colo)
-            
-    plt.plot(dat.pred_conc[dat.in_range == 1.0], dat.value[dat.in_range == 1.0], color = 'black')
+               
+    plt.plot(dat.pred_conc[dat.in_range == 1.0] , dat.value[dat.in_range == 1.0] , color = 'black')
     plt.xlabel(s_st.xlabel, fontsize = 14)
     plt.ylabel(s_st.ylabel, fontsize = 14)
     plt.xscale('log')

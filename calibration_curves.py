@@ -172,7 +172,7 @@ def calibration_curves(x_train, y_train):
         y = np.log(y)
         x = np.log(x)
         if len(x > 2):
-            y_inter,  x_c , y_c = find_linear_range(x, y, 0.15)
+            y_inter,  x_c , y_c = find_linear_range(x, y, 0.1)
 #             print(min(x_c))
         calibration_curves.lin_range_min[calibration_curves.peak_label == col] = min(y_c) 
         calibration_curves.lin_range_max[calibration_curves.peak_label == col] = max(y_c) 
@@ -220,7 +220,7 @@ def calibration_curves_variable_slope(x_train, y_train):
         y = np.log(y)
         x = np.log(x)
         if len(x > 2):
-            y_inter, slope,  x_c , y_c = find_linear_range_variable_slope(x, y, 0.15)
+            y_inter, slope,  x_c , y_c = find_linear_range_variable_slope(x, y, 0.1)
 #             print(min(x_c))
         calibration_curves.lin_range_min[calibration_curves.peak_label == col] = min(y_c) 
         calibration_curves.lin_range_max[calibration_curves.peak_label == col] = max(y_c) 
@@ -267,7 +267,7 @@ def calibration_curves_variable_slope_interval(x_train, y_train, interval):
         y = np.log(y)
         x = np.log(x)
         if len(x > 2):
-            y_inter, slope,  x_c , y_c = find_linear_range_variable_slope_interval(x, y, 0.15, interval)
+            y_inter, slope,  x_c , y_c = find_linear_range_variable_slope_interval(x, y, 0.1, interval)
 #             print(min(x_c))
         calibration_curves.lin_range_min[calibration_curves.peak_label == col] = min(y_c) 
         calibration_curves.lin_range_max[calibration_curves.peak_label == col] = max(y_c) 
@@ -437,8 +437,9 @@ def transform(X, calibration_curves):
         inrange = np.ones(len(conc))
         
         df = pd.DataFrame({'value': value, 'pred_conc': conc, 'in_range': inrange})
-        df.loc[df.value<np.exp(lin_range_min), 'in_range'] = 0
-        df.loc[df.value>np.exp(lin_range_max), 'in_range'] = 0
+        
+        df.loc[df.pred_conc < np.exp(lin_range_min), 'in_range'] = 0
+        df.loc[df.pred_conc > np.exp(lin_range_max), 'in_range'] = 0
         df['peak_label'] = peak_label
        
         results.append(df)
@@ -454,8 +455,8 @@ def train_to_validation(X, Y, curves):
     X0['true_conc'] = Y
     
     curves0= curves.copy().fillna(0.0000000000001)
-    curves0['Y_min'] = np.exp( curves0.intercept +  curves0.slope * curves0.lin_range_min)
-    curves0['Y_max'] = np.exp( curves0.intercept +  curves0.slope * curves0.lin_range_max)
+    curves0['Y_min'] = np.exp( curves0.lin_range_min)
+    curves0['Y_max'] = np.exp( curves0.lin_range_max)
     
     X0['Y_min'] = 0.0
     X0['Y_max'] = 0.0
