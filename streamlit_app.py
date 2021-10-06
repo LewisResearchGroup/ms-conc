@@ -10,20 +10,11 @@ import datetime
 import numpy as np
 import glob
 import re
-import altair as alt
+# import altair as alt
 
 import streamlit as st
 import base64
 from io import BytesIO
-
-def info_from_Mint_dense(mint_):
-    '''this function reads mint dense shape format dataframe and transforms it to the full results format.....'''
-    
-    v_data = mint_.copy()
-    
-    v_data = v_data.melt(id_vars=["peak_label"],  var_name="cp",  value_name="peak_max")
-    v_data.rename(columns={'peak_label':'ms_file', 'cp':'peak_label'}, inplace = True)
-    return v_data
 
 
 def heav(x):
@@ -108,7 +99,6 @@ try:
         s_st.mint_table_type = st.selectbox('''indicate the type of table used, see Mint documentation for details''', ('full results', 'dense peak_max'))
         
         if s_st.mint_table_type == 'full results':
-            s_st.std_results = cc.setting_from_stdinfo(s_st.std_information, s_st.raw_results)
             st.write('''please select the intensity measurement..
                     peak_max will be used as default value''')
             try:
@@ -117,30 +107,23 @@ try:
                 s_st.by_ = 'peak_max'
                 
         if s_st.mint_table_type == 'dense peak_max':
-#             st.write( s_st.raw_results )
             
             s_st.raw_results = info_from_Mint_dense(s_st.raw_results)
-            st.write(s_st.raw_results)
-            s_st.by = 'peak_max'
-            s_st.std_results = cc.setting_from_stdinfo(s_st.std_information, s_st.raw_results)
-            
-        st.write(s_st.std_results)
-        
-        
-        s_st.std_results.sort_values(by = ['peak_label','STD_CONC', s_st.by_ ], inplace = True)
-        st.write(s_st.std_results)
-        
-        
+            print(s_st.raw_results)
+            s_st.by_ = 'peak_max'
+             
     if s_st.program == 'Maven':
         s_st.by_ = 'value'
-#         st.write('im here')
-#     ## this line will transform the maven table to the shape of Mint.....
         s_st.raw_results = cc.info_from_Maven(s_st.raw_results)
-#         st.write('im here')
-        s_st.std_results = cc.setting_from_stdinfo(s_st.std_information, s_st.raw_results)
-        s_st.std_results.sort_values(by = ['peak_label','STD_CONC', s_st.by_ ], inplace = True)
-except:
-    st.write('## no program have being selected')
+
+    
+    s_st.std_results = cc.setting_from_stdinfo(s_st.std_information, s_st.raw_results)
+    st.write(s_st.by_)
+    s_st.std_results.sort_values(by = ['peak_label','STD_CONC', s_st.by_ ], inplace = True)
+    st.write('here i am')
+    
+except Exception:
+    traceback.print_exc()
 
 
 try:

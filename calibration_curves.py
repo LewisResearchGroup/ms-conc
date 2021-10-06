@@ -172,19 +172,17 @@ def calibration_curves(x_train, y_train):
         y = np.log(y)
         x = np.log(x)
         if len(x > 2):
-            y_inter,  x_c , _ = find_linear_range(x, y, 0.15)
+            y_inter,  x_c , y_c = find_linear_range(x, y, 0.15)
 #             print(min(x_c))
-        calibration_curves.lin_range_min[calibration_curves.peak_label == col] = min(x_c) 
-        calibration_curves.lin_range_max[calibration_curves.peak_label == col] = max(x_c) 
+        calibration_curves.lin_range_min[calibration_curves.peak_label == col] = min(y_c) 
+        calibration_curves.lin_range_max[calibration_curves.peak_label == col] = max(y_c) 
         calibration_curves.intercept[calibration_curves.peak_label == col] = y_inter
         calibration_curves.slope[calibration_curves.peak_label == col] = 1
         calibration_curves.N_points[calibration_curves.peak_label == col] = len(x_c)
         
-    calibration_curves['LLOQ'] = calibration_curves.lin_range_min + calibration_curves.intercept
-    calibration_curves['LLUQ'] = calibration_curves.lin_range_max + calibration_curves.intercept
-    
-    calibration_curves.LLOQ = calibration_curves.LLOQ.apply(lambda x: np.exp(x))
-    calibration_curves.LLUQ = calibration_curves.LLUQ.apply(lambda x: np.exp(x))
+    calibration_curves['LLOQ'] = calibration_curves.lin_range_min.apply(lambda x: np.exp(x))
+    calibration_curves['ULOQ'] = calibration_curves.lin_range_max.apply(lambda x: np.exp(x))
+
 #         print(len(calibration_curves))
     return calibration_curves
 
@@ -222,19 +220,16 @@ def calibration_curves_variable_slope(x_train, y_train):
         y = np.log(y)
         x = np.log(x)
         if len(x > 2):
-            y_inter, slope,  x_c , _ = find_linear_range_variable_slope(x, y, 0.15)
+            y_inter, slope,  x_c , y_c = find_linear_range_variable_slope(x, y, 0.15)
 #             print(min(x_c))
-        calibration_curves.lin_range_min[calibration_curves.peak_label == col] = min(x_c) 
-        calibration_curves.lin_range_max[calibration_curves.peak_label == col] = max(x_c) 
+        calibration_curves.lin_range_min[calibration_curves.peak_label == col] = min(y_c) 
+        calibration_curves.lin_range_max[calibration_curves.peak_label == col] = max(y_c) 
         calibration_curves.intercept[calibration_curves.peak_label == col] = y_inter
         calibration_curves.slope[calibration_curves.peak_label == col] = slope
         calibration_curves.N_points[calibration_curves.peak_label == col] = len(x_c)
         
-    calibration_curves['LLOQ'] = calibration_curves.slope * calibration_curves.lin_range_min + calibration_curves.intercept
-    calibration_curves['LLUQ'] = calibration_curves.slope * calibration_curves.lin_range_max + calibration_curves.intercept
-    
-    calibration_curves.LLOQ = calibration_curves.LLOQ.apply(lambda x: np.exp(x))
-    calibration_curves.LLUQ = calibration_curves.LLUQ.apply(lambda x: np.exp(x))
+    calibration_curves['LLOQ'] = calibration_curves.lin_range_min.apply(lambda x: np.exp(x))
+    calibration_curves['ULOQ'] = calibration_curves.lin_range_max.apply(lambda x: np.exp(x))
 #         print(len(calibration_curves))
     return calibration_curves
 
@@ -272,19 +267,16 @@ def calibration_curves_variable_slope_interval(x_train, y_train, interval):
         y = np.log(y)
         x = np.log(x)
         if len(x > 2):
-            y_inter, slope,  x_c , _ = find_linear_range_variable_slope_interval(x, y, 0.15, interval)
+            y_inter, slope,  x_c , y_c = find_linear_range_variable_slope_interval(x, y, 0.15, interval)
 #             print(min(x_c))
-        calibration_curves.lin_range_min[calibration_curves.peak_label == col] = min(x_c) 
-        calibration_curves.lin_range_max[calibration_curves.peak_label == col] = max(x_c) 
+        calibration_curves.lin_range_min[calibration_curves.peak_label == col] = min(y_c) 
+        calibration_curves.lin_range_max[calibration_curves.peak_label == col] = max(y_c) 
         calibration_curves.intercept[calibration_curves.peak_label == col] = y_inter
         calibration_curves.slope[calibration_curves.peak_label == col] = slope
         calibration_curves.N_points[calibration_curves.peak_label == col] = len(x_c)
             
-    calibration_curves['LLOQ'] = calibration_curves.slope * calibration_curves.lin_range_min + calibration_curves.intercept
-    calibration_curves['LLUQ'] = calibration_curves.slope * calibration_curves.lin_range_max + calibration_curves.intercept
-    
-    calibration_curves.LLOQ = calibration_curves.LLOQ.apply(lambda x: np.exp(x))
-    calibration_curves.LLUQ = calibration_curves.LLUQ.apply(lambda x: np.exp(x))
+    calibration_curves['LLOQ'] = calibration_curves.lin_range_min.apply(lambda x: np.exp(x))
+    calibration_curves['ULOQ'] = calibration_curves.lin_range_max.apply(lambda x: np.exp(x))
 #         print(len(calibration_curves))
     return calibration_curves
 
@@ -314,14 +306,12 @@ def info_from_Mint(mint_, by):
     return out_df
 
 def info_from_Mint_dense(mint_):
-    '''this function reads mint dense shape format dataframe 
-    and transforms it to the full results format.....'''
+    '''this function reads mint dense shape format dataframe and transforms it to the full results format'''
     
-    v_data = mint_.melt(id_vars=["peak_label"],  var_name="cp",  value_name="peak_max")
-    
-    v_data.rename(columns={'peak_label':'ms_file', 'cp':'peak_label'}, inplace = True)
-    
-    return v_data
+    out_df = mint_.melt(id_vars=["peak_label"],  var_name="cp",  value_name="peak_max")
+    out_df.rename(columns={'peak_label':'ms_file', 'cp':'peak_label'}, inplace = True)
+    return out_df
+
 
 def setting_from_stdinfo(std_info, results_):
     ''' this function reads the standard information table 
