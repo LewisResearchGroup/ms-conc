@@ -16,6 +16,15 @@ import streamlit as st
 import base64
 from io import BytesIO
 
+def info_from_Mint_dense(mint_):
+    '''this function reads mint dense shape format dataframe and transforms it to the full results format.....'''
+    
+    v_data = mint_.copy()
+    
+    v_data = v_data.melt(id_vars=["peak_label"],  var_name="cp",  value_name="peak_max")
+    v_data.rename(columns={'peak_label':'ms_file', 'cp':'peak_label'}, inplace = True)
+    return v_data
+
 
 def heav(x):
     if x > 0.0:
@@ -96,15 +105,31 @@ try:
     s_st.program = st.selectbox('''select the program used for generating the data''' , ('Mint', 'Maven'))
     
     if s_st.program == 'Mint':
-        s_st.std_results = cc.setting_from_stdinfo(s_st.std_information, s_st.raw_results)
-        st.write('''please select the intensity measurement..
+        s_st.mint_table_type = st.selectbox('''indicate the type of table used, see Mint documentation for details''', ('full results', 'dense peak_max'))
+        
+        if s_st.mint_table_type == 'full results':
+            s_st.std_results = cc.setting_from_stdinfo(s_st.std_information, s_st.raw_results)
+            st.write('''please select the intensity measurement..
                     peak_max will be used as default value''')
-        try:
-            s_st.by_ = st.selectbox('intensity measurement',('peak_max', 'peak_area'))
-        except:
-            s_st.by_ = 'peak_max'
+            try:
+                s_st.by_ = st.selectbox('intensity measurement',('peak_max', 'peak_area'))
+            except:
+                s_st.by_ = 'peak_max'
+                
+        if s_st.mint_table_type == 'dense peak_max':
+#             st.write( s_st.raw_results )
+            
+            s_st.raw_results = info_from_Mint_dense(s_st.raw_results)
+            st.write(s_st.raw_results)
+            s_st.by = 'peak_max'
+            s_st.std_results = cc.setting_from_stdinfo(s_st.std_information, s_st.raw_results)
+            
+        st.write(s_st.std_results)
+        
         
         s_st.std_results.sort_values(by = ['peak_label','STD_CONC', s_st.by_ ], inplace = True)
+        st.write(s_st.std_results)
+        
         
     if s_st.program == 'Maven':
         s_st.by_ = 'value'

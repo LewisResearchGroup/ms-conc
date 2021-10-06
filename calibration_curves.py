@@ -312,14 +312,27 @@ def info_from_Mint(mint_, by):
     out_df = mint_[['ms_file', 'peak_label', by]].rename(columns={by:'value'})
     
     return out_df
-        
+
+def info_from_Mint_dense(mint_):
+    '''this function reads mint dense shape format dataframe 
+    and transforms it to the full results format.....'''
+    
+    v_data = mint_.melt(id_vars=["peak_label"],  var_name="cp",  value_name="peak_max")
+    
+    v_data.rename(columns={'peak_label':'ms_file', 'cp':'peak_label'}, inplace = True)
+    
+    return v_data
+
 def setting_from_stdinfo(std_info, results_):
     ''' this function reads the standard information table 
         and put that info in the results table, 
         the resulting table serves for training purpose'''
     
     output = results_.copy()
-    output.ms_file = output.ms_file.apply(lambda x: os.path.basename(x).replace('.mzXML', ''))
+    try:
+        output.ms_file = output.ms_file.apply(lambda x: os.path.basename(x).replace('.mzXML', ''))
+    except:
+        pass
 #     getting concentration values from the std_info
     output['STD_CONC'] = np.nan
     
