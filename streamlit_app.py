@@ -24,9 +24,9 @@ def heav(x):
 def info_from_Mint_dense(mint_):
     '''this function reads mint dense shape format dataframe and transforms it to the full results format'''
     
-    out_df = mint_.melt(id_vars=["peak_label"],  var_name="cp",  value_name="peak_max")
-    out_df.rename(columns={'peak_label':'ms_file', 'cp':'peak_label'}, inplace = True)
-    return out_df
+    out_df = mint_.melt(id_vars=["peak_label"],  var_name="ms_file",  value_name="peak_max")
+#     out_df.rename(columns={'peak_label':'ms_file', 'cp':'peak_label'}, inplace = True)
+    return out_df[['ms_file', 'peak_label', 'peak_max']]
 
 def download_link(object_to_download, download_filename, download_link_text):
     """
@@ -50,7 +50,7 @@ def download_link(object_to_download, download_filename, download_link_text):
     return f'<a href="data:file/txt;base64,{b64}" download="{download_filename}">{download_link_text}</a>'
 
 # st.write("a logo and text next to eachother")
-col1, mid, col2 = st.columns([10,1,25])
+col1, mid, col2 = st.beta_columns([10,1,25])
 with col1:
     st.image('logo.png', width=140)
 with col2:
@@ -90,9 +90,12 @@ except:
     
 st.sidebar.write('## 2) Please upload the dataset. Data from El-Maven or MINT are accepted.')
 results_file = st.sidebar.file_uploader("upload the data file (a sample file can be found in github.com/LSARP/ms-conc/tree/main/sample_files) ..")
-
 try:
-    s_st.raw_results = pd.read_csv(results_file)
+    try:
+        s_st.raw_results = pd.read_csv(results_file)
+    except:
+        s_st.raw_results = pd.read_excel(results_file)
+        
     st.write('## your metabolomic data file:')
     st.write(s_st.raw_results)
 except:
@@ -111,10 +114,11 @@ try:
                 s_st.by_ = st.selectbox('intensity measurement',('peak_max', 'peak_area'))
             except:
                 s_st.by_ = 'peak_max'
+#             s_st.raw_results = cc.info_from_Mint(s_st.raw_results)
                 
         if s_st.mint_table_type == 'dense peak_max':          
             s_st.raw_results = info_from_Mint_dense(s_st.raw_results)
-#             st.write(s_st.raw_results)
+            st.write(s_st.raw_results)
             
             s_st.by_ = 'peak_max'
              
@@ -126,15 +130,16 @@ try:
     s_st.std_results = cc.setting_from_stdinfo(s_st.std_information, s_st.raw_results)
 #     st.write(s_st.by_)
     s_st.std_results.sort_values(by = ['peak_label','STD_CONC', s_st.by_ ], inplace = True)
-    st.write('here i am')
+#     st.write('here i am')
     
 except:
     st.write('## Data uploading or parameter setings not complete')
 
 
 try:
+    st.write(len(s_st.std_results))
     if len(s_st.std_results) > 1:
-        
+        st.write('here i am')
         
         s_st.fl = st.selectbox('''select the flexibility for your fit\n''' , 
                                ('wide fit – the app will not constrain the slope when calculating the line of best fit', 
@@ -165,13 +170,15 @@ try:
         tmp_download_link = download_link(s_st.linear_scale_parameters, 'parameters.csv', 'Click here to download your standard courves results!')
         st.markdown(tmp_download_link, unsafe_allow_html=True)
             
-#         st.write(s_st.raw_results)
-        s_st.X = s_st.raw_results[['ms_file','peak_label', s_st.by_]].rename(columns={s_st.by_:'value'})
         
+        s_st.X = s_st.raw_results[['ms_file','peak_label', s_st.by_]].rename(columns={s_st.by_:'value'})
 #         st.write(s_st.X)
-        s_st.X['pred_conc'] = s_st.ces.predict(s_st.X).pred_conc
+#         st.write(s_st.ces.params_)
 #         st.write(s_st.X)
-        s_st.X['in_range'] = s_st.ces.predict(s_st.X).in_range
+        s_st.tr = s_st.ces.predict(s_st.X)
+        s_st.X['pred_conc'] = s_st.tr.pred_conc
+#         st.write(s_st.X)
+        s_st.X['in_range'] = s_st.tr.in_range
 #     st.write(s_st.X)
 #         X['pred_conc'] = ces.predict(X).pred_conc
         st.write(s_st.X)
