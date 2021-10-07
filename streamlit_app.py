@@ -85,8 +85,8 @@ except:
     
 st.sidebar.write('## 2) Please upload the dataset. Data from El-Maven or MINT are accepted.')
 results_file = st.sidebar.file_uploader("upload the data file (a sample file can be found in github.com/LSARP/ms-conc/tree/main/sample_files) ..")
-st.write(results_file.name)
-st.write(pd.read_excel(results_file))
+# st.write(results_file.name)
+# st.write(pd.read_excel(results_file))
 try:
     if '.csv' in results_file.name:
         s_st.raw_results = pd.read_csv(results_file)
