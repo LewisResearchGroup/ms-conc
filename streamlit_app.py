@@ -19,14 +19,8 @@ from io import BytesIO
 def heav(x):
     if x > 0.0:
         return 1
-    return 0.5
+    return 2
 
-def info_from_Mint_dense(mint_):
-    '''this function reads mint dense shape format dataframe and transforms it to the full results format'''
-    
-    out_df = mint_.melt(id_vars=["peak_label"],  var_name="ms_file",  value_name="peak_max")
-#     out_df.rename(columns={'peak_label':'ms_file', 'cp':'peak_label'}, inplace = True)
-    return out_df[['ms_file', 'peak_label', 'peak_max']]
 
 def download_link(object_to_download, download_filename, download_link_text):
     """
@@ -50,8 +44,8 @@ def download_link(object_to_download, download_filename, download_link_text):
     return f'<a href="data:file/txt;base64,{b64}" download="{download_filename}">{download_link_text}</a>'
 
 # st.write("a logo and text next to eachother")
-# col1, mid, col2 = st.columns([10,1,25])
-col1, mid, col2 = st.beta_columns([10,1,25])
+col1, mid, col2 = st.columns([10,1,25])
+# col1, mid, col2 = st.beta_columns([10,1,25])
 with col1:
     st.image('logo.png', width=140)
 with col2:
@@ -118,7 +112,7 @@ try:
 #             s_st.raw_results = cc.info_from_Mint(s_st.raw_results)
                 
         if s_st.mint_table_type == 'dense peak_max':          
-            s_st.raw_results = info_from_Mint_dense(s_st.raw_results)
+            s_st.raw_results = cc.info_from_Mint_dense(s_st.raw_results)
             st.write(s_st.raw_results)
             
             s_st.by_ = 'peak_max'
@@ -164,7 +158,7 @@ try:
         
         s_st.ces.fit(s_st.x_train, s_st.y_train, v_slope = s_st.fl)
         
-        st.write(s_st.ces.params_)
+#         st.write(s_st.ces.params_)
         st.write('''the standard curves have being fitted ....
              you can download the parameters of the standard curves....''')
         
@@ -221,7 +215,7 @@ try:
     x_viz = x_viz[x_viz.Concentration > 0.00000001]
         
     dat = x_viz[x_viz.peak_label == s_st.cp]
-#     st.write(dat)
+    st.write(dat)
     
     s_st.xlabel = st.text_input("please enter the x-label", s_st.cp + ' concentration (μM)')
     s_st.ylabel = st.text_input("please enter the y-label", s_st.cp + ' intensity (AU)')
@@ -229,10 +223,11 @@ try:
 #     s_st.viz_restult = st.button('''plot results''')
 #     if s_st.viz_restult:        
     fig = plt.figure(figsize = (4,4))
-    for inr, colo in zip( [0.5, 1]   , ['gray', 'black']):
+    for inr, colo in zip( [2, 1]   , ['gray', 'black']):
         plt.plot(dat.Concentration[dat.in_range == inr], dat.value[dat.in_range == inr], 'o', color = colo)
                
-    plt.plot(dat.pred_conc[dat.in_range == 1.0] , dat.value[dat.in_range == 1.0] , color = 'black')
+    plt.plot(dat.pred_conc[dat.in_range == 1] , dat.value[dat.in_range == 1] , color = 'black')
+    
     plt.xlabel(s_st.xlabel, fontsize = 14)
     plt.ylabel(s_st.ylabel, fontsize = 14)
     plt.xscale('log')

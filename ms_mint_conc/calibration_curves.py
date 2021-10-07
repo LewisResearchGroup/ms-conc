@@ -226,7 +226,7 @@ def calibration_curves(x_train, y_train):
         y = np.log(y)
         x = np.log(x)
         if len(x > 2):
-            y_inter,  x_c , y_c, res = find_linear_range(x, y, 0.15)
+            y_inter,  x_c , y_c, res = find_linear_range(x, y, 0.1)
 #             print(min(x_c))
         calibration_curves.lin_range_min[calibration_curves.peak_label == col] = min(y_c) 
         calibration_curves.lin_range_max[calibration_curves.peak_label == col] = max(y_c) 
@@ -274,7 +274,7 @@ def calibration_curves_variable_slope(x_train, y_train):
         y = np.log(y)
         x = np.log(x)
         if len(x > 2):
-            y_inter, slope,  x_c , y_c, res = find_linear_range_variable_slope(x, y, 0.15)
+            y_inter, slope,  x_c , y_c, res = find_linear_range_variable_slope(x, y, 0.1)
 #             print(min(x_c))
         calibration_curves.lin_range_min[calibration_curves.peak_label == col] = min(y_c) 
         calibration_curves.lin_range_max[calibration_curves.peak_label == col] = max(y_c) 
@@ -323,7 +323,7 @@ def calibration_curves_variable_slope_interval(x_train, y_train, interval):
         y = np.log(y)
         x = np.log(x)
         if len(x > 2):
-            y_inter, slope,  x_c , y_c, res = find_linear_range_variable_slope_interval(x, y, 0.15, interval)
+            y_inter, slope,  x_c , y_c, res = find_linear_range_variable_slope_interval(x, y, 0.1, interval)
 #             print(min(x_c))
         calibration_curves.lin_range_min[calibration_curves.peak_label == col] = min(y_c) 
         calibration_curves.lin_range_max[calibration_curves.peak_label == col] = max(y_c) 
@@ -361,6 +361,13 @@ def info_from_Mint(mint_, by):
     out_df = mint_[['ms_file', 'peak_label', by]].rename(columns={by:'value'})
     
     return out_df
+
+def info_from_Mint_dense(mint_):
+    '''this function reads mint dense shape format dataframe and transforms it to the full results format'''
+    
+    out_df = mint_.melt(id_vars=["peak_label"],  var_name="ms_file",  value_name="peak_max")
+#     out_df.rename(columns={'peak_label':'ms_file', 'cp':'peak_label'}, inplace = True)
+    return out_df[['ms_file', 'peak_label', 'peak_max']]
         
 def setting_from_stdinfo(std_info, results_):
     ''' this function reads the standard information table 
