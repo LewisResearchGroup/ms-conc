@@ -159,6 +159,7 @@ try:
 #             st.write('interval: ', s_st.interval[0])
             s_st.ces.set_interval(np.array(s_st.interval))
             st.write(s_st.ces.interval)
+        
         s_st.x_train, s_st.y_train = cc.training_from_standard_results(s_st.std_results, by = s_st.by_)
         
         s_st.ces.fit(s_st.x_train, s_st.y_train, v_slope = s_st.fl)

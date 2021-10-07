@@ -11,7 +11,7 @@ class ConcentrationEstimator():
         
     def fit(self, X, y, v_slope = 'fixed'):
         if v_slope == 'interval':
-            self.params_ = cc.calibration_curves_variable_slope_interval(X, y, self.interval)
+            self.params_ = cc.calibration_curves_variable_slope_interval( X, y, self.interval)
         if v_slope == 'wide':
             self.params_ = cc.calibration_curves_variable_slope( X , y)
         if v_slope == 'fixed':
