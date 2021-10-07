@@ -50,8 +50,8 @@ def download_link(object_to_download, download_filename, download_link_text):
     return f'<a href="data:file/txt;base64,{b64}" download="{download_filename}">{download_link_text}</a>'
 
 # st.write("a logo and text next to eachother")
-col1, mid, col2 = st.columns([10,1,25])
-# col1, mid, col2 = st.beta_columns([10,1,25])
+# col1, mid, col2 = st.columns([10,1,25])
+col1, mid, col2 = st.beta_columns([10,1,25])
 with col1:
     st.image('logo.png', width=140)
 with col2:
@@ -126,10 +126,12 @@ try:
     if s_st.program == 'Maven':
         s_st.by_ = 'value'
         s_st.raw_results = cc.info_from_Maven(s_st.raw_results)
-
+        
     
+    
+#     st.write(s_st.raw_results)
     s_st.std_results = cc.setting_from_stdinfo(s_st.std_information, s_st.raw_results)
-#     st.write(s_st.by_)
+#     st.write(s_st.std_results)
     s_st.std_results.sort_values(by = ['peak_label','STD_CONC', s_st.by_ ], inplace = True)
 #     st.write('here i am')
     
@@ -138,14 +140,14 @@ except:
 
 
 try:
-    st.write(len(s_st.std_results))
+#     st.write(len(s_st.std_results))
     if len(s_st.std_results) > 1:
-        st.write('here i am')
+#         st.write('here i am')
         
         s_st.fl = st.selectbox('''select the flexibility for your fit\n''' , 
-                               ('wide fit – the app will not constrain the slope when calculating the line of best fit', 
-                                'fixed fit – the app will only generate a standard curve with a slope = 1.00', 
-                                'interval fit – bounds for slope values can be defined. The interval 0.85-1.15 is recommended'))
+                               ('fixed fit – the app will only generate a standard curve with a slope = 1.00', 
+                                'interval fit – bounds for slope values can be defined. The interval 0.85-1.15 is recommended',
+                                'wide fit – the app will not constrain the slope when calculating the line of best fit',))
         
         s_st.fl = s_st.fl.split(' ')[0]
         st.write(s_st.fl)
@@ -158,11 +160,14 @@ try:
             s_st.ces.set_interval(np.array(s_st.interval))
             st.write(s_st.ces.interval)
         s_st.x_train, s_st.y_train = cc.training_from_standard_results(s_st.std_results, by = s_st.by_)
+        
         s_st.ces.fit(s_st.x_train, s_st.y_train, v_slope = s_st.fl)
         
-        
+        st.write(s_st.ces.params_)
         st.write('''the standard curves have being fitted ....
              you can download the parameters of the standard curves....''')
+        
+        
         s_st.linear_scale_parameters = s_st.ces.params_.sort_values(by = ['peak_label']).drop(['lin_range_min', 'lin_range_max'], axis = 1)
         s_st.linear_scale_parameters.rename(columns = {'slope':'log_scale_slope', 'intercept':'log_scale_intercept'}, inplace = True)
 #         s_st.linear_scale_parameters.rename(columns={})

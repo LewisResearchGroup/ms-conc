@@ -101,7 +101,8 @@ def find_linear_range(x , y , th):
             x_c = x_c[:-1]
             y_c = y_c[:-1]
         y_intercept , res, r_ini, r_last = classic_lstsqr(x_c, y_c)
-    return y_intercept, x_c, y_c
+        
+    return y_intercept, x_c, y_c, res
 
 
 
@@ -120,7 +121,7 @@ def find_linear_range_variable_slope(x , y , th):
             x_c = x_c[:-1]
             y_c = y_c[:-1]
         y_intercept, slope, res, r_ini, r_last = classic_lstsqr_variable_slope(x_c, y_c)
-    return y_intercept, slope, x_c, y_c
+    return y_intercept, slope, x_c, y_c, res
 
 def find_linear_range_variable_slope_interval(x , y , th, interval):
     """ this algorith searches the range of x values in which the data behaves linearly with variable slope"""
@@ -136,7 +137,7 @@ def find_linear_range_variable_slope_interval(x , y , th, interval):
             x_c = x_c[:-1]
             y_c = y_c[:-1]
         y_intercept, slope, res, r_ini, r_last = classic_lstsqr_variable_slope_interval(x_c, y_c, interval)
-    return y_intercept, slope, x_c, y_c
+    return y_intercept, slope, x_c, y_c, res
 
 
 def calibration_curves(x_train, y_train):
@@ -148,7 +149,7 @@ def calibration_curves(x_train, y_train):
     calibration_curves = pd.DataFrame(
                     columns=['peak_label', 'slope', 
                              'intercept', 'lin_range_min', 
-                             'lin_range_max', 'N_points'] # try this way
+                             'lin_range_max', 'N_points', 'Residual'] # try this way
                               )
     calibration_curves.peak_label = np.unique(x_train.peak_label)
     
@@ -172,13 +173,14 @@ def calibration_curves(x_train, y_train):
         y = np.log(y)
         x = np.log(x)
         if len(x > 2):
-            y_inter,  x_c , y_c = find_linear_range(x, y, 0.1)
+            y_inter,  x_c , y_c, res = find_linear_range(x, y, 0.05)
 #             print(min(x_c))
         calibration_curves.lin_range_min[calibration_curves.peak_label == col] = min(y_c) 
         calibration_curves.lin_range_max[calibration_curves.peak_label == col] = max(y_c) 
         calibration_curves.intercept[calibration_curves.peak_label == col] = y_inter
         calibration_curves.slope[calibration_curves.peak_label == col] = 1
         calibration_curves.N_points[calibration_curves.peak_label == col] = len(x_c)
+        calibration_curves.Residual[calibration_curves.peak_label == col] = res
         
     calibration_curves['LLOQ'] = calibration_curves.lin_range_min.apply(lambda x: np.exp(x))
     calibration_curves['ULOQ'] = calibration_curves.lin_range_max.apply(lambda x: np.exp(x))
@@ -196,7 +198,7 @@ def calibration_curves_variable_slope(x_train, y_train):
     calibration_curves = pd.DataFrame(
                     columns=['peak_label', 'slope', 
                              'intercept', 'lin_range_min', 
-                             'lin_range_max','N_points'] # try this way
+                             'lin_range_max','N_points','Residual'] # try this way
                               )
     calibration_curves.peak_label = np.unique(x_train.peak_label)
     
@@ -220,13 +222,14 @@ def calibration_curves_variable_slope(x_train, y_train):
         y = np.log(y)
         x = np.log(x)
         if len(x > 2):
-            y_inter, slope,  x_c , y_c = find_linear_range_variable_slope(x, y, 0.1)
+            y_inter, slope,  x_c , y_c, res = find_linear_range_variable_slope(x, y, 0.05)
 #             print(min(x_c))
         calibration_curves.lin_range_min[calibration_curves.peak_label == col] = min(y_c) 
         calibration_curves.lin_range_max[calibration_curves.peak_label == col] = max(y_c) 
         calibration_curves.intercept[calibration_curves.peak_label == col] = y_inter
         calibration_curves.slope[calibration_curves.peak_label == col] = slope
         calibration_curves.N_points[calibration_curves.peak_label == col] = len(x_c)
+        calibration_curves.Residual[calibration_curves.peak_label == col] = res
         
     calibration_curves['LLOQ'] = calibration_curves.lin_range_min.apply(lambda x: np.exp(x))
     calibration_curves['ULOQ'] = calibration_curves.lin_range_max.apply(lambda x: np.exp(x))
@@ -243,7 +246,7 @@ def calibration_curves_variable_slope_interval(x_train, y_train, interval):
     calibration_curves = pd.DataFrame(
                     columns=['peak_label', 'slope', 
                              'intercept', 'lin_range_min', 
-                             'lin_range_max', 'N_points'] 
+                             'lin_range_max', 'N_points', 'Residual'] 
                               )
     calibration_curves.peak_label = np.unique(x_train.peak_label)
     
@@ -267,14 +270,15 @@ def calibration_curves_variable_slope_interval(x_train, y_train, interval):
         y = np.log(y)
         x = np.log(x)
         if len(x > 2):
-            y_inter, slope,  x_c , y_c = find_linear_range_variable_slope_interval(x, y, 0.1, interval)
+            y_inter, slope,  x_c , y_c, res = find_linear_range_variable_slope_interval(x, y, 0.05, interval)
 #             print(min(x_c))
         calibration_curves.lin_range_min[calibration_curves.peak_label == col] = min(y_c) 
         calibration_curves.lin_range_max[calibration_curves.peak_label == col] = max(y_c) 
         calibration_curves.intercept[calibration_curves.peak_label == col] = y_inter
         calibration_curves.slope[calibration_curves.peak_label == col] = slope
         calibration_curves.N_points[calibration_curves.peak_label == col] = len(x_c)
-            
+        calibration_curves.Residual[calibration_curves.peak_label == col] = res
+        
     calibration_curves['LLOQ'] = calibration_curves.lin_range_min.apply(lambda x: np.exp(x))
     calibration_curves['ULOQ'] = calibration_curves.lin_range_max.apply(lambda x: np.exp(x))
 #         print(len(calibration_curves))
