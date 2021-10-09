@@ -226,7 +226,7 @@ def calibration_curves(x_train, y_train):
         y = np.log(y)
         x = np.log(x)
         if len(x > 2):
-            y_inter,  x_c , y_c, res = find_linear_range(x, y, 0.1)
+            y_inter,  x_c , y_c, res = find_linear_range(x, y, 0.015)
 #             print(min(x_c))
         calibration_curves.lin_range_min[calibration_curves.peak_label == col] = min(y_c) 
         calibration_curves.lin_range_max[calibration_curves.peak_label == col] = max(y_c) 
@@ -274,7 +274,7 @@ def calibration_curves_variable_slope(x_train, y_train):
         y = np.log(y)
         x = np.log(x)
         if len(x > 2):
-            y_inter, slope,  x_c , y_c, res = find_linear_range_variable_slope(x, y, 0.1)
+            y_inter, slope,  x_c , y_c, res = find_linear_range_variable_slope(x, y, 0.015)
 #             print(min(x_c))
         calibration_curves.lin_range_min[calibration_curves.peak_label == col] = min(y_c) 
         calibration_curves.lin_range_max[calibration_curves.peak_label == col] = max(y_c) 
@@ -323,7 +323,7 @@ def calibration_curves_variable_slope_interval(x_train, y_train, interval):
         y = np.log(y)
         x = np.log(x)
         if len(x > 2):
-            y_inter, slope,  x_c , y_c, res = find_linear_range_variable_slope_interval(x, y, 0.1, interval)
+            y_inter, slope,  x_c , y_c, res = find_linear_range_variable_slope_interval(x, y, 0.015, interval)
 #             print(min(x_c))
         calibration_curves.lin_range_min[calibration_curves.peak_label == col] = min(y_c) 
         calibration_curves.lin_range_max[calibration_curves.peak_label == col] = max(y_c) 
