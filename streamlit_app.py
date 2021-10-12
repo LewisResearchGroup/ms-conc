@@ -239,6 +239,7 @@ try:
         
     y_train_corrected = cc.train_to_validation(s_st.x_train, s_st.y_train, s_st.ces.params_ )
     x_viz = s_st.x_train.copy()
+
     x_viz['pred_conc'] = s_st.ces.predict(x_viz).pred_conc
         
         
@@ -253,6 +254,7 @@ try:
     x_viz = x_viz[x_viz.Concentration > 0.00000001]
         
     dat = x_viz[x_viz.peak_label == s_st.cp]
+    dat = dat[dat.value > 0]
     st.write(dat)
     
     s_st.xlabel = st.text_input("please enter the x-label", s_st.cp + ' concentration (μM)')
