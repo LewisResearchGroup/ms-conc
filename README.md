@@ -1,5 +1,1 @@
-# A skeleton for python modules. 
-
-    python init_project.py
-    pip install versioneer
-    versioneer install
+[![Python package](https://github.com/LSARP/ms-conc/actions/workflows/python-package.yml/badge.svg)](https://github.com/LSARP/ms-conc/actions/workflows/python-package.yml)
