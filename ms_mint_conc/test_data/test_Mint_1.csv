@@ -1,6 +1,0 @@
-ms_file,peak_label,peak_area,peak_max,unused_col1,unused_col2
-this_is_file_1,compound1,10,100,,0.001
-this_is_file_1,compound2,20,100,0.001,
-this_is_file_1,compound3,15,150,0.001,0.001
-this_is_file_2,compound1,100,1000,,
-this_is_file_2,compound3,1500,15000,0.001,0.001
