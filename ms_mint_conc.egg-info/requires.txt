@@ -1,4 +1,0 @@
-pandas
-streamlit
-molmass
-ms-mint
