@@ -1,2 +1,0 @@
-pip install -e . 
-streamlit run App.py 
