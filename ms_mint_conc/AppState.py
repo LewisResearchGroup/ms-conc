@@ -1,4 +1,6 @@
 import pandas as pd
+
+
 class AppState():
     def __init__(self):
         self.standard_info = pd.DataFrame()

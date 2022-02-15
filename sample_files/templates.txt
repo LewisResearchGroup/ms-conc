@@ -1,1 +1,0 @@
-The files in this folder can be used as templates to build your own tables to run the App
