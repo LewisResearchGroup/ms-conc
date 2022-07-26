@@ -43,8 +43,8 @@ def download_link(object_to_download, download_filename, download_link_text):
     return f'<a href="data:file/txt;base64,{b64}" download="{download_filename}">{download_link_text}</a>'
 
 # st.write("a logo and text next to eachother")
-col1, mid, col2 = st.columns([10,1,25])
-# col1, mid, col2 = st.beta_columns([10,1,25])
+# col1, mid, col2 = st.columns([10,1,25])
+col1, mid, col2 = st.beta_columns([10,1,25])
 with col1:
     st.image('logo.png', width=140)
 with col2:
@@ -118,6 +118,11 @@ st.sidebar.write("a sample file can be found [here](https://github.com/LSARP/ms-
 
 std_info = st.sidebar.file_uploader('upload standard concentration file..')
 
+# try:
+#     print(std_info)
+# except:
+#     print('no detected info file')
+
 
 
 try:
@@ -133,7 +138,10 @@ st.sidebar.write('## 2) Please upload the peaklist dataset. Data from El-Maven o
 st.sidebar.write("a sample file can be found [here](https://github.com/LSARP/ms-conc/tree/main/sample_files)")
 
 results_file = st.sidebar.file_uploader("upload the data file..")
-# st.write(results_file.name)
+try:
+    print(results_file)
+except:
+    print('im here')
 # st.write(pd.read_excel(results_file))
 try:
     if '.csv' in results_file.name:
@@ -304,4 +312,5 @@ try:
 
 except:
     st.write('')
+    
     
