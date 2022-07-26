@@ -127,7 +127,7 @@ std_info = st.sidebar.file_uploader('Upload standards concentrations file')
 
 try:
     s_st = SessionState.get(std_information = pd.read_csv(std_info))
-    st.write('## Your standards metadata file:')
+    st.write('## Your standards concentrations file:')
     st.write(s_st.std_information)
 except:
     st.write('## Please upload your standards concentrations file to start')
@@ -149,7 +149,7 @@ try:
     if '.xlsx' in results_file.name:
         s_st.raw_results = pd.read_excel(results_file)
         
-    st.write('## Your metabolite concentrations data file:')
+    st.write('## Your peaklist data file:')
     st.write(s_st.raw_results)
 except:
     st.write('## No peaklist datafile has been uploaded')
@@ -232,8 +232,8 @@ try:
         s_st.ces.fit(s_st.x_train, s_st.y_train, v_slope = s_st.fl)
         
 #         st.write(s_st.ces.params_)
-        st.write('''The standard curves have been fitted ....
-             you can download the parameters of the standard curves....''')
+        st.write('''The standard curves have been fitted.
+             You can download the parameters of the standard curves.''')
         
         
         s_st.linear_scale_parameters = s_st.ces.params_.sort_values(by = ['peak_label']).drop(['lin_range_min', 'lin_range_max'], axis = 1)
