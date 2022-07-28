@@ -216,7 +216,7 @@ try:
                                 'Interval fit – bounds for slope values can be defined. The interval 0.85-1.15 is recommended',
                                 'Wide fit – the app will not constrain the slope when calculating the line of best fit',))
         
-        s_st.fl = s_st.fl.split(' ')[0]
+        s_st.fl = s_st.fl.split(' ')[0].lower()
         st.write(s_st.fl)
         
         s_st.ces = CE.ConcentrationEstimator()
