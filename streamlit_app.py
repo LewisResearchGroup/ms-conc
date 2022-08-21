@@ -138,10 +138,10 @@ st.sidebar.write('## 2) Please upload the peaklist dataset. Data from El-Maven o
 st.sidebar.write("a sample file can be found [here](https://github.com/LSARP/ms-conc/tree/main/sample_files)")
 
 results_file = st.sidebar.file_uploader("upload the data file..")
-try:
-    print(results_file)
-except:
-    print('im here')
+# try:
+#     print(results_file)
+# except:
+#     print('im here')
 # st.write(pd.read_excel(results_file))
 try:
     if '.csv' in results_file.name:
@@ -237,9 +237,13 @@ try:
         
         
         s_st.linear_scale_parameters = s_st.ces.params_.sort_values(by = ['peak_label']).drop(['lin_range_min', 'lin_range_max'], axis = 1)
+
         s_st.linear_scale_parameters.rename(columns = {'slope':'log_scale_slope', 'intercept':'log_scale_intercept'}, inplace = True)
 #         s_st.linear_scale_parameters.rename(columns={})
         st.write(s_st.linear_scale_parameters)
+    
+        st.write('''the standard curves have being fitted ....
+             you can download the parameters of the standard curves....''')
         
         tmp_download_link = download_link(s_st.linear_scale_parameters, 'parameters.csv', 'Click here to download your standard courves results!')
         st.markdown(tmp_download_link, unsafe_allow_html=True)
