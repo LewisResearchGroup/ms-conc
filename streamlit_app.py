@@ -141,6 +141,10 @@ except:
 st.sidebar.write('## 2) Please upload the peaklist data file. Data from Maven or Mint are accepted.\
                  Data files may be in .csv or .xlsx format.')
 # st.sidebar.write("a sample file can be found [here](https://github.com/LSARP/ms-conc/tree/main/sample_files)")
+tmp_download_link = download_link(pd.read_csv('sample_files/SCALiR Tutorial.pdf'), 
+                                  'SCALiR_Tutorial.pdf', 
+                                  'Click here to download a SCALiR tutorial')
+st.sidebar.write(tmp_download_link, unsafe_allow_html=True)
 tmp_download_link = download_link(pd.read_csv('sample_files/SCALiR_MINT_Peaklist_Dense_Peak_Max.csv'), 
                                   'SCALiR_MINT_Peaklist_Dense_Peak_Max_sample.csv', 
                                   'Click here to download an example of the Mint dense peaklist file')
