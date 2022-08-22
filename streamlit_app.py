@@ -115,7 +115,7 @@ display_button()
 # state = AS.AppState()
 st.sidebar.write( '## 1) Please upload standards concentrations file' )
 
-tmp_download_link = download_link(pd.read_csv('sample_files/SCALiR_Standards_Concentrations File.csv'), 'standard_samples_concentrations.csv', 
+tmp_download_link = download_link(pd.read_csv('sample_files/SCALiR_Standards_Concentrations File.csv'), 'SCALiR_Standards_Concentrations_sample.csv', 
                                   'click here to download an example of standard concentration file')
 st.sidebar.write(tmp_download_link, unsafe_allow_html=True)
 
