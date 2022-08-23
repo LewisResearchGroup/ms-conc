@@ -202,8 +202,8 @@ try:
     s_st.output['STD_CONC'] = np.nan
 #     st.write(s_st.raw_results)
     if set(np.unique(s_st.raw_results.peak_label)) != set(np.unique(s_st.std_information.peak_label)):
-            st.write('ALERT !!!! ALERT !!!! ALERT !!!! ALERT !!!! ALERT !!!! ALERT !!!! ALERT !!!! ALERT !!!! ')
-            st.write('A MISSMATCH IN COMPOUND NAMES BETWEEN STD INFO AND RESULTS FILE WAS FOUND')
+            st.write('ALERT!')
+            st.write('Some compounds in the peaklist file were not found in the standards concentrations file. Only compounds in the standards concentrations file will be quantified.')
             s_st.intercept = np.intersect1d( np.unique(s_st.raw_results.peak_label), np.unique(s_st.std_information.peak_label) )
             s_st.raw_results = s_st.raw_results[s_st.raw_results.peak_label.isin( s_st.intercept )]
             s_st.std_information = s_st.std_information[s_st.std_information.peak_label.isin( s_st.intercept )]
