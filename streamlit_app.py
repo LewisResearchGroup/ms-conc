@@ -42,6 +42,15 @@ def download_link(object_to_download, download_filename, download_link_text):
 
     return f'<a href="data:file/txt;base64,{b64}" download="{download_filename}">{download_link_text}</a>'
 
+
+def get_binary_file_downloader_html(bin_file, file_label='File'):
+    with open(bin_file, 'rb') as f:
+        data = f.read()
+    bin_str = base64.b64encode(data).decode()
+    href = f'<a href="data:application/octet-stream;base64,{bin_str}" download="{os.path.basename(bin_file)}">Download {file_label}</a>'
+    return href
+
+
 # st.write("a logo and text next to eachother")
 # col1, mid, col2 = st.columns([10,1,25])
 col1, mid, col2 = st.beta_columns([10,1,25])
@@ -49,6 +58,7 @@ with col1:
     st.image('logo.png', width=140)
 with col2:
     st.write('# An APP for computing concentrations using standard curves')
+
     
 def display_button():
     display_instructions = st.selectbox('''Click here to see instructions''' , ('Close', 'Show Instructions'))
@@ -82,6 +92,14 @@ def display_button():
          ''')
         
 display_button()
+
+def download_tutorial():
+    display_instructions = st.selectbox('''or download the tutorial for better explanation''' , ('Close', 'download tutorial'))
+    if display_instructions == 'download tutorial':
+        st.write(get_binary_file_downloader_html('sample_files/SCALiR Tutorial.pdf', 'Tutorial.pdf'), unsafe_allow_html=True)
+
+        
+download_tutorial()
 #st.markdown("""
          #### This app can process both MINT and MAVEN result datasets.\n
          #####    1) A table with the concentrations of standard samples (metadata) is required. Upload by clicking the button on the left. Follow the link to find a standards concentrations file template.\n
