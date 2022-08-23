@@ -166,6 +166,9 @@ try:
         
     st.write('## Your peaklist data file:')
     st.write(s_st.raw_results)
+    
+
+    
 except:
     st.write('## No peaklist datafile has been uploaded')
     
@@ -196,7 +199,13 @@ try:
         
     s_st.output = s_st.raw_results.copy()
     s_st.output['STD_CONC'] = np.nan
-    
+#     st.write(s_st.raw_results)
+    if set(np.unique(s_st.raw_results.peak_label)) != set(np.unique(s_st.std_information.peak_label)):
+            st.write('ALERT !!!! ALERT !!!! ALERT !!!! ALERT !!!! ALERT !!!! ALERT !!!! ALERT !!!! ALERT !!!! ')
+            st.write('A MISSMATCH IN COMPOUND NAMES BETWEEN STD INFO AND RESULTS FILE WAS FOUND')
+            s_st.intercept = np.intersect1d( np.unique(s_st.raw_results.peak_label), np.unique(s_st.std_information.peak_label) )
+            s_st.raw_results = s_st.raw_results[s_st.raw_results.peak_label.isin( s_st.intercept )]
+            s_st.std_information = s_st.std_information[s_st.std_information.peak_label.isin( s_st.intercept )]
 # # #     st.write(s_st.std_information)
 # #     for file in np.unique(s_st.output.ms_file):
 # #         for cp in np.unique(s_st.output.peak_label):
@@ -277,6 +286,7 @@ try:
         st.write(s_st.X)
         tmp_download_link = download_link(s_st.X, 'results.csv', 'Click here to download your concentration data')
         st.markdown(tmp_download_link, unsafe_allow_html=True)
+        
         
 except:
     st.write('## There are no results to show')
