@@ -115,8 +115,8 @@ display_button()
 # state = AS.AppState()
 st.sidebar.write( '## 1) Please upload standards concentrations file' )
 
-tmp_download_link = download_link(pd.read_csv('sample_files/SCALiR_Standards_Concentrations File.csv'), 'standard_samples_concentrations.csv', 
-                                  'click here to download an example of standard concentration file')
+tmp_download_link = download_link(pd.read_csv('sample_files/SCALiR_Standards_Concentrations File.csv'), 'SCALiR_Standards_Concentrations_sample.csv', 
+                                  'Click here to download an example of the standards concentrations file')
 st.sidebar.write(tmp_download_link, unsafe_allow_html=True)
 
 # st.sidebar.write("a sample file can be found [here](https://github.com/LSARP/ms-conc/tree/main/sample_files)")
@@ -141,19 +141,20 @@ except:
 st.sidebar.write('## 2) Please upload the peaklist data file. Data from Maven or Mint are accepted.\
                  Data files may be in .csv or .xlsx format.')
 # st.sidebar.write("a sample file can be found [here](https://github.com/LSARP/ms-conc/tree/main/sample_files)")
+
 tmp_download_link = download_link(pd.read_csv('sample_files/SCALiR_MINT_Peaklist_Dense_Peak_Max.csv'), 
-                                  'MINT_Peaklist_Dense_Peak_Max_sample.csv', 
-                                  'click here to download an example of Mint Dense results file')
+                                  'SCALiR_MINT_Peaklist_Dense_Peak_Max_sample.csv', 
+                                  'Click here to download an example of the Mint dense peaklist file')
 st.sidebar.write(tmp_download_link, unsafe_allow_html=True)
 
 tmp_download_link = download_link(pd.read_csv('sample_files/SCALiR_MINT_Peaklist_Full_Results.csv'), 
                                   'SCALiR_MINT_Peaklist_Full_Results_sample.csv', 
-                                  'click here to download an example of Mint Full results file')
+                                  'Click here to download an example of the Mint full peaklist file')
 st.sidebar.write(tmp_download_link, unsafe_allow_html=True)
             
 tmp_download_link = download_link(pd.read_csv('sample_files/SCALiR_Maven_Peaklist.csv'), 
-                                  'SCALiR_Maven_Peaklist.csv', 
-                                  'click here to download an example of Maven results file')
+                                  'SCALiR_Maven_Peaklist_sample.csv', 
+                                  'Click here to download an example of the Maven peaklist file')
 st.sidebar.write(tmp_download_link, unsafe_allow_html=True)
 
 results_file = st.sidebar.file_uploader("upload the data file..")
