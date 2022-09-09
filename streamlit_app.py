@@ -285,14 +285,15 @@ try:
 #         s_st.linear_scale_parameters.rename(columns={})
         st.write(s_st.linear_scale_parameters)
     
-        st.write('''Interpretation of columns in standard curve parameters file
-        peak_label: name of compound
-        log_scale_slope: value of the slope in the log scale (note, for the fixed slope option the slope always = 1)
-        log_scale_intercept: value of the intercept in the log scale
-        N_points: number of points in the standard curve (curves with < 5 points are semi-quantitative)
-        Residual: measurement of goodness of fit for the standard curve (residual value < 0.01 indicates a high quality fit)
-        LLOQ: lower limit of quantification
-        ULOQ: upper limit of quantification''')
+        st.write('''Interpretation of columns in standard curve parameters file \n
+        peak_label: name of compound\n
+        log_scale_slope: value of the slope in the log scale (note, for the fixed slope option the slope always = 1)\n
+        log_scale_intercept: value of the intercept in the log scale\n
+        N_points: number of points in the standard curve (curves with < 5 points are semi-quantitative)\n
+        Residual: measurement of goodness of fit for the standard curve (residual value < 0.01 indicates a high quality fit)\n
+        LLOQ: lower limit of quantification\n
+        ULOQ: upper limit of quantification
+        ''')
         
         tmp_download_link = download_link(s_st.linear_scale_parameters, 'parameters.csv', 'Click here to download your standard curve parameters')
         st.markdown(tmp_download_link, unsafe_allow_html=True)
