@@ -315,8 +315,8 @@ try:
         peak_label: name of compound\n
         value: signal intensity value for sample in peaklist datafile\n
         pred_conc: concentration value calculated by SCALiR\n
-        in_range: 1 = value is within the linear range; 0 = value is NOT within the linear range\n
-        *Note: values outside the linear range are not considered quantitative
+        in_range: 1 = concentration is within the linear range; 0 = concentration is NOT within the linear range\n
+        *Note: concentrations outside the linear range are not considered quantitative
         ''')        
         
         tmp_download_link = download_link(s_st.X, 'results.csv', 'Click here to download your concentration data')
