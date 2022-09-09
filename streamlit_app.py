@@ -285,8 +285,7 @@ try:
 #         s_st.linear_scale_parameters.rename(columns={})
         st.write(s_st.linear_scale_parameters)
     
-        st.write('''the standard curves have being fitted ....
-             you can download the parameters of the standard curves....''')
+        st.write('''Interpretation of results:''')
         
         tmp_download_link = download_link(s_st.linear_scale_parameters, 'parameters.csv', 'Click here to download your standard curve parameters')
         st.markdown(tmp_download_link, unsafe_allow_html=True)
