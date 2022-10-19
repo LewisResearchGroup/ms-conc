@@ -285,8 +285,15 @@ try:
 #         s_st.linear_scale_parameters.rename(columns={})
         st.write(s_st.linear_scale_parameters)
     
-        st.write('''the standard curves have being fitted ....
-             you can download the parameters of the standard curves....''')
+        st.write('''Interpretation of columns in the standard curve parameters file: \n
+        peak_label: name of compound\n
+        log_scale_slope: value of the slope in the log scale (note, for the fixed slope option the slope always = 1)\n
+        log_scale_intercept: value of the intercept in the log scale\n
+        N_points: number of points in the standard curve (curves with < 5 points are semi-quantitative)\n
+        Residual: measurement of goodness of fit for the standard curve (residual value < 0.01 indicates a high quality fit)\n
+        LLOQ: lower limit of quantification\n
+        ULOQ: upper limit of quantification
+        ''')
         
         tmp_download_link = download_link(s_st.linear_scale_parameters, 'parameters.csv', 'Click here to download your standard curve parameters')
         st.markdown(tmp_download_link, unsafe_allow_html=True)
@@ -303,6 +310,15 @@ try:
 #     st.write(s_st.X)
 #         X['pred_conc'] = ces.predict(X).pred_conc
         st.write(s_st.X)
+        st.write('''Interpretation of columns in the concentration data file: \n
+        ms_file: name of sample\n
+        peak_label: name of compound\n
+        value: signal intensity value for sample in peaklist datafile\n
+        pred_conc: concentration value calculated by SCALiR\n
+        in_range: 1 = concentration is within the linear range; 0 = concentration is NOT within the linear range\n
+        *Note: concentrations outside the linear range are not considered quantitative
+        ''')        
+        
         tmp_download_link = download_link(s_st.X, 'results.csv', 'Click here to download your concentration data')
         st.markdown(tmp_download_link, unsafe_allow_html=True)
         
