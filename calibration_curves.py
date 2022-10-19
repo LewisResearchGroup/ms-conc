@@ -2,7 +2,6 @@ import pandas as pd
 import numpy as np
 import os
 # from ms_mint.Mint import Mint
-
 def classic_lstsqr(x_list, y_list):
     """ Computes the least-squares solution to a linear matrix equation by fixing the slope to 1
     its suitable to work on the log-scale.
@@ -110,8 +109,13 @@ def find_linear_range(x , y , th):
 def find_linear_range_variable_slope(x , y , th):
     """ this algorith searches the range of x values in which the data behaves linearly with variable slope"""
     """ suitable to work on the log-scale """
-    x_c = x
-    y_c = y
+    inm = pd.DataFrame()
+    inm['xx'] = x
+    inm['yy'] = y
+    inm.sort_values(by = ['xx', 'yy'], inplace = True)
+    inm.reset_index(drop = True)
+    x_c = np.array(inm.xx)
+    y_c = np.array(inm.yy)
     y_intercept, slope, res, r_ini, r_last = classic_lstsqr_variable_slope(x_c, y_c)
     while res > th and len(x_c) > 3:
         if r_ini > r_last:
@@ -173,7 +177,7 @@ def calibration_curves(x_train, y_train):
         y = np.log(y)
         x = np.log(x)
         if len(x > 2):
-            y_inter,  x_c , y_c, res = find_linear_range(x, y, 0.05)
+            y_inter,  x_c , y_c, res = find_linear_range(x, y, 0.01)
 #             print(min(x_c))
         calibration_curves.lin_range_min[calibration_curves.peak_label == col] = min(y_c) 
         calibration_curves.lin_range_max[calibration_curves.peak_label == col] = max(y_c) 
@@ -222,7 +226,7 @@ def calibration_curves_variable_slope(x_train, y_train):
         y = np.log(y)
         x = np.log(x)
         if len(x > 2):
-            y_inter, slope,  x_c , y_c, res = find_linear_range_variable_slope(x, y, 0.05)
+            y_inter, slope,  x_c , y_c, res = find_linear_range_variable_slope(x, y, 0.01)
 #             print(min(x_c))
         calibration_curves.lin_range_min[calibration_curves.peak_label == col] = min(y_c) 
         calibration_curves.lin_range_max[calibration_curves.peak_label == col] = max(y_c) 
@@ -270,7 +274,7 @@ def calibration_curves_variable_slope_interval(x_train, y_train, interval):
         y = np.log(y)
         x = np.log(x)
         if len(x > 2):
-            y_inter, slope,  x_c , y_c, res = find_linear_range_variable_slope_interval(x, y, 0.05, interval)
+            y_inter, slope,  x_c , y_c, res = find_linear_range_variable_slope_interval(x, y, 0.01, interval)
 #             print(min(x_c))
         calibration_curves.lin_range_min[calibration_curves.peak_label == col] = min(y_c) 
         calibration_curves.lin_range_max[calibration_curves.peak_label == col] = max(y_c) 
