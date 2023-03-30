@@ -1,7 +1,6 @@
 import pandas as pd
 import numpy as np
 import os
-# from ms_mint.Mint import Mint
 def classic_lstsqr(x_list, y_list):
     """ Computes the least-squares solution to a linear matrix equation by fixing the slope to 1
     its suitable to work on the log-scale.
