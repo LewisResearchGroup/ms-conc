@@ -7,7 +7,7 @@ def classic_lstsqr(x_list, y_list):
     its suitable to work on the log-scale.
     """ 
     
-     N = len(x_list)
+    N = len(x_list)
     x_avg = sum(x_list)/N
     y_avg = sum(y_list)/N
     var_x, cov_xy = 0, 0
@@ -15,6 +15,7 @@ def classic_lstsqr(x_list, y_list):
         temp = x - x_avg
         var_x += temp**2
         cov_xy += temp * (y - y_avg)
+    
     slope = 1.0
     y_interc = y_avg - slope * x_avg
     
