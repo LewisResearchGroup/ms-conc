@@ -21,6 +21,11 @@ def heav(x):
         return 1
     return 2
 
+def goodfit(x):
+    if x > 3:
+        return 'valid'
+    return 'fail'
+
 def download_link(object_to_download, download_filename, download_link_text):
     """
     Generates a link to download the given object_to_download.
@@ -280,19 +285,31 @@ try:
         
         
         s_st.linear_scale_parameters = s_st.ces.params_.sort_values(by = ['peak_label']).drop(['lin_range_min', 'lin_range_max'], axis = 1)
+        s_st.linear_scale_parameters = s_st.ces.params_.sort_values(by = ['peak_label']).drop(['lin_range_min', 'lin_range_max'], axis = 1)
 
-        s_st.linear_scale_parameters.rename(columns = {'slope':'log_scale_slope', 'intercept':'log_scale_intercept'}, inplace = True)
+        s_st.linear_scale_parameters.rename(columns = {'slope':'log_scale_slope_conc_Y', 'intercept':'log_scale_intercept_conc_Y'}, inplace = True)
 #         s_st.linear_scale_parameters.rename(columns={})
+        
+        s_st.linear_scale_parameters['log_scale_slope_conc_X'] = 1/s_st.linear_scale_parameters.log_scale_slope_conc_Y
+        s_st.linear_scale_parameters['log_scale_intercept_conc_X'] = \
+                                    -s_st.linear_scale_parameters.log_scale_intercept_conc_Y/s_st.linear_scale_parameters.log_scale_slope_conc_Y
+        
+        s_st.linear_scale_parameters['Valid_fit'] = s_st.linear_scale_parameters.N_points.apply(lambda x: goodfit(x))
+        
         st.write(s_st.linear_scale_parameters)
-    
+        
         st.write('''Interpretation of columns in the standard curve parameters file: \n
         peak_label: name of compound\n
-        log_scale_slope: value of the slope in the log scale (note, for the fixed slope option the slope always = 1)\n
-        log_scale_intercept: value of the intercept in the log scale\n
+        log_scale_slope_conc_Y: value of the slope in the log scale with concentration in the Y axis(note, for the fixed slope option the slope always = 1)\n
+        log_scale_intercept_conc_Y: value of the intercept in the log scale with concentration in the Y axis\n
+        log_scale_slope_conc_X: value of the slope in the log scale with concentration in the X axis(note, for the fixed slope option the slope always = 1)\n
+        log_scale_intercept_conc_X: value of the intercept in the log scale with concentration in the X axis\n
+ 
         N_points: number of points in the standard curve (curves with < 5 points are semi-quantitative)\n
         Residual: measurement of goodness of fit for the standard curve (residual value < 0.01 indicates a high quality fit)\n
         LLOQ: lower limit of quantification\n
-        ULOQ: upper limit of quantification
+        ULOQ: upper limit of quantification\n
+        Valid_fit: when the number of points in the linear fit is lower than 3 the fitting is considered failed
         ''')
         
         tmp_download_link = download_link(s_st.linear_scale_parameters, 'parameters.csv', 'Click here to download your standard curve parameters')
