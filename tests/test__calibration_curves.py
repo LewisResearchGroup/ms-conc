@@ -32,6 +32,17 @@ def test__classic_lstsqr_test2():
     expected = [1, 0, 0, 0]
     
     assert actual == expected, f'\nExpected:\n {expected}\nReceived:\n {actual}'
+    
+def test__classic_lstsqr_variable_slope_test1():
+    x = np.array([0, 1, 2, 3])
+    y = np.array([1, 2, 3, 4])
+    
+    y_interc, slope , residual, r_ini, r_last = cc.classic_lstsqr_variable_slope(x, y)
+    
+    actual = [y_interc, slope, residual, r_ini, r_last]
+    expected = [1, 1, 0, 0, 0]
+    
+    assert actual == expected, f'\nExpected:\n {expected}\nReceived:\n {actual}'    
 # def test__file_with_bi_nbr():
     
 #     curve = pd.DataFrame(columns={'peak_label'})
