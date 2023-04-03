@@ -93,19 +93,19 @@ def find_linear_range(x , y , th):
     inm = pd.DataFrame()
     inm['xx'] = x
     inm['yy'] = y
-    inm.sort_values(by = ['xx', 'yy'], inplace = True)
+    inm.sort_values(by = ['yy', 'xx'], inplace = True)
     inm.reset_index(drop = True)
     x_c = np.array(inm.xx)
     y_c = np.array(inm.yy)
     y_intercept, res, r_ini, r_last = classic_lstsqr(x_c, y_c)
     
-    while ((res > th) | (r_ini > 0.2) | (r_last > 0.2)) and len(x_c) > 3:
+    while ((res > th) | (r_ini > 0.2) | (r_last > 0.2)) and (len(x_c) > 3):
         if r_ini > r_last:
             x_c = x_c[1:]
             y_c = y_c[1:]
         else:
             x_c = x_c[:-1]
-            y_c = y_c[:-1]
+            y_c = y_c[:-1]     
         y_intercept , res, r_ini, r_last = classic_lstsqr(x_c, y_c)
     return y_intercept, x_c, y_c, res
 
@@ -134,7 +134,7 @@ def find_linear_range_variable_slope(x , y , th):
     inm = pd.DataFrame()
     inm['xx'] = x
     inm['yy'] = y
-    inm.sort_values(by = ['xx', 'yy'], inplace = True)
+    inm.sort_values(by = ['yy', 'xx'], inplace = True)
     inm.reset_index(drop = True)
     x_c = np.array(inm.xx)
     y_c = np.array(inm.yy)
