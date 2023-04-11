@@ -287,12 +287,12 @@ try:
         s_st.linear_scale_parameters = s_st.ces.params_.sort_values(by = ['peak_label']).drop(['lin_range_min', 'lin_range_max'], axis = 1)
         s_st.linear_scale_parameters = s_st.ces.params_.sort_values(by = ['peak_label']).drop(['lin_range_min', 'lin_range_max'], axis = 1)
 
-        s_st.linear_scale_parameters.rename(columns = {'slope':'log_scale_slope_conc_Y', 'intercept':'log_scale_intercept_conc_Y'}, inplace = True)
+        s_st.linear_scale_parameters.rename(columns = {'slope':'log_scale_slope', 'intercept':'log_scale_intercept'}, inplace = True)
 #         s_st.linear_scale_parameters.rename(columns={})
         
-        s_st.linear_scale_parameters['log_scale_slope_conc_X'] = 1/s_st.linear_scale_parameters.log_scale_slope_conc_Y
-        s_st.linear_scale_parameters['log_scale_intercept_conc_X'] = \
-                                    -s_st.linear_scale_parameters.log_scale_intercept_conc_Y/s_st.linear_scale_parameters.log_scale_slope_conc_Y
+        s_st.linear_scale_parameters['log_scale_slope'] = 1/s_st.linear_scale_parameters.log_scale_slope
+        s_st.linear_scale_parameters['log_scale_intercept'] = \
+                                    -s_st.linear_scale_parameters.log_scale_intercept*s_st.linear_scale_parameters.log_scale_slope
         
         s_st.linear_scale_parameters['Valid_fit'] = s_st.linear_scale_parameters.N_points.apply(lambda x: goodfit(x))
         
@@ -300,10 +300,8 @@ try:
         
         st.write('''Interpretation of columns in the standard curve parameters file: \n
         peak_label: name of compound\n
-        log_scale_slope_conc_Y: value of the slope in the log scale with concentration in the Y axis(note, for the fixed slope option the slope always = 1)\n
-        log_scale_intercept_conc_Y: value of the intercept in the log scale with concentration in the Y axis\n
-        log_scale_slope_conc_X: value of the slope in the log scale with concentration in the X axis(note, for the fixed slope option the slope always = 1)\n
-        log_scale_intercept_conc_X: value of the intercept in the log scale with concentration in the X axis\n
+        log_scale_slope: value of the slope in the log scale with concentration in the Y axis(note, for the fixed slope option the slope always = 1)\n
+        log_scale_intercept: value of the intercept in the log scale with concentration in the Y axis\n
  
         N_points: number of points in the standard curve (curves with < 5 points are semi-quantitative)\n
         Residual: measurement of goodness of fit for the standard curve (residual value < 0.01 indicates a high quality fit)\n
@@ -345,6 +343,10 @@ except:
     
 
 try:
+    st.write('''Log-log plot visualization: \n
+    Description: This plot shows the x- and y-axes in the log scale, with the axis tick labels in the linear scale
+        ''')        
+
     s_st.cp = st.selectbox('select the compound \n' + 
                            s_st.x_train.peak_label.iloc[0] +
                            ' will be used by default', list(np.unique(s_st.x_train.peak_label)))
