@@ -300,8 +300,8 @@ try:
         
         st.write('''Interpretation of columns in the standard curve parameters file: \n
         peak_label: name of compound\n
-        ln_scale_slope: value of the slope in the ln scale with concentration in the X axis (note, for the fixed slope option the slope always = 1)\n
-        ln_scale_intercept: value of the intercept in the ln scale with concentration in the X axis\n
+        log_scale_slope: value of the slope in the natural log (ln) scale with concentration in the X axis (note, for the fixed slope option the slope always = 1)\n
+        log_scale_intercept: value of the intercept in the natural log (ln) scale with concentration in the X axis\n
  
         N_points: number of points in the standard curve (curves with < 5 points are semi-quantitative)\n
         Residual: measurement of goodness of fit for the standard curve (residual value < 0.01 indicates a high quality fit)\n
