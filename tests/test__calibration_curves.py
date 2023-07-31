@@ -29,7 +29,6 @@ def test__file_with_bi_nbr():
     s1 = pd.DataFrame()
     i = 1
     for col in cols[2:]:
-    #     print(col)
         s1['value'] = curve[col]
         s1['peak_label'] = curve.peak_label
         s1['conc'] = float(col[:-2])
@@ -42,6 +41,6 @@ def test__file_with_bi_nbr():
     y_train = np.array(s0.conc)
     x_train = s0.drop(['conc'], axis = 1)
 
-    
     expected = pd.DataFrame(data, index=[0])
+    
     assert actual.equals(expected), f'\nExpected:\n {expected}\nReceived:\n {actual}'

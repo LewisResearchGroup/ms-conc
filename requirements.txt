@@ -1,6 +1,6 @@
 pandas 
 streamlit
 molmass
-ms-mint
 matplotlib
 openpyxl
+.
