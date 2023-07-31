@@ -157,6 +157,8 @@ try:
     s_st = SessionState.get(std_information = pd.read_csv(std_info))
     st.write('## Your standards concentrations file:')
     st.write(s_st.std_information)
+except Exception as error:
+    print("an error occurred: ", error)
 except:
     st.write('## Please upload your standards concentrations file to start')
     
