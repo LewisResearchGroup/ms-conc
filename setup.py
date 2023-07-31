@@ -4,7 +4,6 @@ install_requires = [
     'pandas', 
     'streamlit',
     'molmass',
-    'ms-mint'
 ]
 
 config = {
