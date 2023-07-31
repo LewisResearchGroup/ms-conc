@@ -1,8 +1,9 @@
 from ms_conc import calibration_curves as cc
 from ms_conc import ConcentrationEstimator as CE
 from ms_conc import AppState as AS
-from ms_conc import SessionState
-from ms_conc.SessionState import get
+#from ms_conc import SessionState
+#from ms_conc.SessionState import get
+
 import matplotlib.pyplot as plt
 import os
 import pandas as pd
@@ -58,7 +59,7 @@ def get_binary_file_downloader_html(bin_file, file_label='File'):
 
 # st.write("a logo and text next to eachother")
 # col1, mid, col2 = st.columns([10,1,25])
-col1, mid, col2 = st.beta_columns([10,1,25])
+col1, mid, col2 = st.columns([10,1,25])
 with col1:
     st.image('logo.png', width=140)
 with col2:
@@ -154,7 +155,7 @@ std_info = st.sidebar.file_uploader('Upload standards concentrations file')
 
 
 try:
-    s_st = SessionState.get(std_information = pd.read_csv(std_info))
+    s_st = st.session_state.get(std_information = pd.read_csv(std_info))
     st.write('## Your standards concentrations file:')
     st.write(s_st.std_information)
 except:
