@@ -11,6 +11,7 @@ import datetime
 import numpy as np
 import glob
 import re
+import logging
 
 import streamlit as st
 import base64
@@ -152,10 +153,11 @@ std_info = st.sidebar.file_uploader('Upload standards concentrations file')
 # except:
 #     print('no detected info file')
 
-
+s_st = st.session_state
 
 try:
-    s_st = st.session_state.get(std_information = pd.read_csv(std_info))
+    
+    s_st = s_st.get(std_information = pd.read_csv(std_info))
     st.write('## Your standards concentrations file:')
     st.write(s_st.std_information)
 except:
@@ -194,7 +196,8 @@ try:
     
 
     
-except:
+except Exception as e:
+    logging.warning(e)
     st.write('## No peaklist datafile has been uploaded')
     
 try:
@@ -208,7 +211,9 @@ try:
                     peak_max will be used as the default value''')
             try:
                 s_st.by_ = st.selectbox('intensity measurement',('peak_max', 'peak_area'))
-            except:
+            except Exception as e:
+                logging.warning(e)
+
                 s_st.by_ = 'peak_max'
 #             s_st.raw_results = cc.info_from_Mint(s_st.raw_results)
                 
@@ -339,7 +344,8 @@ try:
         st.markdown(tmp_download_link, unsafe_allow_html=True)
         
         
-except:
+except Exception as e:
+    logging.warning(e)
     st.write('## There are no results to show')
     
 
@@ -394,7 +400,8 @@ try:
         
     st.pyplot(fig, dpi = 1000)
 
-except:
+except Exception as e:
+    logging.warning(e)
     st.write('')
     
     
