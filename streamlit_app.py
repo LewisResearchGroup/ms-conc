@@ -323,7 +323,7 @@ try:
     st.write(st.session_state.cp)
 
 
-
+#### making the figure #####
         
     y_train_corrected = cc.train_to_validation(st.session_state.x_train, st.session_state.y_train, st.session_state.ces.params_ )
     x_viz = st.session_state.x_train.copy()
@@ -347,25 +347,25 @@ try:
     
     st.session_state.xlabel = st.text_input("Please enter the x-label", st.session_state.cp + ' concentration (μM)')
     st.session_state.ylabel = st.text_input("Please enter the y-label", st.session_state.cp + ' intensity (AU)')
+
+
     
-               
-
-
-
-except:
-    st.write('')
-    
-if len(dat) > 1:    
     fig = plt.figure(figsize = (4,4))
     for inr, colo in zip( [2, 1]   , ['gray', 'black']):
-        st.write(dat.Concentration[dat.in_range == inr])
         plt.plot(np.array(dat.Concentration)[dat.in_range == inr], np.array(dat.value)[dat.in_range == inr], 'o', color = colo)
                
-#     plt.plot(dat.pred_conc[dat.in_range == 1] , dat.value[dat.in_range == 1] , color = 'black')
+    plt.plot(np.array(dat.pred_conc)[dat.in_range == 1] , np.array(dat.value)[dat.in_range == 1] , color = 'black')
     
     plt.xlabel(st.session_state.xlabel, fontsize = 14)
     plt.ylabel(st.session_state.ylabel, fontsize = 14)
     plt.xscale('log')
     plt.yscale('log')
         
-    st.pyplot(fig, dpi = 1000)
+    st.pyplot(fig, dpi = 1000)             
+
+
+
+except:
+    st.write('')
+    
+
