@@ -233,48 +233,44 @@ except:
 
 
 try:
-#     st.write(len(s_st.std_results))
-    if len(s_st.std_results) > 1:
+    if len(st.session_state.std_results) > 1:
 #         st.write('here i am')
         
-        s_st.fl = st.selectbox('''Select the flexibility for your line of best fit\n''' , 
+        st.session_state.fl = st.selectbox('''Select the flexibility for your line of best fit\n''' , 
                                ('Fixed fit – the app will only generate a standard curve with a slope = 1.00', 
                                 'Interval fit – bounds for slope values can be defined. The interval 0.85-1.15 is recommended',
                                 'Wide fit – the app will not constrain the slope when calculating the line of best fit',))
         
-        s_st.fl = s_st.fl.split(' ')[0].lower()
-        st.write(s_st.fl)
+        st.session_state.fl = st.session_state.fl.split(' ')[0].lower()
+        st.write(st.session_state.fl)
         
-        s_st.ces = CE.ConcentrationEstimator()
+        st.session_state.ces = CE.ConcentrationEstimator()
         
-        if s_st.fl == 'interval':
-            s_st.interval = st.slider('Select a range of values', 0.0, 2.0, (0.85, 1.15))
-#             st.write('interval: ', s_st.interval[0])
-            s_st.ces.set_interval(np.array(s_st.interval))
-            st.write(s_st.ces.interval)
+        if st.session_state.fl == 'interval':
+            st.session_state.interval = st.slider('Select a range of values', 0.0, 2.0, (0.85, 1.15))
+            st.session_state.ces.set_interval(np.array(st.session_state.interval))
+            st.write(st.session_state.ces.interval)
         
-        s_st.x_train, s_st.y_train = cc.training_from_standard_results(s_st.std_results, by = s_st.by_)
+        st.session_state.x_train, st.session_state.y_train = cc.training_from_standard_results(st.session_state.std_results, by = st.session_state.by_)
         
-        s_st.ces.fit(s_st.x_train, s_st.y_train, v_slope = s_st.fl)
+        st.session_state.ces.fit(st.session_state.x_train, st.session_state.y_train, v_slope = st.session_state.fl)
         
-#         st.write(s_st.ces.params_)
         st.write('''The standard curves have been fitted.
              You can download the parameters of the standard curves.''')
         
         
-        s_st.linear_scale_parameters = s_st.ces.params_.sort_values(by = ['peak_label']).drop(['lin_range_min', 'lin_range_max'], axis = 1)
-        s_st.linear_scale_parameters = s_st.ces.params_.sort_values(by = ['peak_label']).drop(['lin_range_min', 'lin_range_max'], axis = 1)
+        st.session_state.linear_scale_parameters = st.session_state.ces.params_.sort_values(by = ['peak_label']).drop(['lin_range_min', 'lin_range_max'], axis = 1)
+        st.session_state.linear_scale_parameters = st.session_state.ces.params_.sort_values(by = ['peak_label']).drop(['lin_range_min', 'lin_range_max'], axis = 1)
 
-        s_st.linear_scale_parameters.rename(columns = {'slope':'log_scale_slope', 'intercept':'log_scale_intercept'}, inplace = True)
-#         s_st.linear_scale_parameters.rename(columns={})
+        st.session_state.linear_scale_parameters.rename(columns = {'slope':'log_scale_slope', 'intercept':'log_scale_intercept'}, inplace = True)
         
-        s_st.linear_scale_parameters['log_scale_slope'] = 1/s_st.linear_scale_parameters.log_scale_slope
-        s_st.linear_scale_parameters['log_scale_intercept'] = \
-                                    -s_st.linear_scale_parameters.log_scale_intercept*s_st.linear_scale_parameters.log_scale_slope
+        st.session_state.linear_scale_parameters['log_scale_slope'] = 1/st.session_state.linear_scale_parameters.log_scale_slope
+        st.session_state.linear_scale_parameters['log_scale_intercept'] = \
+                                    -st.session_state.linear_scale_parameters.log_scale_intercept*st.session_state.linear_scale_parameters.log_scale_slope
         
-        s_st.linear_scale_parameters['Valid_fit'] = s_st.linear_scale_parameters.N_points.apply(lambda x: goodfit(x))
+        st.session_state.linear_scale_parameters['Valid_fit'] = st.session_state.linear_scale_parameters.N_points.apply(lambda x: goodfit(x))
         
-        st.write(s_st.linear_scale_parameters)
+        st.write(st.session_state.linear_scale_parameters)
         
         st.write('''Interpretation of columns in the standard curve parameters file: \n
         peak_label: name of compound\n
@@ -288,21 +284,17 @@ try:
         Valid_fit: when the number of points in the linear fit is lower than 4 the fitting is considered failed
         ''')
         
-        tmp_download_link = download_link(s_st.linear_scale_parameters, 'parameters.csv', 'Click here to download your standard curve parameters')
+        tmp_download_link = download_link(st.session_state.linear_scale_parameters, 'parameters.csv', 'Click here to download your standard curve parameters')
         st.markdown(tmp_download_link, unsafe_allow_html=True)
             
         
-        s_st.X = s_st.raw_results[['ms_file','peak_label', s_st.by_]].rename(columns={s_st.by_:'value'})
-#         st.write(s_st.X)
-#         st.write(s_st.ces.params_)
-#         st.write(s_st.X)
-        s_st.tr = s_st.ces.predict(s_st.X)
-        s_st.X['pred_conc'] = s_st.tr.pred_conc
-#         st.write(s_st.X)
-        s_st.X['in_range'] = s_st.tr.in_range
-#     st.write(s_st.X)
-#         X['pred_conc'] = ces.predict(X).pred_conc
-        st.write(s_st.X)
+        st.session_state.X = st.session_state.raw_results[['ms_file','peak_label', st.session_state.by_]].rename(columns={st.session_state.by_:'value'})
+
+        st.session_state.tr = st.session_state.ces.predict(st.session_state.X)
+        st.session_state.X['pred_conc'] = st.session_state.tr.pred_conc
+        st.session_state.X['in_range'] = st.session_state.tr.in_range
+
+        st.write(st.session_state.X)
         st.write('''Interpretation of columns in the concentration data file: \n
         ms_file: name of sample\n
         peak_label: name of compound\n
@@ -312,7 +304,7 @@ try:
         *Note: concentrations outside the linear range are not considered quantitative
         ''')        
         
-        tmp_download_link = download_link(s_st.X, 'results.csv', 'Click here to download your concentration data')
+        tmp_download_link = download_link(st.session_state.X, 'results.csv', 'Click here to download your concentration data')
         st.markdown(tmp_download_link, unsafe_allow_html=True)
         
         
@@ -325,21 +317,21 @@ try:
     Description: This plot shows the x- and y-axes in the log scale, with the axis tick labels in the linear scale
         ''')        
 
-    s_st.cp = st.selectbox('select the compound \n' + 
-                           s_st.x_train.peak_label.iloc[0] +
-                           ' will be used by default', list(np.unique(s_st.x_train.peak_label)))
-    st.write(s_st.cp)
+    st.session_state.cp = st.selectbox('select the compound \n' + 
+                           st.session_state.x_train.peak_label.iloc[0] +
+                           ' will be used by default', list(np.unique(st.session_state.x_train.peak_label)))
+    st.write(st.session_state.cp)
 
 
 
         
-    y_train_corrected = cc.train_to_validation(s_st.x_train, s_st.y_train, s_st.ces.params_ )
-    x_viz = s_st.x_train.copy()
+    y_train_corrected = cc.train_to_validation(st.session_state.x_train, st.session_state.y_train, st.session_state.ces.params_ )
+    x_viz = st.session_state.x_train.copy()
 
-    x_viz['pred_conc'] = s_st.ces.predict(x_viz).pred_conc
+    x_viz['pred_conc'] = st.session_state.ces.predict(x_viz).pred_conc
         
         
-    x_viz['Concentration'] = s_st.y_train
+    x_viz['Concentration'] = st.session_state.y_train
         
     
     x_viz['Corr_Concentration'] = y_train_corrected
@@ -349,23 +341,22 @@ try:
     x_viz['in_range'] = x_viz.Corr_Concentration.apply(lambda x: heav(x))
     x_viz = x_viz[x_viz.Concentration > 0.00000001]
         
-    dat = x_viz[x_viz.peak_label == s_st.cp]
+    dat = x_viz[x_viz.peak_label == st.session_state.cp]
     dat = dat[dat.value > 0]
     st.write(dat)
     
-    s_st.xlabel = st.text_input("Please enter the x-label", s_st.cp + ' concentration (μM)')
-    s_st.ylabel = st.text_input("Please enter the y-label", s_st.cp + ' intensity (AU)')
+    st.session_state.xlabel = st.text_input("Please enter the x-label", st.session_state.cp + ' concentration (μM)')
+    st.session_state.ylabel = st.text_input("Please enter the y-label", st.session_state.cp + ' intensity (AU)')
                
-#     s_st.viz_restult = st.button('''plot results''')
-#     if s_st.viz_restult:        
+
     fig = plt.figure(figsize = (4,4))
     for inr, colo in zip( [2, 1]   , ['gray', 'black']):
         plt.plot(dat.Concentration[dat.in_range == inr], dat.value[dat.in_range == inr], 'o', color = colo)
                
     plt.plot(dat.pred_conc[dat.in_range == 1] , dat.value[dat.in_range == 1] , color = 'black')
     
-    plt.xlabel(s_st.xlabel, fontsize = 14)
-    plt.ylabel(s_st.ylabel, fontsize = 14)
+    plt.xlabel(st.session_state.xlabel, fontsize = 14)
+    plt.ylabel(st.session_state.ylabel, fontsize = 14)
     plt.xscale('log')
     plt.yscale('log')
         
