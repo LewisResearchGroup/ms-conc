@@ -1,8 +1,6 @@
 from ms_mint_conc import calibration_curves as cc
 from ms_mint_conc import ConcentrationEstimator as CE
 from ms_mint_conc import AppState as AS
-from ms_mint_conc import SessionState
-from ms_mint_conc.SessionState import get
 import matplotlib.pyplot as plt
 import os
 import pandas as pd
@@ -14,7 +12,6 @@ import re
 import streamlit as st
 import base64
 from io import BytesIO
-
 
 def heav(x):
     if x > 0.0:
@@ -58,7 +55,7 @@ def get_binary_file_downloader_html(bin_file, file_label='File'):
 
 # st.write("a logo and text next to eachother")
 # col1, mid, col2 = st.columns([10,1,25])
-col1, mid, col2 = st.beta_columns([10,1,25])
+col1, mid, col2 = st.columns([10,1,25])
 with col1:
     st.image('logo.png', width=140)
 with col2:
@@ -145,20 +142,15 @@ st.sidebar.write(tmp_download_link, unsafe_allow_html=True)
 # st.sidebar.write("a sample file can be found [here](https://github.com/LSARP/ms-conc/tree/main/sample_files)")
 
 std_info = st.sidebar.file_uploader('Upload standards concentrations file')
-
-# try:
-#     print(std_info)
-# except:
-#     print('no detected info file')
-
-
+    
 
 try:
-    s_st = SessionState.get(std_information = pd.read_csv(std_info))
+#     if 'std_information' not in st.session_state:
+    if True: # by doing this is possible to change the information file during execution
+        st.session_state.std_information = pd.read_csv(std_info)
+        
     st.write('## Your standards concentrations file:')
-    st.write(s_st.std_information)
-except Exception as error:
-    print("an error occurred: ", error)
+    st.write(st.session_state.std_information)
 except:
     st.write('## Please upload your standards concentrations file to start')
     
@@ -185,71 +177,55 @@ st.sidebar.write(tmp_download_link, unsafe_allow_html=True)
 results_file = st.sidebar.file_uploader("upload the data file..")
 
 try:
-    if '.csv' in results_file.name:
-        s_st.raw_results = pd.read_csv(results_file)
-    if '.xlsx' in results_file.name:
-        s_st.raw_results = pd.read_excel(results_file)
+#     if 'raw_results' not in st.session_state:
+    if True: # by doing this is possible to change the results file during execution
+        if '.csv' in results_file.name:
+            st.session_state.raw_results = pd.read_csv(results_file)
+        if '.xlsx' in results_file.name:
+            st.session_state.raw_results = pd.read_excel(results_file)
         
     st.write('## Your peaklist data file:')
-    st.write(s_st.raw_results)
-    
-
-    
+    st.write(st.session_state.raw_results)
+        
 except:
     st.write('## No peaklist datafile has been uploaded')
     
 try:
-    s_st.program = st.selectbox('''Select the program used for generating the peaklist data''' , ('Mint', 'Maven'))
-    
-    if s_st.program == 'Mint':
-        s_st.mint_table_type = st.selectbox('''Indicate the type of table used, see Mint documentation for details''', ('full results', 'dense peak_max'))
+    st.session_state.program = st.selectbox('''Select the program used for generating the peaklist data''' , ('Mint', 'Maven'))
+#     st.write('you selected ' + st.session_state.program + ' program')
+    if st.session_state.program == 'Mint':
+        st.session_state.mint_table_type = st.selectbox('''Indicate the type of table used, see Mint documentation for details''', ('full results', 'dense peak_max'))
         
-        if s_st.mint_table_type == 'full results':
+        if st.session_state.mint_table_type == 'full results':
             st.write('''Please select the intensity measurement..
                     peak_max will be used as the default value''')
             try:
-                s_st.by_ = st.selectbox('intensity measurement',('peak_max', 'peak_area'))
+                st.session_state.by_ = st.selectbox('intensity measurement',('peak_max', 'peak_area'))
             except:
-                s_st.by_ = 'peak_max'
-#             s_st.raw_results = cc.info_from_Mint(s_st.raw_results)
+                st.session_state.by_ = 'peak_max'
                 
-        if s_st.mint_table_type == 'dense peak_max':          
-            s_st.raw_results = cc.info_from_Mint_dense(s_st.raw_results)
-            st.write(s_st.raw_results)
+        if st.session_state.mint_table_type == 'dense peak_max':          
+            st.session_state.raw_results = cc.info_from_Mint_dense(st.session_state.raw_results)
+            st.write(st.session_state.raw_results)
             
-            s_st.by_ = 'peak_max'
+            st.session_state.by_ = 'peak_max'
              
-    if s_st.program == 'Maven':
-        s_st.by_ = 'value'
-        s_st.raw_results = cc.info_from_Maven(s_st.raw_results)
+    if st.session_state.program == 'Maven':
+        st.session_state.by_ = 'value'
+        st.session_state.raw_results = cc.info_from_Maven(st.session_state.raw_results)
+#         st.write(st.session_state.raw_results)
         
-    s_st.output = s_st.raw_results.copy()
-    s_st.output['STD_CONC'] = np.nan
-#     st.write(s_st.raw_results)
-    if set(np.unique(s_st.raw_results.peak_label)) != set(np.unique(s_st.std_information.peak_label)):
+    st.session_state.output = st.session_state.raw_results.copy()
+    st.session_state.output['STD_CONC'] = np.nan
+    if set(np.unique(st.session_state.raw_results.peak_label)) != set(np.unique(st.session_state.std_information.peak_label)):
             st.write('ALERT!')
             st.write('Some compounds in the peaklist file were not found in the standards concentrations file. Only compounds in the standards concentrations file will be quantified.')
-            s_st.intercept = np.intersect1d( np.unique(s_st.raw_results.peak_label), np.unique(s_st.std_information.peak_label) )
-            s_st.raw_results = s_st.raw_results[s_st.raw_results.peak_label.isin( s_st.intercept )]
-            s_st.std_information = s_st.std_information[s_st.std_information.peak_label.isin( s_st.intercept )]
-# # #     st.write(s_st.std_information)
-# #     for file in np.unique(s_st.output.ms_file):
-# #         for cp in np.unique(s_st.output.peak_label):
-# #             try:
-# # #                 st.write(file)
-# #                 st.write( s_st.std_information[file].iloc[0] )
-                
-# #                 s_st.output.STD_CONC[(s_st.output.ms_file == file) & (s_st.output.peak_label == cp)] = \
-# #                 s_st.std_information[file][s_st.std_information.peak_label == cp].iloc[0]
-# #                 st.write(file)
-# #             except:
-# #                 continue
-    
-    
-# #     st.write(s_st.raw_results)
-    s_st.std_results = cc.setting_from_stdinfo(s_st.std_information, s_st.raw_results)
-#     st.write(s_st.std_results)
-    s_st.std_results.sort_values(by = ['peak_label','STD_CONC', s_st.by_ ], inplace = True)
+            st.session_state.intercept = np.intersect1d( np.unique(st.session_state.raw_results.peak_label), np.unique(st.session_state.std_information.peak_label) )
+            st.session_state.raw_results = st.session_state.raw_results[st.session_state.raw_results.peak_label.isin( st.session_state.intercept )]
+            st.session_state.std_information = st.session_state.std_information[st.session_state.std_information.peak_label.isin( st.session_state.intercept )]
+
+    st.session_state.std_results = cc.setting_from_stdinfo(st.session_state.std_information, st.session_state.raw_results)
+    st.session_state.std_results.sort_values(by = ['peak_label','STD_CONC', st.session_state.by_ ], inplace = True)
 #     st.write('here i am')
     
 except:
