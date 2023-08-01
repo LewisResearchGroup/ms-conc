@@ -358,6 +358,7 @@ except:
 if len(dat) > 1:    
     fig = plt.figure(figsize = (4,4))
     for inr, colo in zip( [2, 1]   , ['gray', 'black']):
+        st.write(dat.Concentration[dat.in_range == inr])
         plt.plot(np.array(dat.Concentration)[dat.in_range == inr], np.array(dat.value)[dat.in_range == inr], 'o', color = colo)
                
     plt.plot(dat.pred_conc[dat.in_range == 1] , dat.value[dat.in_range == 1] , color = 'black')
