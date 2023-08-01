@@ -351,11 +351,12 @@ try:
                
 
     fig = plt.figure(figsize = (4,4))
+    st.write("here")
     for inr, colo in zip( [2, 1]   , ['gray', 'black']):
         plt.plot(dat.Concentration[dat.in_range == inr], dat.value[dat.in_range == inr], 'o', color = colo)
                
     plt.plot(dat.pred_conc[dat.in_range == 1] , dat.value[dat.in_range == 1] , color = 'black')
-    st.write("here")
+    
     plt.xlabel(st.session_state.xlabel, fontsize = 14)
     plt.ylabel(st.session_state.ylabel, fontsize = 14)
     plt.xscale('log')
