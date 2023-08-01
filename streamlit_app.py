@@ -351,10 +351,8 @@ try:
                
 
     fig = plt.figure(figsize = (4,4))
-    st.write(dat)
-    for inr, colo in zip( [2, 1]   , ['gray', 'black']):
-        st.write("here")
-        plt.plot(dat.Concentration[dat.in_range == inr], dat.value[dat.in_range == inr], 'o', color = colo)
+#     for inr, colo in zip( [2, 1]   , ['gray', 'black']):
+#         plt.plot(dat.Concentration[dat.in_range == inr], dat.value[dat.in_range == inr], 'o', color = colo)
                
     plt.plot(dat.pred_conc[dat.in_range == 1] , dat.value[dat.in_range == 1] , color = 'black')
     
