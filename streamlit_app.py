@@ -1,6 +1,6 @@
-from ms_mint_conc import calibration_curves as cc
-from ms_mint_conc import ConcentrationEstimator as CE
-from ms_mint_conc import AppState as AS
+from ms_conc import calibration_curves as cc
+from ms_conc import ConcentrationEstimator as CE
+from ms_conc import AppState as AS
 import matplotlib.pyplot as plt
 import os
 import pandas as pd
