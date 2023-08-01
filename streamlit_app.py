@@ -350,9 +350,15 @@ try:
     
                
 
+
+
+except:
+    st.write('')
+    
+if len(dat) > 1:    
     fig = plt.figure(figsize = (4,4))
-#     for inr, colo in zip( [2, 1]   , ['gray', 'black']):
-#         plt.plot(dat.Concentration[dat.in_range == inr], dat.value[dat.in_range == inr], 'o', color = colo)
+    for inr, colo in zip( [2, 1]   , ['gray', 'black']):
+        plt.plot(dat.Concentration[dat.in_range == inr], dat.value[dat.in_range == inr], 'o', color = colo)
                
     plt.plot(dat.pred_conc[dat.in_range == 1] , dat.value[dat.in_range == 1] , color = 'black')
     
@@ -362,8 +368,3 @@ try:
     plt.yscale('log')
         
     st.pyplot(fig, dpi = 1000)
-
-except:
-    st.write('')
-    
-    
