@@ -289,7 +289,7 @@ try:
             
         
         st.session_state.X = st.session_state.raw_results[['ms_file','peak_label', st.session_state.by_]].rename(columns={st.session_state.by_:'value'})
-
+        
         st.session_state.tr = st.session_state.ces.predict(st.session_state.X)
         st.session_state.X['pred_conc'] = st.session_state.tr.pred_conc
         st.session_state.X['in_range'] = st.session_state.tr.in_range
@@ -347,6 +347,7 @@ try:
     
     st.session_state.xlabel = st.text_input("Please enter the x-label", st.session_state.cp + ' concentration (μM)')
     st.session_state.ylabel = st.text_input("Please enter the y-label", st.session_state.cp + ' intensity (AU)')
+    
                
 
     fig = plt.figure(figsize = (4,4))
@@ -354,7 +355,7 @@ try:
         plt.plot(dat.Concentration[dat.in_range == inr], dat.value[dat.in_range == inr], 'o', color = colo)
                
     plt.plot(dat.pred_conc[dat.in_range == 1] , dat.value[dat.in_range == 1] , color = 'black')
-    
+    st.write("here")
     plt.xlabel(st.session_state.xlabel, fontsize = 14)
     plt.ylabel(st.session_state.ylabel, fontsize = 14)
     plt.xscale('log')
