@@ -110,24 +110,6 @@ def find_linear_range(x , y , th):
     return y_intercept, x_c, y_c, res
 
 
-
-
-# def find_linear_range_variable_slope(x , y , th):
-#     """ this algorith searches the range of x values in which the data behaves linearly with variable slope"""
-#     """ suitable to work on the log-scale """
-#     x_c = x
-#     y_c = y
-#     y_intercept, slope, res, r_ini, r_last = classic_lstsqr_variable_slope(x_c, y_c)
-#     while res > th and len(x_c) > 3:
-#         if r_ini > r_last:
-#             x_c = x_c[1:]
-#             y_c = y_c[1:]
-#         else:
-#             x_c = x_c[:-1]
-#             y_c = y_c[:-1]
-#         y_intercept, slope, res, r_ini, r_last = classic_lstsqr_variable_slope(x_c, y_c)
-#     return y_intercept, slope, x_c, y_c
-
 def find_linear_range_variable_slope(x , y , th):
     """ this algorith searches the range of x values in which the data behaves linearly with variable slope"""
     """ suitable to work on the log-scale """
@@ -156,8 +138,13 @@ def find_linear_range_variable_slope(x , y , th):
 def find_linear_range_variable_slope_interval(x , y , th, interval):
     """ this algorith searches the range of x values in which the data behaves linearly with variable slope"""
     """ suitable to work on the log-scale """
-    x_c = x
-    y_c = y
+    inm = pd.DataFrame()
+    inm['xx'] = x
+    inm['yy'] = y
+    inm.sort_values(by = ['yy', 'xx'], inplace = True)
+    inm.reset_index(drop = True)
+    x_c = np.array(inm.xx)
+    y_c = np.array(inm.yy)
     y_intercept, slope, res, r_ini, r_last = classic_lstsqr_variable_slope_interval(x_c, y_c, interval)
     
     while ((res > th) | (r_ini > 0.2) | (r_last > 0.2)) and len(x_c) > 3:
@@ -171,22 +158,6 @@ def find_linear_range_variable_slope_interval(x , y , th, interval):
         y_intercept, slope, res, r_ini, r_last = classic_lstsqr_variable_slope_interval(x_c, y_c, interval)
         
     return y_intercept, slope, x_c, y_c, res
-
-# def find_linear_range_variable_slope_interval(x , y , th, interval):
-#     """ this algorith searches the range of x values in which the data behaves linearly with variable slope"""
-#     """ suitable to work on the log-scale """
-#     x_c = x
-#     y_c = y
-#     y_intercept, slope, res, r_ini, r_last = classic_lstsqr_variable_slope_interval(x_c, y_c, interval)
-#     while res > th and len(x_c) > 3:
-#         if r_ini > r_last:
-#             x_c = x_c[1:]
-#             y_c = y_c[1:]
-#         else:
-#             x_c = x_c[:-1]
-#             y_c = y_c[:-1]
-#         y_intercept, slope, res, r_ini, r_last = classic_lstsqr_variable_slope_interval(x_c, y_c, interval)
-#     return y_intercept, slope, x_c, y_c
 
 def calibration_curves(x_train, y_train):
     '''this function will return a dataframe with the 
