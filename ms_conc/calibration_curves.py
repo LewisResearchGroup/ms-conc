@@ -325,7 +325,7 @@ def info_from_Mint(mint_, by):
     '''this function removes unused Mint columns and rename the selected 
     column to value for further calculations.....'''
     
-    out_df = mint_[['ms_file', 'peak_label', by]].rename(columns={by:'value'})
+    out_df = mint_[['ms_file_label', 'peak_label', by]].rename(columns={by:'value', 'ms_file_label':'ms_file'})
     
     return out_df
 
