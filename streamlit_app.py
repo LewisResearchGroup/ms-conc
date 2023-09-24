@@ -207,7 +207,7 @@ try:
                 
         if st.session_state.mint_table_type == 'dense peak_max':          
             st.session_state.raw_results = cc.info_from_Mint_dense(st.session_state.raw_results)
-            st.write(st.session_state.raw_results)
+           #  st.write(st.session_state.raw_results)
             
             st.session_state.by_ = 'peak_max'
              
