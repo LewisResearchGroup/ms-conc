@@ -147,7 +147,10 @@ std_info = st.sidebar.file_uploader('Upload standards concentrations file')
 try:
 #     if 'std_information' not in st.session_state:
     if True: # by doing this is possible to change the information file during execution
-        st.session_state.std_information = pd.read_csv(std_info)
+        if '.csv' in std_info:
+            st.session_state.std_information = pd.read_csv(std_info)
+        if '.xslx' in std_info:
+            st.session_state.std_information = pd.read_excel(std_info)
         
     st.write('## Your standards concentrations file:')
     st.write(st.session_state.std_information)
