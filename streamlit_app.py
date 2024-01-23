@@ -149,7 +149,7 @@ try:
     if True: # by doing this is possible to change the information file during execution
         st.session_state.std_information = pd.read_csv(std_info)
         if 'unit' in st.session_state.std_information.columns:
-            st.session_state.units = st.session_state.std_information[['peak_label','unit']]
+            st.session_state.units = st.session_state.std_information[['peak_label','unit']].fillna('')
             st.session_state.std_information = st.session_state.std_information.drop(columns = ['unit'])
         else:
             st.write("missing units column in the standard information table")
