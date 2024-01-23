@@ -148,14 +148,12 @@ try:
 #     if 'std_information' not in st.session_state:
     if True: # by doing this is possible to change the information file during execution
         st.session_state.std_information = pd.read_csv(std_info)
+        if 'units' in st.std_information.columns:
+            st.session_state.units = st.session_state.std_information[['peak_label','units']]
+            st.session_state.std_information.drop(['unit'], inplace = True)
+        else:
+            st.write("missing units column in the standard information table")
             
-            # if 'units' in st.std_information.columns:
-            #     st.session_state.units = st.session_state.std_information[['peak_label','units']]
-            #     st.session_state.std_information.drop(['unit'], inplace = True)
-            # else:
-            #     st.write("missing units column in the standard information table")
-            # st.session_state.std_information = pd.read_csv(std_info)
-        
     st.write('## Your standards concentrations file:')
     st.write(st.session_state.std_information)
 except:
