@@ -315,65 +315,65 @@ try:
         tmp_download_link = download_link(st.session_state.X, 'results.csv', 'Click here to download your concentration data')
         st.markdown(tmp_download_link, unsafe_allow_html=True)
         
+        try:
+            st.write('''Log-log plot visualization: \n
+            Description: This plot shows the x- and y-axes in the log scale, with the axis tick labels in the linear scale
+                ''')        
         
+            st.session_state.cp = st.selectbox('select the compound \n' + 
+                                   st.session_state.x_train.peak_label.iloc[0] +
+                                   ' will be used by default', list(np.unique(st.session_state.x_train.peak_label)))
+            st.write(st.session_state.cp)
+        
+        
+        #### making the figure #####
+                
+            y_train_corrected = cc.train_to_validation(st.session_state.x_train, st.session_state.y_train, st.session_state.ces.params_ )
+            x_viz = st.session_state.x_train.copy()
+        
+            x_viz['pred_conc'] = st.session_state.ces.predict(x_viz).pred_conc
+                
+                
+            x_viz['Concentration'] = st.session_state.y_train
+                
+            
+            x_viz['Corr_Concentration'] = y_train_corrected
+            
+            x_viz = x_viz.fillna(-1.0)
+            
+            x_viz['in_range'] = x_viz.Corr_Concentration.apply(lambda x: heav(x))
+            x_viz = x_viz[x_viz.Concentration > 0.00000001]
+                
+            dat = x_viz[x_viz.peak_label == st.session_state.cp]
+            dat = dat[dat.value > 0]
+            st.write(dat)
+            
+            st.session_state.xlabel = st.text_input("Please enter the x-label", st.session_state.cp + ' concentration (μM)')
+            st.session_state.ylabel = st.text_input("Please enter the y-label", st.session_state.cp + ' intensity (AU)')
+        
+        
+            
+            fig = plt.figure(figsize = (4,4))
+            for inr, colo in zip( [2, 1]   , ['gray', 'black']):
+                plt.plot(np.array(dat.Concentration)[dat.in_range == inr], np.array(dat.value)[dat.in_range == inr], 'o', color = colo)
+                       
+            plt.plot(np.array(dat.pred_conc)[dat.in_range == 1] , np.array(dat.value)[dat.in_range == 1] , color = 'black')
+            
+            plt.xlabel(st.session_state.xlabel, fontsize = 14)
+            plt.ylabel(st.session_state.ylabel, fontsize = 14)
+            plt.xscale('log')
+            plt.yscale('log')
+                
+            st.pyplot(fig, dpi = 1000)             
+        
+        
+        
+        except:
+            st.write('')
 except:
     st.write('## There are no results to show')
     
 
-try:
-    st.write('''Log-log plot visualization: \n
-    Description: This plot shows the x- and y-axes in the log scale, with the axis tick labels in the linear scale
-        ''')        
 
-    st.session_state.cp = st.selectbox('select the compound \n' + 
-                           st.session_state.x_train.peak_label.iloc[0] +
-                           ' will be used by default', list(np.unique(st.session_state.x_train.peak_label)))
-    st.write(st.session_state.cp)
-
-
-#### making the figure #####
-        
-    y_train_corrected = cc.train_to_validation(st.session_state.x_train, st.session_state.y_train, st.session_state.ces.params_ )
-    x_viz = st.session_state.x_train.copy()
-
-    x_viz['pred_conc'] = st.session_state.ces.predict(x_viz).pred_conc
-        
-        
-    x_viz['Concentration'] = st.session_state.y_train
-        
-    
-    x_viz['Corr_Concentration'] = y_train_corrected
-    
-    x_viz = x_viz.fillna(-1.0)
-    
-    x_viz['in_range'] = x_viz.Corr_Concentration.apply(lambda x: heav(x))
-    x_viz = x_viz[x_viz.Concentration > 0.00000001]
-        
-    dat = x_viz[x_viz.peak_label == st.session_state.cp]
-    dat = dat[dat.value > 0]
-    st.write(dat)
-    
-    st.session_state.xlabel = st.text_input("Please enter the x-label", st.session_state.cp + ' concentration (μM)')
-    st.session_state.ylabel = st.text_input("Please enter the y-label", st.session_state.cp + ' intensity (AU)')
-
-
-    
-    fig = plt.figure(figsize = (4,4))
-    for inr, colo in zip( [2, 1]   , ['gray', 'black']):
-        plt.plot(np.array(dat.Concentration)[dat.in_range == inr], np.array(dat.value)[dat.in_range == inr], 'o', color = colo)
-               
-    plt.plot(np.array(dat.pred_conc)[dat.in_range == 1] , np.array(dat.value)[dat.in_range == 1] , color = 'black')
-    
-    plt.xlabel(st.session_state.xlabel, fontsize = 14)
-    plt.ylabel(st.session_state.ylabel, fontsize = 14)
-    plt.xscale('log')
-    plt.yscale('log')
-        
-    st.pyplot(fig, dpi = 1000)             
-
-
-
-except:
-    st.write('')
     
 
