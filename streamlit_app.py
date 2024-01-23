@@ -155,7 +155,7 @@ try:
             #     st.session_state.std_information.drop(['unit'], inplace = True)
             # else:
             #     st.write("missing units column in the standard information table")
-            st.session_state.std_information = pd.read_csv(std_info)
+            # st.session_state.std_information = pd.read_csv(std_info)
         except:
             st.session_state.std_information = pd.read_excel(std_info)
         
