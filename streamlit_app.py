@@ -149,6 +149,13 @@ try:
     if True: # by doing this is possible to change the information file during execution
         try:
             st.session_state.std_information = pd.read_csv(std_info)
+            
+            if 'unit' in st.std_information.columns:
+                st.session_state.units = st.session_state.std_information[['peak_label','unit']]
+                st.session_state.std_information.drop(['unit'], inplace = True)
+            else:
+                st.write("missing units column in the standard information table")
+            st.session_state.std_information = pd.read_csv(std_info)
         except:
             st.session_state.std_information = pd.read_excel(std_info)
         
