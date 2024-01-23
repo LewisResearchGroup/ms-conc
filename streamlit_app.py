@@ -148,10 +148,9 @@ try:
 #     if 'std_information' not in st.session_state:
     if True: # by doing this is possible to change the information file during execution
         st.session_state.std_information = pd.read_csv(std_info)
-        st.write(st.session_state.std_information.columns)
-        if 'units' in np.array(st.session_state.std_information.columns):
+        if 'units' in st.session_state.std_information.columns:
             st.session_state.units = st.session_state.std_information[['peak_label','units']]
-            st.session_state.std_information.drop(['unit'], inplace = True)
+            st.session_state.std_information.drop(['units'], inplace = True)
         else:
             st.write("missing units column in the standard information table")
             
