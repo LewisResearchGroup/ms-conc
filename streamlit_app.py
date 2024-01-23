@@ -150,11 +150,11 @@ try:
         try:
             st.session_state.std_information = pd.read_csv(std_info)
             
-            if 'units' in st.std_information.columns:
-                st.session_state.units = st.session_state.std_information[['peak_label','unit']]
-                st.session_state.std_information.drop(['unit'], inplace = True)
-            else:
-                st.write("missing units column in the standard information table")
+            # if 'units' in st.std_information.columns:
+            #     st.session_state.units = st.session_state.std_information[['peak_label','units']]
+            #     st.session_state.std_information.drop(['unit'], inplace = True)
+            # else:
+            #     st.write("missing units column in the standard information table")
             st.session_state.std_information = pd.read_csv(std_info)
         except:
             st.session_state.std_information = pd.read_excel(std_info)
