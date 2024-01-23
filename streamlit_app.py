@@ -150,7 +150,7 @@ try:
         st.session_state.std_information = pd.read_csv(std_info)
         if 'unit' in st.session_state.std_information.columns:
             st.session_state.units = st.session_state.std_information[['peak_label','unit']]
-            # st.session_state.std_information.drop(['units'], inplace = True)
+            st.session_state.std_information.drop(['units'], axis = 1, inplace = True)
         else:
             st.write("missing units column in the standard information table")
             
