@@ -94,7 +94,7 @@ def display_button():
          ''')
 
 url = "https://github.com/LewisResearchGroup/ms-conc"
-st.write("check out this for the source code [link](%s)" % url)   
+st.write("check out this [link](%s) for the source code " % url)   
 display_button()
 
 def download_tutorial():
