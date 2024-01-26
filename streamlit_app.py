@@ -192,6 +192,48 @@ try:
         if '.xlsx' in results_file.name:
             st.session_state.raw_results = pd.read_excel(results_file)
             st.session_state.raw_results = st.session_state.raw_results.dropna(thresh = 1, axis = 0)
+        try:
+            st.session_state.program = st.selectbox('''Select the program used for generating the peaklist data''' , ('Mint', 'Maven'))
+        #     st.write('you selected ' + st.session_state.program + ' program')
+            if st.session_state.program == 'Mint':
+                st.session_state.mint_table_type = st.selectbox('''Indicate the type of table used, see Mint documentation for details''', ('full results', 'dense peak_max'))
+                
+                if st.session_state.mint_table_type == 'full results':
+                    st.write('''Please select the intensity measurement..
+                            peak_max will be used as the default value''')
+                    try:
+                        st.session_state.by_ = st.selectbox('intensity measurement',('peak_max', 'peak_area'))
+                    except:
+                        st.session_state.by_ = 'peak_max'
+                    st.session_state.raw_results = cc.info_from_Mint(st.session_state.raw_results, st.session_state.by_)
+                        
+                if st.session_state.mint_table_type == 'dense peak_max':          
+                    st.session_state.raw_results = cc.info_from_Mint_dense(st.session_state.raw_results)
+                   #  st.write(st.session_state.raw_results)
+                    
+                    st.session_state.by_ = 'peak_max'
+                     
+            if st.session_state.program == 'Maven':
+                st.session_state.by_ = 'value'
+                st.session_state.raw_results = cc.info_from_Maven(st.session_state.raw_results)
+        #         st.write(st.session_state.raw_results)
+                
+            st.session_state.output = st.session_state.raw_results.copy()
+            st.session_state.output['STD_CONC'] = np.nan
+            if set(np.unique(st.session_state.raw_results.peak_label)) != set(np.unique(st.session_state.std_information.peak_label)):
+                    st.write('ALERT!')
+                    st.write('Some compounds in the peaklist file were not found in the standards concentrations file. Only compounds in the standards concentrations file will be quantified.')
+                    st.session_state.intercept = np.intersect1d( np.unique(st.session_state.raw_results.peak_label), np.unique(st.session_state.std_information.peak_label) )
+                    st.session_state.raw_results = st.session_state.raw_results[st.session_state.raw_results.peak_label.isin( st.session_state.intercept )]
+                    st.session_state.std_information = st.session_state.std_information[st.session_state.std_information.peak_label.isin( st.session_state.intercept )]
+        
+            st.session_state.std_results = cc.setting_from_stdinfo(st.session_state.std_information, st.session_state.raw_results)
+            st.session_state.std_results.sort_values(by = ['peak_label','STD_CONC', st.session_state.by_ ], inplace = True)
+        #     st.write('here i am')
+            
+        except:
+            st.write('## Data uploading or parameter settings incomplete')
+
         
     st.write('## Your peaklist data file:')
     st.write(st.session_state.raw_results)
@@ -199,47 +241,6 @@ try:
 except:
     st.write('## No peaklist datafile has been uploaded')
     
-try:
-    st.session_state.program = st.selectbox('''Select the program used for generating the peaklist data''' , ('Mint', 'Maven'))
-#     st.write('you selected ' + st.session_state.program + ' program')
-    if st.session_state.program == 'Mint':
-        st.session_state.mint_table_type = st.selectbox('''Indicate the type of table used, see Mint documentation for details''', ('full results', 'dense peak_max'))
-        
-        if st.session_state.mint_table_type == 'full results':
-            st.write('''Please select the intensity measurement..
-                    peak_max will be used as the default value''')
-            try:
-                st.session_state.by_ = st.selectbox('intensity measurement',('peak_max', 'peak_area'))
-            except:
-                st.session_state.by_ = 'peak_max'
-            st.session_state.raw_results = cc.info_from_Mint(st.session_state.raw_results, st.session_state.by_)
-                
-        if st.session_state.mint_table_type == 'dense peak_max':          
-            st.session_state.raw_results = cc.info_from_Mint_dense(st.session_state.raw_results)
-           #  st.write(st.session_state.raw_results)
-            
-            st.session_state.by_ = 'peak_max'
-             
-    if st.session_state.program == 'Maven':
-        st.session_state.by_ = 'value'
-        st.session_state.raw_results = cc.info_from_Maven(st.session_state.raw_results)
-#         st.write(st.session_state.raw_results)
-        
-    st.session_state.output = st.session_state.raw_results.copy()
-    st.session_state.output['STD_CONC'] = np.nan
-    if set(np.unique(st.session_state.raw_results.peak_label)) != set(np.unique(st.session_state.std_information.peak_label)):
-            st.write('ALERT!')
-            st.write('Some compounds in the peaklist file were not found in the standards concentrations file. Only compounds in the standards concentrations file will be quantified.')
-            st.session_state.intercept = np.intersect1d( np.unique(st.session_state.raw_results.peak_label), np.unique(st.session_state.std_information.peak_label) )
-            st.session_state.raw_results = st.session_state.raw_results[st.session_state.raw_results.peak_label.isin( st.session_state.intercept )]
-            st.session_state.std_information = st.session_state.std_information[st.session_state.std_information.peak_label.isin( st.session_state.intercept )]
-
-    st.session_state.std_results = cc.setting_from_stdinfo(st.session_state.std_information, st.session_state.raw_results)
-    st.session_state.std_results.sort_values(by = ['peak_label','STD_CONC', st.session_state.by_ ], inplace = True)
-#     st.write('here i am')
-    
-except:
-    st.write('## Data uploading or parameter settings not complete')
 
 
 try:
