@@ -59,7 +59,7 @@ col1, mid, col2 = st.columns([10,1,25])
 with col1:
     st.image('logo.png', width=140)
 with col2:
-    st.write('# An APP for computing concentrations using standard curves')
+    st.write('# An APP for computing concentrations using standard curves. V1.0.0')
 
     
 def display_button():
