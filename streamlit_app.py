@@ -92,7 +92,7 @@ def display_button():
          ###### In_range (1 = the concentration is in the linear range and 0 = the concentration is NOT in the linear range)
          ###### *Note: Concentrations outside the linear range should not be considered quantitative.
          ''')
-        
+st.write("check out this for the source code [link](%s)" % https://github.com/LewisResearchGroup/ms-conc)   
 display_button()
 
 def download_tutorial():
