@@ -349,7 +349,7 @@ try:
                 
             dat = x_viz[x_viz.peak_label == st.session_state.cp]
             dat = dat[dat.value > 0]
-            st.write(dat[[dat.columns[:-2]])
+            st.write(dat[[dat.columns[:-2]]])
             st.session_state.u = st.session_state.units.unit[st.session_state.units.peak_label == st.session_state.cp].iloc[0]
             st.session_state.xlabel = st.text_input("Please enter the x-label", st.session_state.cp + ' concentration (' + st.session_state.u + ')')
             st.session_state.ylabel = st.text_input("Please enter the y-label", st.session_state.cp + ' intensity (AU)')
