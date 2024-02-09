@@ -158,6 +158,7 @@ try:
 
         if 'internal_standard' in st.session_state.std_information.columns:
             st.session_state.internal_standard = st.session_state.std_information[['peak_label','internal_standard']]
+            st.session_state.std_information = st.session_state.std_information.drop(columns = ['internal_standard'])
             st.session_state.internal = 'on'
             
             st.write("the calculations will proceed according to internal standards protocol")
