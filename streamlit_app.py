@@ -234,7 +234,7 @@ try:
             if st.session_state.internal == 'on':
                 # Internal standards will use the same table format as mint dense
                 st.session_state.raw_results = cc.info_from_Mint_dense(st.session_state.raw_results)
-    
+                st.write(st.session_state.raw_results)  
 
             
             st.session_state.output = st.session_state.raw_results.copy()
