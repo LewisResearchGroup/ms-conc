@@ -155,6 +155,14 @@ try:
             st.session_state.std_information = st.session_state.std_information.drop(columns = ['unit'])
         else:
             st.write("missing units column in the standard information table")
+
+        if 'internal_standard' in st.session_state.std_information.columns:
+            st.session_state.internal_standard = st.session_state.std_information[['peak_label','internal_standard']]
+            st.session_state.internal = 'on'
+            
+            st.write("the calculations will proceed according to internal standards protocol")
+        else:
+            st.session_state.internal = 'off'
             
     st.write('## Your standards concentrations file:')
     st.write(st.session_state.std_information)
@@ -196,31 +204,36 @@ try:
         st.write('## Your peaklist data file:')
         st.write(st.session_state.raw_results)
         try:
-            st.session_state.program = st.selectbox('''Select the program used for generating the peaklist data''' , ('Mint', 'Maven'))
-        #     st.write('you selected ' + st.session_state.program + ' program')
-            if st.session_state.program == 'Mint':
-                st.session_state.mint_table_type = st.selectbox('''Indicate the type of table used, see Mint documentation for details''', ('full results', 'dense peak_max'))
-                
-                if st.session_state.mint_table_type == 'full results':
-                    st.write('''Please select the intensity measurement..
-                            peak_max will be used as the default value''')
-                    try:
-                        st.session_state.by_ = st.selectbox('intensity measurement',('peak_max', 'peak_area'))
-                    except:
-                        st.session_state.by_ = 'peak_max'
-                    st.session_state.raw_results = cc.info_from_Mint(st.session_state.raw_results, st.session_state.by_)
-                        
-                if st.session_state.mint_table_type == 'dense peak_max':          
-                    st.session_state.raw_results = cc.info_from_Mint_dense(st.session_state.raw_results)
-                   #  st.write(st.session_state.raw_results)
+            if st.session_state.internal == 'off': 
+                st.session_state.program = st.selectbox('''Select the program used for generating the peaklist data''' , ('Mint', 'Maven'))
+            #     st.write('you selected ' + st.session_state.program + ' program')
+                if st.session_state.program == 'Mint':
+                    st.session_state.mint_table_type = st.selectbox('''Indicate the type of table used, see Mint documentation for details''', ('full results', 'dense peak_max'))
                     
-                    st.session_state.by_ = 'peak_max'
-                     
-            if st.session_state.program == 'Maven':
-                st.session_state.by_ = 'value'
-                st.session_state.raw_results = cc.info_from_Maven(st.session_state.raw_results)
-        #         st.write(st.session_state.raw_results)
-                
+                    if st.session_state.mint_table_type == 'full results':
+                        st.write('''Please select the intensity measurement..
+                                peak_max will be used as the default value''')
+                        try:
+                            st.session_state.by_ = st.selectbox('intensity measurement',('peak_max', 'peak_area'))
+                        except:
+                            st.session_state.by_ = 'peak_max'
+                        st.session_state.raw_results = cc.info_from_Mint(st.session_state.raw_results, st.session_state.by_)
+                            
+                    if st.session_state.mint_table_type == 'dense peak_max':          
+                        st.session_state.raw_results = cc.info_from_Mint_dense(st.session_state.raw_results)
+                       #  st.write(st.session_state.raw_results)
+                        
+                        st.session_state.by_ = 'peak_max'
+                         
+                if st.session_state.program == 'Maven':
+                    st.session_state.by_ = 'value'
+                    st.session_state.raw_results = cc.info_from_Maven(st.session_state.raw_results)
+            #         st.write(st.session_state.raw_results)
+            if st.session_state.internal == 'on':
+                # Internal standards will use the same table format as mint dense
+                st.session_state.raw_results = cc.info_from_Mint_dense(st.session_state.raw_results)
+
+            
             st.session_state.output = st.session_state.raw_results.copy()
             st.session_state.output['STD_CONC'] = np.nan
             if set(np.unique(st.session_state.raw_results.peak_label)) != set(np.unique(st.session_state.std_information.peak_label)):
