@@ -234,7 +234,7 @@ try:
             if st.session_state.internal == 'on':
                 # Internal standards will use the same table format as mint dense
                 st.session_state.raw_results = cc.info_from_Mint_dense(st.session_state.raw_results)
-                st.write(st.session_state.raw_results)  
+                # st.write(st.session_state.raw_results)  
 
             
             st.session_state.output = st.session_state.raw_results.copy()
@@ -245,7 +245,8 @@ try:
                     st.session_state.intercept = np.intersect1d( np.unique(st.session_state.raw_results.peak_label), np.unique(st.session_state.std_information.peak_label) )
                     st.session_state.raw_results = st.session_state.raw_results[st.session_state.raw_results.peak_label.isin( st.session_state.intercept )]
                     st.session_state.std_information = st.session_state.std_information[st.session_state.std_information.peak_label.isin( st.session_state.intercept )]
-        
+                
+            st.write(st.session_state.raw_results)
             st.session_state.std_results = cc.setting_from_stdinfo(st.session_state.std_information, st.session_state.raw_results)
             st.session_state.std_results.sort_values(by = ['peak_label','STD_CONC', st.session_state.by_ ], inplace = True)
             st.write('here i am')
