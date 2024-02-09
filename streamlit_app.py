@@ -234,7 +234,7 @@ try:
             if st.session_state.internal == 'on':
                 # Internal standards will use the same table format as mint dense
                 st.session_state.raw_results = cc.info_from_Mint_dense(st.session_state.raw_results)
-                st.write('im here')
+    
 
             
             st.session_state.output = st.session_state.raw_results.copy()
@@ -248,7 +248,7 @@ try:
         
             st.session_state.std_results = cc.setting_from_stdinfo(st.session_state.std_information, st.session_state.raw_results)
             st.session_state.std_results.sort_values(by = ['peak_label','STD_CONC', st.session_state.by_ ], inplace = True)
-        #     st.write('here i am')
+            st.write('here i am')
             
         except:
             st.write('## Data uploading or parameter settings incomplete')
