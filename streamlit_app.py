@@ -12,6 +12,7 @@ import re
 import streamlit as st
 import base64
 from io import BytesIO
+@st.cache
 
 def heav(x):
     if x > 0.0:
