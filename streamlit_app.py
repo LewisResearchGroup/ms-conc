@@ -250,9 +250,9 @@ try:
                 
             # st.write(st.session_state.raw_results)
             st.session_state.std_results = cc.setting_from_stdinfo(st.session_state.std_information, st.session_state.raw_results)
-            st.write(st.session_state.std_results)
+            # st.write(st.session_state.std_results)
             st.session_state.std_results.sort_values(by = ['peak_label','STD_CONC', st.session_state.by_ ], inplace = True)
-            st.write('here i am')
+            # st.write('here i am')
             
         except:
             st.write('## Data uploading or parameter settings incomplete')
@@ -324,6 +324,10 @@ try:
         st.session_state.tr = st.session_state.ces.predict(st.session_state.X)
         st.session_state.X['pred_conc'] = st.session_state.tr.pred_conc
         st.session_state.X['in_range'] = st.session_state.tr.in_range
+
+        # if st.session_state.internal == 'on'
+
+        # st.session_state.internal_standard = st.session_state.std_information[['peak_label','internal_standard']]
 
         st.write(st.session_state.X)
         st.write('''Interpretation of columns in the concentration data file: \n
