@@ -325,9 +325,11 @@ try:
         st.session_state.X['pred_conc'] = st.session_state.tr.pred_conc
         st.session_state.X['in_range'] = st.session_state.tr.in_range
 
-        # if st.session_state.internal == 'on'
+        if st.session_state.internal == 'on':
+            for metab in np.unique(st.session_state.X.peak_label):
+                st.session_state.X.loc[st.session_state.X.peak_label == metab,'pred_conc'] =  st.session_state.X.pred_conc[st.session_state.X.peak_label == metab] * \
+                st.session_state.internal_standard.internal_starndard[ st.session_state.internal_standard.peak_label == metab].iloc[0]
 
-        # st.session_state.internal_standard = st.session_state.std_information[['peak_label','internal_standard']]
 
         st.write(st.session_state.X)
         st.write('''Interpretation of columns in the concentration data file: \n
