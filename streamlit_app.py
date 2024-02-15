@@ -330,7 +330,7 @@ try:
             for metab in np.unique(st.session_state.X.peak_label):
                 st.write(st.session_state.internal_standard)
                 st.session_state.X.loc[st.session_state.X.peak_label == metab,'pred_conc'] =  st.session_state.X.pred_conc[st.session_state.X.peak_label == metab] * \
-                st.session_state.internal_standard.internal_starndard[ st.session_state.internal_standard.peak_label == metab].iloc[0]
+                st.session_state.internal_standard.internal_standard[ st.session_state.internal_standard.peak_label == metab].iloc[0]
 
 
         st.write(st.session_state.X)
