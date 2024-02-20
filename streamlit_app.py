@@ -155,6 +155,9 @@ try:
         if '.xlsx' in std_info.name:
             st.session_state.std_information = pd.read_excel(std_info)
             st.write('im here')
+
+
+        
         if 'unit' in st.session_state.std_information.columns:
             st.session_state.units = st.session_state.std_information[['peak_label','unit']].fillna('')
             st.session_state.std_information = st.session_state.std_information.drop(columns = ['unit'])
