@@ -185,7 +185,7 @@ try:
     # st.dataframe(st.session_state.std_information)
 
     if 'button' not in st.session_state:
-        st.session_state.button = False
+        st.session_state.button1 = False
     def click_button1():
         st.session_state.button1 = not st.session_state.button1
     st.button('Click me', on_click=click_button1)
