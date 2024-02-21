@@ -1,0 +1,5 @@
+peak_label,Std_1,Std_2,Std_3,Std_4,Std_5,Std_6,Std_7,unit,internal_standard_injection_concentration
+Glycine,0.05,0.199,1.021,2.497,5.028,10.115,19.138,mM,3.5
+Serine,0.052,0.2,0.979,2.361,4.811,8.992,18.593,mM,3.5
+Leucine,0.05,0.191,0.973,2.394,4.744,9.833,18.865,mM,3.5
+Aspartate,0.05,0.2,1,2.5,5,10,,mM,3.5
