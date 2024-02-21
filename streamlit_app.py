@@ -207,7 +207,7 @@ try:
             st.session_state.raw_results = pd.read_csv(results_file)
             st.session_state.raw_results = st.session_state.raw_results.dropna(thresh = 1, axis = 0)
         if '.xlsx' in results_file.name:
-            st.session_state.raw_results = pd.read_excel(results_file)
+            st.session_state.raw_results = pd.read_excel(results_file, index_col=None, header=None)
             st.session_state.raw_results = st.session_state.raw_results.dropna(thresh = 1, axis = 0)
             
         st.write('## Your peaklist data file:')
