@@ -179,10 +179,7 @@ try:
             # st.write("the calculations will proceed according to internal standards protocol")
         else:
             st.session_state.internal = 'off'
-            
-    # st.write('## Your standards concentrations file:')
-    
-    # st.dataframe(st.session_state.std_information)
+
 
     if 'button1' not in st.session_state:
         st.session_state.button1 = False
@@ -235,6 +232,17 @@ try:
             
         st.write('## Your peaklist data file:')
         st.write(st.session_state.raw_results)
+        
+        if 'button2' not in st.session_state:
+            st.session_state.button2 = False
+        def click_button2():
+            st.session_state.button2 = not st.session_state.button2
+        st.button('Click here to display/hide your peak_list table ', on_click = click_button2)
+        if st.session_state.button2:
+        # The message and nested widget will remain on the page
+            st.write(st.session_state.raw_results)
+
+        
         try:
             if st.session_state.internal == 'off': 
                 st.session_state.program = st.selectbox('''Select the program used for generating the peaklist data''' , ('Mint', 'Maven'))
@@ -252,21 +260,17 @@ try:
                         st.session_state.raw_results = cc.info_from_Mint(st.session_state.raw_results, st.session_state.by_)
                             
                     if st.session_state.mint_table_type == 'dense peak_max':          
-                        st.session_state.raw_results = cc.info_from_Mint_dense(st.session_state.raw_results)
-                       #  st.write(st.session_state.raw_results)
-                        
+                        st.session_state.raw_results = cc.info_from_Mint_dense(st.session_state.raw_results)                        
                         st.session_state.by_ = 'peak_max'
                          
                 if st.session_state.program == 'Maven':
                     st.session_state.by_ = 'value'
                     st.session_state.raw_results = cc.info_from_Maven(st.session_state.raw_results)
-            #         st.write(st.session_state.raw_results)
             
             if st.session_state.internal == 'on':
                 # Internal standards will use the same table format as mint dense
                 st.session_state.by_ = 'peak_max'
                 st.session_state.raw_results = cc.info_from_Mint_dense(st.session_state.raw_results)
-                # st.write(st.session_state.raw_results)  
 
             
             st.session_state.output = st.session_state.raw_results.copy()
