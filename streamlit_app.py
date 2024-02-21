@@ -153,8 +153,10 @@ try:
         if '.csv' in std_info.name:
             st.session_state.std_information = pd.read_csv(std_info)
         if '.xlsx' in std_info.name:
-            st.session_state.std_information = pd.read_excel(std_info, index_col=None, header=None)
-            st.write(pd.read_excel(std_info))
+            try:
+                st.session_state.std_information = pd.read_excel(std_info)
+            except: Exception as error:
+                st.write("An error occurred:", error)
 
 
         
