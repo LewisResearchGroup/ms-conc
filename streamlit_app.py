@@ -192,8 +192,9 @@ try:
     if st.session_state.button1:
         # The message and nested widget will remain on the page
         st.dataframe(st.session_state.std_information)
-else:
-    # st.write(st.session_state.std_information)
+        
+    else:
+        # st.write(st.session_state.std_information)
 except:
     st.write('## Please upload your standards concentrations file to start')
     
