@@ -340,8 +340,10 @@ try:
         st.button('Click here to display/hide the standard curve parameters table', on_click = click_button2)
         if st.session_state.button3:
         # The message and nested widget will remain on the page
+            st.write('standard curve parameters table: ')
             st.write(st.session_state.linear_scale_parameters)
-            st.write('''Interpretation of columns in the standard curve parameters file: \n
+            # st.write('''Interpretation of columns in the standard curve parameters file: \n
+            st.write('''Interpretation: \n
             peak_label: name of compound\n
             log_scale_slope: value of the slope in the natural log (ln) scale with concentration in the X axis (note, for the fixed slope option the slope always = 1)\n
             log_scale_intercept: value of the intercept in the natural log (ln) scale with concentration in the X axis\n
