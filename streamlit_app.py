@@ -144,7 +144,7 @@ st.sidebar.write(tmp_download_link, unsafe_allow_html=True)
 
 
 tmp_download_link = download_link(pd.read_csv('sample_files/SCALiR_Standards_Concentrations_Internal File.csv'), 'SCALiR_Standards_Concentrations_sample.csv', 
-                                  'Click here to download an example of the standards concentrations file')
+                                  'Click here to download an example of the internal standards concentrations file')
 st.sidebar.write(tmp_download_link, unsafe_allow_html=True)
 
 # st.sidebar.write("a sample file can be found [here](https://github.com/LSARP/ms-conc/tree/main/sample_files)")
