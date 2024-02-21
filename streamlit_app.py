@@ -319,8 +319,8 @@ try:
         
         st.session_state.ces.fit(st.session_state.x_train, st.session_state.y_train, v_slope = st.session_state.fl)
         
-        st.write('''The standard curves have been fitted.
-             You can download the parameters of the standard curves.''')
+        st.write(##'''The standard curves have been fitted.''')
+             # You can download the parameters of the standard curves.''')
         
         
         st.session_state.linear_scale_parameters = st.session_state.ces.params_.sort_values(by = ['peak_label']).drop(['lin_range_min', 'lin_range_max'], axis = 1)
@@ -334,21 +334,29 @@ try:
         
         st.session_state.linear_scale_parameters['Valid_fit'] = st.session_state.linear_scale_parameters.N_points.apply(lambda x: goodfit(x))
         
-        st.write(st.session_state.linear_scale_parameters)
+        if 'button3' not in st.session_state:
+            st.session_state.button3 = False
+        def click_button3():
+            st.session_state.button3 = not st.session_state.button3
+        st.button('Click here to display/hide the standard curve parameters table', on_click = click_button2)
+        if st.session_state.button3:
+        # The message and nested widget will remain on the page
+            st.write(st.session_state.linear_scale_parameters)
+            st.write('''Interpretation of columns in the standard curve parameters file: \n
+            peak_label: name of compound\n
+            log_scale_slope: value of the slope in the natural log (ln) scale with concentration in the X axis (note, for the fixed slope option the slope always = 1)\n
+            log_scale_intercept: value of the intercept in the natural log (ln) scale with concentration in the X axis\n
+     
+            N_points: number of points in the standard curve (curves with < 5 points are semi-quantitative)\n
+            Residual: measurement of goodness of fit for the standard curve (residual value < 0.01 indicates a high quality fit)\n
+            LLOQ: lower limit of quantification\n
+            ULOQ: upper limit of quantification\n
+            Valid_fit: when the number of points in the linear fit is lower than 4 the fitting is considered failed
+            ''')
         
-        st.write('''Interpretation of columns in the standard curve parameters file: \n
-        peak_label: name of compound\n
-        log_scale_slope: value of the slope in the natural log (ln) scale with concentration in the X axis (note, for the fixed slope option the slope always = 1)\n
-        log_scale_intercept: value of the intercept in the natural log (ln) scale with concentration in the X axis\n
- 
-        N_points: number of points in the standard curve (curves with < 5 points are semi-quantitative)\n
-        Residual: measurement of goodness of fit for the standard curve (residual value < 0.01 indicates a high quality fit)\n
-        LLOQ: lower limit of quantification\n
-        ULOQ: upper limit of quantification\n
-        Valid_fit: when the number of points in the linear fit is lower than 4 the fitting is considered failed
-        ''')
+
         
-        tmp_download_link = download_link(st.session_state.linear_scale_parameters, 'parameters.csv', 'Click here to download your standard curve parameters')
+        tmp_download_link = download_link(st.session_state.linear_scale_parameters, 'parameters.csv', 'Click here to download your standard curve parameters table')
         st.markdown(tmp_download_link, unsafe_allow_html=True)
             
         
