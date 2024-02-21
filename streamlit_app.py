@@ -153,8 +153,8 @@ try:
         if '.csv' in std_info.name:
             st.session_state.std_information = pd.read_csv(std_info)
         if '.xlsx' in std_info.name:
-            st.session_state.std_information = pd.read_excel(std_info)
-            st.write('im here')
+            # st.session_state.std_information = pd.read_excel(std_info)
+            st.write(pd.read_excel(std_info))
 
 
         
