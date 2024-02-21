@@ -155,7 +155,7 @@ try:
         if '.xlsx' in std_info.name:
             try:
                 st.session_state.std_information = pd.read_excel(std_info)
-            except: Exception as error:
+            except Exception as error:
                 st.write("An error occurred:", error)
 
 
