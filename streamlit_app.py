@@ -319,7 +319,7 @@ try:
         
         st.session_state.ces.fit(st.session_state.x_train, st.session_state.y_train, v_slope = st.session_state.fl)
         
-        st.write(##'The standard curves have been fitted.')
+        st.write('The standard curves have been fitted')
         
         
         st.session_state.linear_scale_parameters = st.session_state.ces.params_.sort_values(by = ['peak_label']).drop(['lin_range_min', 'lin_range_max'], axis = 1)
