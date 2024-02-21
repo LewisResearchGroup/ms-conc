@@ -190,10 +190,12 @@ try:
         # st.dataframe(st.session_state.std_information)
         st.session_state.button1 = not st.session_state.button1
         
-    st.button('Click here to display your standards concentration table ', on_click=click_button1)
+    btn = st.button('Click here to display your standards concentration table ', on_click=click_button1)
     if st.session_state.button1:
         # The message and nested widget will remain on the page
-        st.dataframe(st.session_state.std_information)
+        st.dataframe(st.session_state.std_information, hide_index = True)
+    if btn:
+        btn.text = 'Click here to hide your standards concentration table '
         
     # else:
     #     # st.write(st.session_state.std_information)
