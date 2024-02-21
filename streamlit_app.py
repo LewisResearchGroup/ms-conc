@@ -166,9 +166,9 @@ try:
         else:
             st.write("missing units column in the standard information table")
 
-        if 'internal_standard' in st.session_state.std_information.columns:
-            st.session_state.internal_standard = st.session_state.std_information[['peak_label','internal_standard']]
-            st.session_state.std_information = st.session_state.std_information.drop(columns = ['internal_standard'])
+        if 'internal_standard_injection_concentration' in st.session_state.std_information.columns:
+            st.session_state.internal_standard = st.session_state.std_information[['peak_label','internal_standard_injection_concentration']]
+            st.session_state.std_information = st.session_state.std_information.drop(columns = ['internal_standard_injection_concentration'])
             st.session_state.internal = 'on'
             
             st.write("the calculations will proceed according to internal standards protocol")
@@ -337,7 +337,7 @@ try:
         if st.session_state.internal == 'on':
             for metab in np.unique(st.session_state.X.peak_label):
                 st.session_state.X.loc[st.session_state.X.peak_label == metab,'pred_conc'] =  st.session_state.X.pred_conc[st.session_state.X.peak_label == metab] * \
-                st.session_state.internal_standard.internal_standard[ st.session_state.internal_standard.peak_label == metab].iloc[0]
+                st.session_state.internal_standard.internal_standard_injection_concentration[ st.session_state.internal_standard.peak_label == metab].iloc[0]
 
 
         st.write(st.session_state.X)
