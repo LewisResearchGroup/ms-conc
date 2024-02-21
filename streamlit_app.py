@@ -184,11 +184,11 @@ try:
     
     # st.dataframe(st.session_state.std_information)
 
-    if 'button1' not in st.session_state:
-        st.session_state.button1 = False
+    # if 'button1' not in st.session_state:
+    #     st.session_state.button1 = False
     def click_button1():
-        st.write(st.session_state.std_information)
-        st.session_state.button1 = not st.session_state.button1
+        st.dataframe(st.session_state.std_information)
+        # st.session_state.button1 = not st.session_state.button1
         
     st.button('Display your standards concentration table ', on_click=click_button1)
     # if st.session_state.button1:
