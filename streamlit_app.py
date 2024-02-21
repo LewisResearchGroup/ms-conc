@@ -337,7 +337,7 @@ try:
             st.session_state.button3 = False
         def click_button3():
             st.session_state.button3 = not st.session_state.button3
-        st.button('Click here to display/hide the standard curve parameters table', on_click = click_button2)
+        st.button('Click here to display/hide the standard curve parameters table', on_click = click_button3)
         if st.session_state.button3:
         # The message and nested widget will remain on the page
             st.write('standard curve parameters table: ')
