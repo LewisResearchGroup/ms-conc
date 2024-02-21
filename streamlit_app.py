@@ -181,7 +181,8 @@ try:
             st.session_state.internal = 'off'
             
     st.write('## Your standards concentrations file:')
-    st.dataframe(st.session_state.std_information)
+    st.button('Click me', st.dataframe(st.session_state.std_information))
+    # st.dataframe(st.session_state.std_information)
     # st.write(st.session_state.std_information)
 except:
     st.write('## Please upload your standards concentrations file to start')
