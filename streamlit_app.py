@@ -176,7 +176,7 @@ try:
             st.session_state.std_information = st.session_state.std_information.drop(columns = ['internal_standard_injection_concentration'])
             st.session_state.internal = 'on'
             
-            st.write("the calculations will proceed according to internal standards protocol")
+            # st.write("the calculations will proceed according to internal standards protocol")
         else:
             st.session_state.internal = 'off'
             
@@ -187,13 +187,14 @@ try:
     if 'button1' not in st.session_state:
         st.session_state.button1 = False
     def click_button1():
-        # st.dataframe(st.session_state.std_information)
         st.session_state.button1 = not st.session_state.button1
         
     st.button('Click here to display/hide your standards concentration table ', on_click=click_button1)
     if st.session_state.button1:
         # The message and nested widget will remain on the page
         st.dataframe(st.session_state.std_information, hide_index = True)
+
+
         
     # else:
     #     # st.write(st.session_state.std_information)
