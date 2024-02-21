@@ -187,13 +187,13 @@ try:
     if 'button1' not in st.session_state:
         st.session_state.button1 = False
     def click_button1():
-        # st.write(st.session_state.std_information)
+        st.write(st.session_state.std_information)
         st.session_state.button1 = not st.session_state.button1
         
-    st.button('Click me', on_click=click_button1)
-    if st.session_state.button1:
+    st.button('Display your standards concentration table ', on_click=click_button1)
+    # if st.session_state.button1:
         # The message and nested widget will remain on the page
-        st.write(st.session_state.std_information)
+        # st.write(st.session_state.std_information)
         
     # else:
     #     # st.write(st.session_state.std_information)
@@ -281,7 +281,6 @@ try:
             st.session_state.std_results = cc.setting_from_stdinfo(st.session_state.std_information, st.session_state.raw_results)
             # st.write(st.session_state.std_results)
             st.session_state.std_results.sort_values(by = ['peak_label','STD_CONC', st.session_state.by_ ], inplace = True)
-            # st.write('here i am')
             
         except:
             st.write('## Data uploading or parameter settings incomplete')
