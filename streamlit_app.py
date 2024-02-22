@@ -372,16 +372,22 @@ try:
                 st.session_state.X.loc[st.session_state.X.peak_label == metab,'pred_conc'] =  st.session_state.X.pred_conc[st.session_state.X.peak_label == metab] * \
                 st.session_state.internal_standard.internal_standard_injection_concentration[ st.session_state.internal_standard.peak_label == metab].iloc[0]
 
-
-        st.write(st.session_state.X)
-        st.write('''Interpretation of columns in the concentration data file: \n
-        ms_file: name of sample\n
-        peak_label: name of compound\n
-        value: signal intensity value for sample in peaklist datafile\n
-        pred_conc: concentration value calculated by SCALiR\n
-        in_range: 1 = concentration is within the linear range; 0 = concentration is NOT within the linear range\n
-        *Note: concentrations outside the linear range are not considered quantitative
-        ''')        
+        if 'button4' not in st.session_state:
+            st.session_state.button4 = False
+        def click_button4():
+            st.session_state.button4 = not st.session_state.button4
+        st.button('Click here to display/hide the concentration data table', on_click = click_button4)
+        if st.session_state.button4:
+        # The message and nested widget will remain on the page
+            st.write(st.session_state.X)
+            st.write('''Interpretation of columns in the concentration data file: \n
+            ms_file: name of sample\n
+            peak_label: name of compound\n
+            value: signal intensity value for sample in peaklist datafile\n
+            pred_conc: concentration value calculated by SCALiR\n
+            in_range: 1 = concentration is within the linear range; 0 = concentration is NOT within the linear range\n
+            *Note: concentrations outside the linear range are not considered quantitative
+            ''')        
         
         tmp_download_link = download_link(st.session_state.X, 'results.csv', 'Click here to download your concentration data')
         st.markdown(tmp_download_link, unsafe_allow_html=True)
