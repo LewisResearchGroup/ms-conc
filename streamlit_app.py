@@ -425,15 +425,15 @@ try:
             dat = x_viz[x_viz.peak_label == st.session_state.cp]
             dat = dat[dat.value > 0]
             
-            if 'button5' not in st.session_state:
-                st.session_state.button5 = False
-            def click_button5():
-                st.session_state.button5 = not st.session_state.button5
-            st.button(st.session_state.cp, on_click = click_button5)
-            if st.session_state.button5:
-        # The message and nested widget will remain on the page
-                st.write(st.session_state.cp)
-                st.write(dat[dat.columns[:-2]])
+        #     if 'button5' not in st.session_state:
+        #         st.session_state.button5 = False
+        #     def click_button5():
+        #         st.session_state.button5 = not st.session_state.button5
+        #     st.button(st.session_state.cp, on_click = click_button5)
+        #     if st.session_state.button5:
+        # # The message and nested widget will remain on the page
+        #         st.write(st.session_state.cp)
+        #         st.write(dat[dat.columns[:-2]])
                 
             st.session_state.u = st.session_state.units.unit[st.session_state.units.peak_label == st.session_state.cp].iloc[0]
             st.session_state.xlabel = st.text_input("Please enter the x-label", st.session_state.cp + ' concentration (' + st.session_state.u + ')')
