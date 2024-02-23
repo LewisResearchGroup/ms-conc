@@ -92,7 +92,9 @@ def display_button():
          ###### Value (signal intensity values inputted by the user)
          ###### Pred_conc (concentration of compound predicted from the standard curve equation)
          ###### In_range (1 = the concentration is in the linear range and 0 = the concentration is NOT in the linear range)
-         ###### *Note: Concentrations outside the linear range should not be considered quantitative.
+         ###### *Note: Concentrations outside the linear range should not be considered quantitative. \n 
+         ######  Concentration values are calculated based on the concentration of analyte injected into the LC-MS system. \n 
+         ######  If applicable, users must manually calculate the final concentration in the sample based on the dilution factor used during sample preparation. 
          ''')
 
 url = "https://github.com/LewisResearchGroup/ms-conc"
