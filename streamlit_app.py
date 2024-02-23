@@ -218,6 +218,11 @@ tmp_download_link = download_link(pd.read_csv('sample_files/SCALiR_Maven_Peaklis
                                   'Click here to download an example of the Maven peaklist file')
 st.sidebar.write(tmp_download_link, unsafe_allow_html=True)
 
+tmp_download_link = download_link(pd.read_csv('sample_files/SCALiR_Internal_Standard_Peaklist.csv'), 
+                                  'SCALiR_Internal_Standard_Peaklist_sample.csv', 
+                                  'Click here to download an example of the internal standards peaklist file')
+st.sidebar.write(tmp_download_link, unsafe_allow_html=True)
+
 results_file = st.sidebar.file_uploader("upload the data file..")
 
 try:
