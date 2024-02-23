@@ -223,7 +223,7 @@ tmp_download_link = download_link(pd.read_csv('sample_files/SCALiR_Internal_Stan
                                   'Click here to download an example of the internal standards peaklist file')
 st.sidebar.write(tmp_download_link, unsafe_allow_html=True)
 
-results_file = st.sidebar.file_uploader("upload the data file..")
+results_file = st.sidebar.file_uploader("Upload the peaklist data file.")
 
 try:
 #     if 'raw_results' not in st.session_state:
