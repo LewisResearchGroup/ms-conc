@@ -99,7 +99,7 @@ st.write("check out this [link](%s) for the source code " % url)
 display_button()
 
 def download_tutorial():
-    display_instructions = st.selectbox('''or download the tutorial for better explanation''' , ('Close', 'download tutorial'))
+    display_instructions = st.selectbox('''or download the tutorial for a complete explanation''' , ('Close', 'download tutorial'))
     if display_instructions == 'download tutorial':
         st.write(get_binary_file_downloader_html('sample_files/SCALiR Tutorial.pdf', 'Tutorial.pdf'), unsafe_allow_html=True)
 
@@ -149,7 +149,7 @@ st.sidebar.write(tmp_download_link, unsafe_allow_html=True)
 
 # st.sidebar.write("a sample file can be found [here](https://github.com/LSARP/ms-conc/tree/main/sample_files)")
 
-std_info = st.sidebar.file_uploader('Upload standards concentrations file')
+std_info = st.sidebar.file_uploader('Upload standards concentrations file. NOTE: the “Î¼” symbol denotes “µ” in the units column.')
     
 
 try:
