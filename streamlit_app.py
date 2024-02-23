@@ -393,7 +393,8 @@ try:
             value: signal intensity value for sample in peaklist datafile\n
             pred_conc: concentration value calculated by SCALiR\n
             in_range: 1 = concentration is within the linear range; 0 = concentration is NOT within the linear range\n
-            *Note: concentrations outside the linear range are not considered quantitative
+            *Notes: concentrations outside the linear range are not considered quantitative\n
+            Concentration values are calculated based on the concentration of analyte injected into the LC-MS system. If applicable, users must manually calculate the final concentration of the analyte in the sample based on the dilution factor used during sample preparation. 
             ''')        
         
         tmp_download_link = download_link(st.session_state.X, 'results.csv', 'Click here to download your concentration data')
