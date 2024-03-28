@@ -442,10 +442,9 @@ try:
         # # The message and nested widget will remain on the page
         #         st.write(st.session_state.cp)
         #         st.write(dat[dat.columns[:-2]])
-            st.write('Im here')   
             st.session_state.u = st.session_state.units.unit[st.session_state.units.peak_label == st.session_state.cp].iloc[0]
             st.session_state.xlabel = st.text_input("Please enter the x-label", st.session_state.cp + ' concentration (' + st.session_state.u + ')')
-
+            st.write('Im here') 
             if st.session_state.internal == 'on':
                 st.session_state.ylabel = st.text_input("Please enter the y-label", st.session_state.cp + ' response ratio')
             else:
