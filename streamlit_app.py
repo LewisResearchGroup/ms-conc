@@ -171,8 +171,10 @@ try:
             st.session_state.units = st.session_state.std_information[['peak_label','unit']].fillna('')
             st.session_state.std_information = st.session_state.std_information.drop(columns = ['unit'])
         else:
-            st.write("missing units column in the standard information table")
-
+            st.write("missing units column in the standard information table, µM will be set as default")
+            st.session_state.units = st.session_state.std_information[['peak_label']]
+            st.session_state.units['unit'] = 'µM'
+            
         if 'internal_standard_injection_concentration' in st.session_state.std_information.columns:
             st.session_state.internal_standard = st.session_state.std_information[['peak_label','internal_standard_injection_concentration']]
             st.session_state.std_information = st.session_state.std_information.drop(columns = ['internal_standard_injection_concentration'])
