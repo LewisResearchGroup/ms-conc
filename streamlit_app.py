@@ -151,7 +151,7 @@ st.sidebar.write(tmp_download_link, unsafe_allow_html=True)
 
 # st.sidebar.write("a sample file can be found [here](https://github.com/LSARP/ms-conc/tree/main/sample_files)")
 
-std_info = st.sidebar.file_uploader('Upload standards concentrations file. NOTE: the “Î¼” symbol denotes “µ” in the units column.')
+std_info = st.sidebar.file_uploader('Upload standards concentrations file. NOTE: the “Î¼” symbol denotes “µ” in the units column for CSV file format.')
     
 
 try:
