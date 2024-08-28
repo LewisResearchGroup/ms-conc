@@ -307,7 +307,6 @@ except:
 
 try:
     if len(st.session_state.std_results) > 1:
-#         st.write('here i am')
         
         st.session_state.fl = st.selectbox('''Select the flexibility for your line of best fit\n''' , 
                                ('Fixed fit – the app will only generate a standard curve with a slope = 1.00', 
