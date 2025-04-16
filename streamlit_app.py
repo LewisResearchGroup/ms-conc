@@ -417,6 +417,7 @@ try:
                 
             y_train_corrected = cc.train_to_validation(st.session_state.x_train, st.session_state.y_train, st.session_state.ces.params_ )
             x_viz = st.session_state.x_train.copy()
+            st.write(len(x_viz) )
         
             x_viz['pred_conc'] = st.session_state.ces.predict(x_viz).pred_conc
                 
@@ -432,7 +433,7 @@ try:
             x_viz = x_viz[x_viz.Concentration > 0.00000001]
                 
             dat = x_viz[x_viz.peak_label == st.session_state.cp]
-            st.write(len(x_viz) )
+            
             dat = dat[dat.value > 0]
            
         #     if 'button5' not in st.session_state:
