@@ -293,7 +293,7 @@ try:
                 
             # st.write(st.session_state.raw_results)
             st.session_state.std_results = cc.setting_from_stdinfo(st.session_state.std_information, st.session_state.raw_results)
-            st.write(st.session_state.std_information)
+            # st.write(st.session_state.std_information)
             st.session_state.std_results.sort_values(by = ['peak_label','STD_CONC', st.session_state.by_ ], inplace = True)
             
         except:
@@ -430,9 +430,9 @@ try:
             x_viz = x_viz.fillna(-1.0)
             
             x_viz['in_range'] = x_viz.Corr_Concentration.apply(lambda x: heav(x))
-            st.write(len(x_viz) )
+            # st.write(len(x_viz) )
             x_viz = x_viz[x_viz.Concentration > 0.00000001]
-            st.write(len(x_viz) )    
+            # st.write(len(x_viz) )    
             dat = x_viz[x_viz.peak_label == st.session_state.cp]
             
             dat = dat[dat.value > 0]
