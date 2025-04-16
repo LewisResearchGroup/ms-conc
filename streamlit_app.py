@@ -433,7 +433,7 @@ try:
                 
             dat = x_viz[x_viz.peak_label == st.session_state.cp]
             dat = dat[dat.value > 0]
-            
+        st.write(np.unique(dat.in_range))    
         #     if 'button5' not in st.session_state:
         #         st.session_state.button5 = False
         #     def click_button5():
