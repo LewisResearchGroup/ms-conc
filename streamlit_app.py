@@ -432,7 +432,7 @@ try:
             x_viz = x_viz[x_viz.Concentration > 0.00000001]
                 
             dat = x_viz[x_viz.peak_label == st.session_state.cp]
-            st.write(len(dat) )
+            st.write(len(x_viz) )
             dat = dat[dat.value > 0]
            
         #     if 'button5' not in st.session_state:
