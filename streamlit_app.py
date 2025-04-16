@@ -15,7 +15,7 @@ from io import BytesIO
 @st.cache
 
 def heav(x):
-    if x > 0.0:
+    if x > 0.1:
         return 1
     return 2
 
@@ -433,7 +433,7 @@ try:
                 
             dat = x_viz[x_viz.peak_label == st.session_state.cp]
             dat = dat[dat.value > 0]
-        st.write(np.unique(dat.in_range))    
+           
         #     if 'button5' not in st.session_state:
         #         st.session_state.button5 = False
         #     def click_button5():
@@ -468,7 +468,7 @@ try:
             st.pyplot(fig, dpi = 1000)             
         
         
-        
+        st.write(np.unique(dat.in_range))
         except:
             st.write('')
 except:
