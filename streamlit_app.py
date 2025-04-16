@@ -293,7 +293,7 @@ try:
                 
             # st.write(st.session_state.raw_results)
             st.session_state.std_results = cc.setting_from_stdinfo(st.session_state.std_information, st.session_state.raw_results)
-            st.write(st.session_state.std_results)
+            st.write(st.session_state.std_information)
             st.session_state.std_results.sort_values(by = ['peak_label','STD_CONC', st.session_state.by_ ], inplace = True)
             
         except:
@@ -307,7 +307,7 @@ except:
 
 try:
     if len(st.session_state.std_results) > 1:
-        st.write(len(st.session_state.std_results))
+       
         st.session_state.fl = st.selectbox('''Select the flexibility for your line of best fit\n''' , 
                                ('Fixed fit – the app will only generate a standard curve with a slope = 1.00', 
                                 'Interval fit – bounds for slope values can be defined. The interval 0.85-1.15 is recommended',
