@@ -293,7 +293,7 @@ try:
                 
             # st.write(st.session_state.raw_results)
             st.session_state.std_results = cc.setting_from_stdinfo(st.session_state.std_information, st.session_state.raw_results)
-            # st.write(st.session_state.std_results)
+            st.write(st.session_state.std_results)
             st.session_state.std_results.sort_values(by = ['peak_label','STD_CONC', st.session_state.by_ ], inplace = True)
             
         except:
