@@ -468,9 +468,10 @@ try:
             st.pyplot(fig, dpi = 1000)             
         
         
-        st.write(np.unique(dat.in_range))
+        
         except:
             st.write('')
+st.write(np.unique(dat.in_range))
 except:
     st.write('## There are no results to show')
     
