@@ -457,10 +457,9 @@ try:
         
             
             fig = plt.figure(figsize = (4,4))
-            # for inr, colo in zip( [2, 1]   , ['gray', 'black']):
-            #     plt.plot(np.array(dat.Concentration)[dat.in_range == inr], np.array(dat.value)[dat.in_range == inr], 'o', color = colo)
+            for inr, colo in zip( [2, 1]   , ['gray', 'black']):
+                plt.plot(np.array(dat.Concentration)[dat.in_range == inr], np.array(dat.value)[dat.in_range == inr], 'o', color = colo)
             
-            plt.plot(np.array(dat.Concentration), np.array(dat.value), 'o', color = 'gray')           
             plt.plot(np.array(dat.pred_conc)[dat.in_range == 1] , np.array(dat.value)[dat.in_range == 1] , color = 'black')
             
             plt.xlabel(st.session_state.xlabel, fontsize = 14)
