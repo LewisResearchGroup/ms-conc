@@ -417,7 +417,7 @@ try:
                 
             y_train_corrected = cc.train_to_validation(st.session_state.x_train, st.session_state.y_train, st.session_state.ces.params_ )
             x_viz = st.session_state.x_train.copy()
-            st.write(len(x_viz) )
+            
         
             x_viz['pred_conc'] = st.session_state.ces.predict(x_viz).pred_conc
                 
@@ -432,7 +432,7 @@ try:
             x_viz['in_range'] = x_viz.Corr_Concentration.apply(lambda x: heav(x))
             st.write(len(x_viz) )
             x_viz = x_viz[x_viz.Concentration > 0.00000001]
-                
+            st.write(len(x_viz) )    
             dat = x_viz[x_viz.peak_label == st.session_state.cp]
             
             dat = dat[dat.value > 0]
