@@ -192,7 +192,7 @@ def calibration_curves(x_train, y_train):
         y = np.log(y)
         x = np.log(x)
         if len(x > 2):
-            y_inter,  x_c , y_c, res = find_linear_range(x, y, 0.03)
+            y_inter,  x_c , y_c, res = find_linear_range(x, y, 0.5)
 #             print(min(x_c))
         calibration_curves.lin_range_min[calibration_curves.peak_label == col] = min(y_c) 
         calibration_curves.lin_range_max[calibration_curves.peak_label == col] = max(y_c) 
