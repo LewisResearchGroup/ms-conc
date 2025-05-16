@@ -99,7 +99,7 @@ def find_linear_range(x , y , th):
     y_c = np.array(inm.yy)
     y_intercept, res, r_ini, r_last = classic_lstsqr(x_c, y_c)
     
-    while ((res > th) | (r_ini > 0.5) | (r_last > 0.5)) and (len(x_c) > 3):
+    while ((res > th) | (r_ini > 1) | (r_last > 1)) and (len(x_c) > 3):
         if r_ini > r_last:
             x_c = x_c[1:]
             y_c = y_c[1:]
