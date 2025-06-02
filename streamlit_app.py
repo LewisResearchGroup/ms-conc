@@ -21,7 +21,7 @@ from io import BytesIO
 #     return 2
 
 def heav(x, xmin, xmax):
-    if (x >= xmin) & (x >= xmax):
+    if (x >= xmin) & (x <= xmax):
         return 1
     return 2
 
