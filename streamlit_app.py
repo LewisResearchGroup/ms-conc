@@ -3,6 +3,7 @@ from ms_conc import ConcentrationEstimator as CE
 from ms_conc import AppState as AS
 import matplotlib.pyplot as plt
 import os
+os.environ["STREAMLIT_SERVER_RUN_ON_SAVE"] = "false"
 import pandas as pd
 import datetime
 import numpy as np
