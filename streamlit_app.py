@@ -427,7 +427,7 @@ try:
                 
             
             x_viz['Corr_Concentration'] = y_train_corrected
-            
+            st.write(x_viz['Corr_Concentration'])
             x_viz = x_viz.fillna(-1.0)
             
             x_viz['in_range'] = x_viz.Corr_Concentration.apply(lambda x: heav(x))
