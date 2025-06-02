@@ -432,17 +432,21 @@ try:
                 
             
             x_viz['Corr_Concentration'] = y_train_corrected
-            st.write(x_viz['Corr_Concentration'])
+            # st.write(x_viz['Corr_Concentration'])
             x_viz = x_viz.fillna(-1.0)
             
             # x_viz['in_range'] = x_viz.Corr_Concentration.apply(lambda x: heav(x))
             # st.write(len(x_viz) )
             x_viz = x_viz[x_viz.Concentration > 0.00000001]
             # st.write(len(x_viz) )    
+
+            
             dat = x_viz[x_viz.peak_label == st.session_state.cp]
+
+            st.write(dat.Corr_Concentration)
             lloq = st.session_state.linear_scale_parameters.LLOQ[st.session_state.linear_scale_parameters.peak_label == st.session_state.cp].iloc[0]
             uloq = st.session_state.linear_scale_parameters.ULOQ[st.session_state.linear_scale_parameters.peak_label == st.session_state.cp].iloc[0]
-            dat['in_range'] = dat.Corr_Concentration.apply(lambda x: heav(x,lloq, uloq ))
+            dat['in_range'] = dat.Corr_Concentration.apply(lambda x: heav(x, lloq, uloq ))
             dat = dat[dat.value > 0]
            
         #     if 'button5' not in st.session_state:
