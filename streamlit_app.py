@@ -443,11 +443,11 @@ try:
             
             dat = x_viz[x_viz.peak_label == st.session_state.cp]
 
-            st.write(dat.Corr_Concentration)
             lloq = st.session_state.linear_scale_parameters.LLOQ[st.session_state.linear_scale_parameters.peak_label == st.session_state.cp].iloc[0]
             uloq = st.session_state.linear_scale_parameters.ULOQ[st.session_state.linear_scale_parameters.peak_label == st.session_state.cp].iloc[0]
             dat['in_range'] = dat.Corr_Concentration.apply(lambda x: heav(x, lloq, uloq ))
             dat = dat[dat.value > 0]
+            st.write(dat)
            
         #     if 'button5' not in st.session_state:
         #         st.session_state.button5 = False
