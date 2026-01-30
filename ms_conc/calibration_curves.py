@@ -350,16 +350,17 @@ def setting_from_stdinfo(std_info, results_):
     output['STD_CONC'] = np.nan
     
     for file in np.unique(output.ms_file):
+        print(file)
         for cp in np.unique(output.peak_label):
             try:
-                print(file)
                 output.STD_CONC[(output.ms_file == file) & (output.peak_label == cp)] = \
                 std_info[file][std_info.peak_label == cp].iloc[0]
 #                 print(cp)
             except:
                 continue
 #     this will remove the rows corresponding to non-standard samples
-    output = output[output['STD_CONC'].notna()]            
+    output = output[output['STD_CONC'].notna()]   
+    
     return output        
 
 
