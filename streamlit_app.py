@@ -15,6 +15,7 @@ import base64
 from io import BytesIO
 @st.cache
 
+# wake up app
 # def heav(x):
 #     if x > 0.1:
 #         return 1
