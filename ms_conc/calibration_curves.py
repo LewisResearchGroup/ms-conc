@@ -348,20 +348,20 @@ def setting_from_stdinfo(std_info, results_):
         print('problems reading results table')
 #     getting concentration values from the std_info
     output['STD_CONC'] = np.nan
+    return output 
+#     for file in np.unique(output.ms_file):
+#         # print(file)
+#         for cp in np.unique(output.peak_label):
+#             try:
+#                 output.STD_CONC[(output.ms_file == file) & (output.peak_label == cp)] = \
+#                 std_info[file][std_info.peak_label == cp].iloc[0]
+# #                 print(cp)
+#             except:
+#                 continue
+# #     this will remove the rows corresponding to non-standard samples
+#     output = output[output['STD_CONC'].notna()]   
     
-    for file in np.unique(output.ms_file):
-        print(file)
-        for cp in np.unique(output.peak_label):
-            try:
-                output.STD_CONC[(output.ms_file == file) & (output.peak_label == cp)] = \
-                std_info[file][std_info.peak_label == cp].iloc[0]
-#                 print(cp)
-            except:
-                continue
-#     this will remove the rows corresponding to non-standard samples
-    output = output[output['STD_CONC'].notna()]   
-    
-    return output        
+#     return output        
 
 
 def training_from_standard_results(std_results, by='peak_max'):
