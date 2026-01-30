@@ -246,8 +246,8 @@ try:
             st.session_state.raw_results = pd.read_excel(results_file)
             st.session_state.raw_results = st.session_state.raw_results.dropna(thresh = 1, axis = 0)
             
-        # st.write('## Your peaklist data file:')
-        # st.write(st.session_state.raw_results)
+        st.write('## Your peaklist data file:')
+        st.write(st.session_state.raw_results)
         
         if 'button2' not in st.session_state:
             st.session_state.button2 = False
