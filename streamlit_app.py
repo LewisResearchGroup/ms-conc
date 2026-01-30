@@ -302,11 +302,11 @@ try:
                 
             # st.write(st.session_state.raw_results)
             st.session_state.std_results = cc.setting_from_stdinfo(st.session_state.std_information, st.session_state.raw_results)
-            st.write("got to line 305")
-            st.write(st.session_state.std_information)
+            # st.write("got to line 305")
+            # st.write(st.session_state.std_information)
             st.session_state.std_results.sort_values(by = ['peak_label','STD_CONC', st.session_state.by_ ], inplace = True)
-            st.write("got to line 307")
-            st.write(st.session_state.std_results)
+            # st.write("got to line 307")
+            # st.write(st.session_state.std_results)
         except:
             st.write('## Data uploading or parameter settings incomplete')
 
@@ -318,7 +318,7 @@ except:
 
 try:
     if len(st.session_state.std_results) > 1:
-        st.write("got to line 320")
+        # st.write("got to line 320")
         st.session_state.fl = st.selectbox('''Select the flexibility for your line of best fit\n''' , 
                                ('Fixed fit – the app will only generate a standard curve with a slope = 1.00', 
                                 'Interval fit – bounds for slope values can be defined. The interval 0.85-1.15 is recommended',
@@ -335,8 +335,14 @@ try:
             st.write(st.session_state.ces.interval)
         
         st.session_state.x_train, st.session_state.y_train = cc.training_from_standard_results(st.session_state.std_results, by = st.session_state.by_)
+
+        st.write("got to line 339")
+        st.write(st.session_state.x_train)
+        st.write(st.session_state.y_train)
         
         st.session_state.ces.fit(st.session_state.x_train, st.session_state.y_train, v_slope = st.session_state.fl)
+
+        st.write("got to line 345")
         
         st.write('## The standard curves have been fitted')
         
