@@ -287,11 +287,12 @@ try:
                 # Internal standards will use the same table format as mint dense
                 st.session_state.by_ = 'peak_max'
                 st.session_state.raw_results = cc.info_from_Mint_dense(st.session_state.raw_results)
-                st.write("reading results line 290")
 
             
             st.session_state.output = st.session_state.raw_results.copy()
             st.write("got to line 294")
+            st.write(st.session_state.raw_results)
+            
             st.session_state.output['STD_CONC'] = np.nan
             if set(np.unique(st.session_state.raw_results.peak_label)) != set(np.unique(st.session_state.std_information.peak_label)):
                     st.write('ALERT!')
@@ -316,7 +317,7 @@ except:
 
 try:
     if len(st.session_state.std_results) > 1:
-       
+        st.write("got to line 320")
         st.session_state.fl = st.selectbox('''Select the flexibility for your line of best fit\n''' , 
                                ('Fixed fit – the app will only generate a standard curve with a slope = 1.00', 
                                 'Interval fit – bounds for slope values can be defined. The interval 0.85-1.15 is recommended',
