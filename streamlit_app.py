@@ -287,9 +287,11 @@ try:
                 # Internal standards will use the same table format as mint dense
                 st.session_state.by_ = 'peak_max'
                 st.session_state.raw_results = cc.info_from_Mint_dense(st.session_state.raw_results)
+                st.write("reading results line 290")
 
             
             st.session_state.output = st.session_state.raw_results.copy()
+            st.write("got to line 294")
             st.session_state.output['STD_CONC'] = np.nan
             if set(np.unique(st.session_state.raw_results.peak_label)) != set(np.unique(st.session_state.std_information.peak_label)):
                     st.write('ALERT!')
