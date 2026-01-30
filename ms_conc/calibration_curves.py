@@ -197,9 +197,9 @@ def calibration_curves(x_train, y_train):
         calibration_curves.loc[calibration_curves.peak_label == col, "lin_range_min"] = min(y_c) 
         calibration_curves.loc[calibration_curves.peak_label == col, "lin_range_max"] = max(y_c) 
         calibration_curves.loc[calibration_curves.peak_label == col, "intercept"] = y_inter
-        calibration_curves.slope[calibration_curves.peak_label == col] = 1
-        calibration_curves.N_points[calibration_curves.peak_label == col] = len(x_c)
-        calibration_curves.Residual[calibration_curves.peak_label == col] = res
+        calibration_curves.loc[calibration_curves.peak_label == col, "slope"] = 1
+        calibration_curves.loc[calibration_curves.peak_label == col, "N_points"] = len(x_c)
+        calibration_curves.loc[calibration_curves.peak_label == col, "Residual"] = res
         
     calibration_curves['LLOQ'] = calibration_curves.lin_range_min.apply(lambda x: np.exp(x))
     calibration_curves['ULOQ'] = calibration_curves.lin_range_max.apply(lambda x: np.exp(x))
