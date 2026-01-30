@@ -290,8 +290,7 @@ try:
 
             
             st.session_state.output = st.session_state.raw_results.copy()
-            st.write("got to line 294")
-            st.write(st.session_state.raw_results)
+            
             
             st.session_state.output['STD_CONC'] = np.nan
             if set(np.unique(st.session_state.raw_results.peak_label)) != set(np.unique(st.session_state.std_information.peak_label)):
@@ -305,7 +304,8 @@ try:
             st.session_state.std_results = cc.setting_from_stdinfo(st.session_state.std_information, st.session_state.raw_results)
             # st.write(st.session_state.std_information)
             st.session_state.std_results.sort_values(by = ['peak_label','STD_CONC', st.session_state.by_ ], inplace = True)
-            
+            st.write("got to line 307")
+            st.write(st.session_state.std_results)
         except:
             st.write('## Data uploading or parameter settings incomplete')
 
