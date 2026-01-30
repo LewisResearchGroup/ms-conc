@@ -335,14 +335,9 @@ try:
             st.write(st.session_state.ces.interval)
         
         st.session_state.x_train, st.session_state.y_train = cc.training_from_standard_results(st.session_state.std_results, by = st.session_state.by_)
-
-        st.write("got to line 339")
-        st.write(st.session_state.x_train)
-        st.write(st.session_state.y_train)
-        
         st.session_state.ces.fit(st.session_state.x_train, st.session_state.y_train, v_slope = st.session_state.fl)
 
-        st.write("got to line 345")
+        # st.write("got to line 345")
         
         st.write('## The standard curves have been fitted')
         
@@ -434,7 +429,8 @@ try:
                 
             y_train_corrected = cc.train_to_validation(st.session_state.x_train, st.session_state.y_train, st.session_state.ces.params_ )
             x_viz = st.session_state.x_train.copy()
-            
+            st.write("made to line 432")
+            st.write(x_viz)
         
             x_viz['pred_conc'] = st.session_state.ces.predict(x_viz).pred_conc
                 
