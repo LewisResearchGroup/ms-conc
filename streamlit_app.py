@@ -318,7 +318,6 @@ except:
 
 try:
     if len(st.session_state.std_results) > 1:
-        # st.write("got to line 320")
         st.session_state.fl = st.selectbox('''Select the flexibility for your line of best fit\n''' , 
                                ('Fixed fit – the app will only generate a standard curve with a slope = 1.00', 
                                 'Interval fit – bounds for slope values can be defined. The interval 0.85-1.15 is recommended',
@@ -333,11 +332,13 @@ try:
             st.session_state.interval = st.slider('Select a range of values', 0.0, 2.0, (0.85, 1.15))
             st.session_state.ces.set_interval(np.array(st.session_state.interval))
             st.write(st.session_state.ces.interval)
+
+
         
         st.session_state.x_train, st.session_state.y_train = cc.training_from_standard_results(st.session_state.std_results, by = st.session_state.by_)
+        st.write(st.session_state.fl)
         st.session_state.ces.fit(st.session_state.x_train, st.session_state.y_train, v_slope = st.session_state.fl)
 
-        # st.write("got to line 345")
         
         st.write('## The standard curves have been fitted')
         
