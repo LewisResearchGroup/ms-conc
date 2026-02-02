@@ -197,7 +197,7 @@ def calibration_curves(x_train, y_train):
         calibration_curves.loc[calibration_curves.peak_label == col, "lin_range_min"] = min(y_c) 
         calibration_curves.loc[calibration_curves.peak_label == col, "lin_range_max"] = max(y_c) 
         calibration_curves.loc[calibration_curves.peak_label == col, "intercept"] = y_inter
-        calibration_curves.loc[calibration_curves.peak_label == col, "slope"] = 1
+        calibration_curves.loc[calibration_curves.peak_label == col, "slope"] = slope
         calibration_curves.loc[calibration_curves.peak_label == col, "N_points"] = len(x_c)
         calibration_curves.loc[calibration_curves.peak_label == col, "Residual"] = res
         
@@ -245,7 +245,7 @@ def calibration_curves_variable_slope(x_train, y_train):
         calibration_curves.loc[calibration_curves.peak_label == col, "lin_range_min"] = min(y_c) 
         calibration_curves.loc[calibration_curves.peak_label == col, "lin_range_max"] = max(y_c) 
         calibration_curves.loc[calibration_curves.peak_label == col, "intercept"] = y_inter
-        calibration_curves.loc[calibration_curves.peak_label == col, "slope"] = 1
+        calibration_curves.loc[calibration_curves.peak_label == col, "slope"] = slope
         calibration_curves.loc[calibration_curves.peak_label == col, "N_points"] = len(x_c)
         calibration_curves.loc[calibration_curves.peak_label == col, "Residual"] = res
         
@@ -295,7 +295,7 @@ def calibration_curves_variable_slope_interval(x_train, y_train, interval):
         calibration_curves.loc[calibration_curves.peak_label == col, "lin_range_min"] = min(y_c) 
         calibration_curves.loc[calibration_curves.peak_label == col, "lin_range_max"] = max(y_c) 
         calibration_curves.loc[calibration_curves.peak_label == col, "intercept"] = y_inter
-        calibration_curves.loc[calibration_curves.peak_label == col, "slope"] = 1
+        calibration_curves.loc[calibration_curves.peak_label == col, "slope"] = slope
         calibration_curves.loc[calibration_curves.peak_label == col, "N_points"] = len(x_c)
         calibration_curves.loc[calibration_curves.peak_label == col, "Residual"] = res
     
