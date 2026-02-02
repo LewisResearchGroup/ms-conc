@@ -501,7 +501,7 @@ def train_to_validation(X, Y, curves):
     # X0.loc[X0.true_conc < X0.Y_min, 'true_conc'] = None
     # X0.loc[X0.true_conc > X0.Y_max, 'true_conc'] = None
     
-    return np.array(X0['true_conc'])
+    return X0['true_conc']
         
         
 def rmsd(col1, col2):
