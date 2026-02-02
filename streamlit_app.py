@@ -439,10 +439,10 @@ try:
 
             st.write("line 440")
             st.write(st.session_state.curves0.fillna(1e-13)) 
-
+            st.write("line 442")
             st.session_state.curves0['Y_min'] = np.exp(st.session_state.curves0['lin_range_min'] - 0.00000001)
             st.session_state.curves0['Y_max'] = np.exp(st.session_state.curves0['lin_range_max'] + 0.00000001)
-
+            
             st.write("line 441")
             
             # X0['Y_min'] = 0.0
