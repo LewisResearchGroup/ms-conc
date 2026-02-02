@@ -428,9 +428,18 @@ try:
         #### making the figure #####
             st.write("line 429")
             
-            st.write(st.session_state.x_train)
+            # st.write(st.session_state.x_train)
             # st.write(st.session_state.y_train)
             # st.write(st.session_state.ces.params_)
+            
+            X0 = st.session_state.x_train.copy()
+            X0['true_conc'] = st.session_state.y_train.astype(float)
+            curves0 = st.session_state.ces.params_.copy().fillna(1e-13)
+            curves0['Y_min'] = np.exp(curves0['lin_range_min'] - 0.00000001)
+            curves0['Y_max'] = np.exp(curves0['lin_range_max'] + 0.00000001)
+            X0['Y_min'] = 0.0
+            X0['Y_max'] = 0.0
+
             
             y_train_corrected = cc.train_to_validation(st.session_state.x_train, st.session_state.y_train, st.session_state.ces.params_ )
 
