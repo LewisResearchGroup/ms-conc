@@ -490,16 +490,15 @@ def train_to_validation(X, Y, curves):
 
     
 
-    min_map = dict(zip(curves0.peak_label, curves0.Y_min))
-    max_map = dict(zip(curves0.peak_label, curves0.Y_max))
-    X0['Y_min'] = X0['peak_label'].map(min_map)
-    X0['Y_max'] = X0['peak_label'].map(max_map)   
-    
-    return X0['true_conc']
-    # # for cp in np.unique(X0.peak_label):
-    # #     X0.loc[X0.peak_label == cp,"Y_min"] = curves0.Y_min[curves0.peak_label == cp].iloc[0]
-    # #     X0.loc[X0.peak_label == cp,"Y_max"] = curves0.Y_max[curves0.peak_label == cp].iloc[0]
+    # min_map = dict(zip(curves0.peak_label, curves0.Y_min))
+    # max_map = dict(zip(curves0.peak_label, curves0.Y_max))
+    # X0['Y_min'] = X0['peak_label'].map(min_map)
+    # X0['Y_max'] = X0['peak_label'].map(max_map)   
 
+    for cp in np.unique(X0.peak_label):
+        X0.loc[X0.peak_label == cp,"Y_min"] = curves0.Y_min[curves0.peak_label == cp].iloc[0]
+        X0.loc[X0.peak_label == cp,"Y_max"] = curves0.Y_max[curves0.peak_label == cp].iloc[0]
+    return X0['true_conc']
     # X0.loc[X0['true_conc'] < X0['Y_min'], 'true_conc'] = np.nan
     # X0.loc[X0['true_conc'] > X0['Y_max'], 'true_conc'] = np.nan
         
