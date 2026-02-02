@@ -342,7 +342,6 @@ try:
         
         st.write('## The standard curves have been fitted')
         
-        st.write(st.session_state.ces.params_)
         st.session_state.linear_scale_parameters = st.session_state.ces.params_.sort_values(by = ['peak_label']).drop(['lin_range_min', 'lin_range_max'], axis = 1)
         st.session_state.linear_scale_parameters = st.session_state.ces.params_.sort_values(by = ['peak_label']).drop(['lin_range_min', 'lin_range_max'], axis = 1)
 
@@ -427,8 +426,6 @@ try:
         
         
         #### making the figure #####
-            st.write(st.session_state.ces.params_)
-
             
             y_train_corrected = cc.train_to_validation(st.session_state.x_train, st.session_state.y_train, st.session_state.ces.params_ )
             
