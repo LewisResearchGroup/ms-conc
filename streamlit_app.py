@@ -446,7 +446,7 @@ try:
 
             lloq = st.session_state.linear_scale_parameters.LLOQ[st.session_state.linear_scale_parameters.peak_label == st.session_state.cp].iloc[0]
             uloq = st.session_state.linear_scale_parameters.ULOQ[st.session_state.linear_scale_parameters.peak_label == st.session_state.cp].iloc[0]
-            dat['in_range'] = dat.Corr_Concentration.apply(lambda x: heav(x, lloq, uloq ))
+            dat['in_range'] = dat.Corr_Concentration.apply(lambda x: heav(x, lloq - 0.000001, uloq + 0.000001))
             # dat['lloq'] = lloq
             # dat['uloq'] = uloq
             dat = dat[dat.value > 0]
