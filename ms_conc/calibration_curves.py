@@ -497,8 +497,8 @@ def train_to_validation(X, Y, curves):
 
     for cp in np.unique(curves0['peak_label']):
         print(cp)
-        X0.loc[X0['peak_label'] == cp,"Y_min"] = curves0["Y_min"][curves0.peak_label == cp].iat[0]
-        X0.loc[X0['peak_label'] == cp,"Y_max"] = curves0["Y_max"][curves0.peak_label == cp].iat[0]
+        X0.loc[X0['peak_label'] == cp,"Y_min"] = curves0.loc[curves0['peak_label'] == cp, "Y_min"].iloc[0]
+        # X0.loc[X0['peak_label'] == cp,"Y_max"] = curves0["Y_max"][curves0['peak_label'] == cp].iloc[0]
 
     return X0['true_conc']
     # X0.loc[X0['true_conc'] < X0['Y_min'], 'true_conc'] = np.nan
