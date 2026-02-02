@@ -430,7 +430,7 @@ try:
             y_train_corrected = cc.train_to_validation(st.session_state.x_train, st.session_state.y_train, st.session_state.ces.params_ )
             
             x_viz = st.session_state.x_train.copy()
-            st.write(x_viz)
+            # st.write(x_viz)
             x_viz['pred_conc'] = st.session_state.ces.predict(x_viz).pred_conc  
             x_viz['Concentration'] = st.session_state.y_train
             x_viz['Corr_Concentration'] = y_train_corrected
