@@ -429,7 +429,9 @@ try:
             st.write("line 429")
             
           
-            X0 = st.session_state.x_train.copy()
+            st.session_state.X0 = st.session_state.x_train.copy()
+            st.write("line 439")
+            
             X0['true_conc'] = st.session_state.y_train.astype(float)
             curves0 = st.session_state.ces.params_.copy().fillna(1e-13)
             curves0['Y_min'] = np.exp(curves0['lin_range_min'] - 0.00000001)
