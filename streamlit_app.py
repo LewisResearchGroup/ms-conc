@@ -442,11 +442,10 @@ try:
             st.session_state.curves0['Y_min'] = st.session_state.curves0['lin_range_min'].apply(lambda x: np.exp(x- 0.00000001)) 
             st.session_state.curves0['Y_max'] = st.session_state.curves0['lin_range_max'].apply(lambda x: np.exp(x- 0.00000001)) 
             st.write(st.session_state.curves0) 
-            st.write("line 449")
+            st.write("line 445")
             
-            # X0['Y_min'] = 0.0
-            # X0['Y_max'] = 0.0
-            # st.write("line 439")
+            st.session_state.X0['Y_min'] = 0.0
+            st.session_state.X0['Y_max'] = 0.0
             
             # for cp in np.unique(X0['peak_label']):
             #     st.write(cp)
@@ -459,11 +458,11 @@ try:
             # y_train_corrected = X0['true_conc']
             
             st.session_state.y_train_corrected = cc.train_to_validation(st.session_state.x_train, st.session_state.y_train, st.session_state.ces.params_ )
-
+            st.write("got to line 461")
             st.write(st.session_state.y_train_corrected)
             
             x_viz = st.session_state.x_train.copy()
-            st.write("got to line 432")
+            
             st.write(x_viz)
         
             x_viz['pred_conc'] = st.session_state.ces.predict(x_viz).pred_conc
