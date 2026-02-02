@@ -434,7 +434,8 @@ try:
             
             st.session_state.X0['true_conc'] = st.session_state.y_train.astype(float)
             st.write("line 439")
-            st.session_state.curves0 = st.session_state.ces.params_.copy().fillna(1e-13)
+            st.session_state.curves0 = st.session_state.ces.params_.copy()
+            st.session_state.curves0 = st.session_state.curves0.fillna(1e-13)
             st.session_state.curves0['Y_min'] = np.exp(st.session_state.curves0['lin_range_min'] - 0.00000001)
             st.session_state.curves0['Y_max'] = np.exp(st.session_state.curves0['lin_range_max'] + 0.00000001)
 
