@@ -426,7 +426,7 @@ try:
         
         
         #### making the figure #####
-            st.write("line 429")
+            
             
           
             st.session_state.X0 = st.session_state.x_train.copy()
@@ -457,14 +457,14 @@ try:
             
             # y_train_corrected = X0['true_conc']
             
-            st.session_state.y_train_corrected = cc.train_to_validation(st.session_state.x_train, st.session_state.y_train, st.session_state.ces.params_ )
+            y_train_corrected = cc.train_to_validation(st.session_state.x_train, st.session_state.y_train, st.session_state.ces.params_ )
             st.write("got to line 461")
-            st.write(st.session_state.y_train_corrected)
+            st.write(y_train_corrected)
             
             x_viz = st.session_state.x_train.copy()
             
             st.write(x_viz)
-        
+            st.write("got to line 467")
             x_viz['pred_conc'] = st.session_state.ces.predict(x_viz).pred_conc
                 
                 
