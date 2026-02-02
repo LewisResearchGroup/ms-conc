@@ -439,9 +439,16 @@ try:
             curves0['Y_max'] = np.exp(curves0['lin_range_max'] + 0.00000001)
             X0['Y_min'] = 0.0
             X0['Y_max'] = 0.0
-
+            for cp in np.unique(X0['peak_label']):
+                X0.loc[X0['peak_label'] == cp,"Y_min"] = curves0.Y_min[curves0['peak_label'] == cp].iloc[0]
+                X0.loc[X0['peak_label'] == cp,"Y_max"] = curves0.Y_max[curves0['peak_label'] == cp].iloc[0]
             
-            y_train_corrected = cc.train_to_validation(st.session_state.x_train, st.session_state.y_train, st.session_state.ces.params_ )
+            X0.loc[X0.true_conc < X0.Y_min, 'true_conc'] = None
+            X0.loc[X0.true_conc > X0.Y_max, 'true_conc'] = None
+            
+            y_train_corrected = X0['true_conc']
+            
+            # y_train_corrected = cc.train_to_validation(st.session_state.x_train, st.session_state.y_train, st.session_state.ces.params_ )
 
             st.write(y_train_corrected)
             
