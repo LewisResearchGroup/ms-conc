@@ -475,22 +475,31 @@ def train_to_validation(X, Y, curves):
     are out of the linear range and therefore should not be taken into consideration for
     the scoring'''
     X0 = X.copy()
-    X0['true_conc'] = Y
+    X0['true_conc'] = Y.astype(float)
     
-    curves0= curves.copy().fillna(0.0000000000001)
+    curves0 = curves.copy().fillna(1e-13)
 #     curves0['Y_min'] = np.exp( curves0.intercept +  curves0.slope * curves0.lin_range_min - 0.00000001)
 #     curves0['Y_max'] = np.exp( curves0.intercept +  curves0.slope * curves0.lin_range_max + 0.00000001)
-    curves0['Y_min'] = np.exp(curves0.lin_range_min - 0.00000001)
-    curves0['Y_max'] = np.exp(curves0.lin_range_max + 0.00000001)
+    curves0['Y_min'] = np.exp(curves0['lin_range_min'] - 0.00000001)
+    curves0['Y_max'] = np.exp(curves0['lin_range_max'] + 0.00000001)
+
     X0['Y_min'] = 0.0
     X0['Y_max'] = 0.0
-    
-    for cp in np.unique(X0.peak_label):
-        X0.loc[X0.peak_label == cp,"Y_min"] = curves0.Y_min[curves0.peak_label == cp].iloc[0]
-        X0.loc[X0.peak_label == cp,"Y_max"] = curves0.Y_max[curves0.peak_label == cp].iloc[0]
+
+    min_map = dict(zip(curves0.peak_label, curves0.Y_min))
+    max_map = dict(zip(curves0.peak_label, curves0.Y_max))
+    X0['Y_min'] = X0['peak_label'].map(min_map)
+    X0['Y_max'] = X0['peak_label'].map(max_map)   
+
+    # for cp in np.unique(X0.peak_label):
+    #     X0.loc[X0.peak_label == cp,"Y_min"] = curves0.Y_min[curves0.peak_label == cp].iloc[0]
+    #     X0.loc[X0.peak_label == cp,"Y_max"] = curves0.Y_max[curves0.peak_label == cp].iloc[0]
+
+    X0.loc[X0['true_conc'] < X0['Y_min'], 'true_conc'] = np.nan
+    X0.loc[X0['true_conc'] > X0['Y_max'], 'true_conc'] = np.nan
         
-    X0.loc[X0.true_conc < X0.Y_min, 'true_conc'] = None
-    X0.loc[X0.true_conc > X0.Y_max, 'true_conc'] = None
+    # X0.loc[X0.true_conc < X0.Y_min, 'true_conc'] = None
+    # X0.loc[X0.true_conc > X0.Y_max, 'true_conc'] = None
     
     return np.array(X0.true_conc)
         
