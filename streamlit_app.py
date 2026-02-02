@@ -430,12 +430,15 @@ try:
             
           
             st.session_state.X0 = st.session_state.x_train.copy()
-            st.write("line 439")
             
-            # X0['true_conc'] = st.session_state.y_train.astype(float)
-            # curves0 = st.session_state.ces.params_.copy().fillna(1e-13)
-            # curves0['Y_min'] = np.exp(curves0['lin_range_min'] - 0.00000001)
-            # curves0['Y_max'] = np.exp(curves0['lin_range_max'] + 0.00000001)
+            
+            st.session_state.X0['true_conc'] = st.session_state.y_train.astype(float)
+            st.write("line 439")
+            st.session_state.curves0 = st.session_state.ces.params_.copy().fillna(1e-13)
+            st.session_state.curves0['Y_min'] = np.exp(st.session_state.curves0['lin_range_min'] - 0.00000001)
+            st.session_state.curves0['Y_max'] = np.exp(st.session_state.curves0['lin_range_max'] + 0.00000001)
+
+            st.write("line 441")
             # X0['Y_min'] = 0.0
             # X0['Y_max'] = 0.0
             # st.write("line 439")
