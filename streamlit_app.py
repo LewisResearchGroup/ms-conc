@@ -432,27 +432,27 @@ try:
             st.session_state.X0 = st.session_state.x_train.copy()
             st.write("line 439")
             
-            X0['true_conc'] = st.session_state.y_train.astype(float)
-            curves0 = st.session_state.ces.params_.copy().fillna(1e-13)
-            curves0['Y_min'] = np.exp(curves0['lin_range_min'] - 0.00000001)
-            curves0['Y_max'] = np.exp(curves0['lin_range_max'] + 0.00000001)
-            X0['Y_min'] = 0.0
-            X0['Y_max'] = 0.0
-            st.write("line 439")
+            # X0['true_conc'] = st.session_state.y_train.astype(float)
+            # curves0 = st.session_state.ces.params_.copy().fillna(1e-13)
+            # curves0['Y_min'] = np.exp(curves0['lin_range_min'] - 0.00000001)
+            # curves0['Y_max'] = np.exp(curves0['lin_range_max'] + 0.00000001)
+            # X0['Y_min'] = 0.0
+            # X0['Y_max'] = 0.0
+            # st.write("line 439")
             
-            for cp in np.unique(X0['peak_label']):
-                st.write(cp)
-                X0.loc[X0['peak_label'] == cp,"Y_min"] = curves0.Y_min[curves0['peak_label'] == cp].iloc[0]
-                X0.loc[X0['peak_label'] == cp,"Y_max"] = curves0.Y_max[curves0['peak_label'] == cp].iloc[0]
+            # for cp in np.unique(X0['peak_label']):
+            #     st.write(cp)
+            #     X0.loc[X0['peak_label'] == cp,"Y_min"] = curves0.Y_min[curves0['peak_label'] == cp].iloc[0]
+            #     X0.loc[X0['peak_label'] == cp,"Y_max"] = curves0.Y_max[curves0['peak_label'] == cp].iloc[0]
             
-            X0.loc[X0.true_conc < X0.Y_min, 'true_conc'] = None
-            X0.loc[X0.true_conc > X0.Y_max, 'true_conc'] = None
+            # X0.loc[X0.true_conc < X0.Y_min, 'true_conc'] = None
+            # X0.loc[X0.true_conc > X0.Y_max, 'true_conc'] = None
             
-            y_train_corrected = X0['true_conc']
+            # y_train_corrected = X0['true_conc']
             
-            # y_train_corrected = cc.train_to_validation(st.session_state.x_train, st.session_state.y_train, st.session_state.ces.params_ )
+            st.session_state.y_train_corrected = cc.train_to_validation(st.session_state.x_train, st.session_state.y_train, st.session_state.ces.params_ )
 
-            st.write(y_train_corrected)
+            st.write(st.session_state.y_train_corrected)
             
             x_viz = st.session_state.x_train.copy()
             st.write("got to line 432")
