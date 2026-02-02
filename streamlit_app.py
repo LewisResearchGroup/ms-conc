@@ -440,6 +440,7 @@ try:
             X0['Y_min'] = 0.0
             X0['Y_max'] = 0.0
             for cp in np.unique(X0['peak_label']):
+                st.write(cp)
                 X0.loc[X0['peak_label'] == cp,"Y_min"] = curves0.Y_min[curves0['peak_label'] == cp].iloc[0]
                 X0.loc[X0['peak_label'] == cp,"Y_max"] = curves0.Y_max[curves0['peak_label'] == cp].iloc[0]
             
