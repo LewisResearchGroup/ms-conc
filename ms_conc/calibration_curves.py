@@ -495,7 +495,8 @@ def train_to_validation(X, Y, curves):
     # X0['Y_min'] = X0['peak_label'].map(min_map)
     # X0['Y_max'] = X0['peak_label'].map(max_map)   
 
-    for cp in np.unique(X0['peak_label']):
+    for cp in np.unique(curves0['peak_label']):
+        print(cp)
         X0.loc[X0['peak_label'] == cp,"Y_min"] = curves0["Y_min"][curves0.peak_label == cp].iat[0]
         X0.loc[X0['peak_label'] == cp,"Y_max"] = curves0["Y_max"][curves0.peak_label == cp].iat[0]
 
