@@ -428,7 +428,7 @@ try:
         #### making the figure #####
             st.write("line 429")
             
-            # st.write(st.session_state.x_train)
+            st.write(st.session_state.x_train)
             # st.write(st.session_state.y_train)
             # st.write(st.session_state.ces.params_)
             
