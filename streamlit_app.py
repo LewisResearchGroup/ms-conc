@@ -427,52 +427,12 @@ try:
         
         #### making the figure #####
             
-            
-          
-            st.session_state.X0 = st.session_state.x_train.copy()
-            
-            
-            st.session_state.X0['true_conc'] = st.session_state.y_train.astype(float)
-            st.write("line 439")
-            # st.write(st.session_state.ces.params_)
-            st.session_state.curves0 = st.session_state.ces.params_.copy()
-
-
-            st.session_state.curves0['Y_min'] = 0
-            st.session_state.curves0['Y_min'] = st.session_state.curves0['lin_range_min'].apply(lambda x: np.exp(x- 0.00000001)) 
-            st.session_state.curves0['Y_max'] = st.session_state.curves0['lin_range_max'].apply(lambda x: np.exp(x- 0.00000001)) 
-            st.write(st.session_state.curves0) 
-            st.write("line 445")
-            
-            st.session_state.X0['Y_min'] = 0.0
-            st.session_state.X0['Y_max'] = 0.0
-            
-            # for cp in np.unique(X0['peak_label']):
-            #     st.write(cp)
-            #     X0.loc[X0['peak_label'] == cp,"Y_min"] = curves0.Y_min[curves0['peak_label'] == cp].iloc[0]
-            #     X0.loc[X0['peak_label'] == cp,"Y_max"] = curves0.Y_max[curves0['peak_label'] == cp].iloc[0]
-            
-            # X0.loc[X0.true_conc < X0.Y_min, 'true_conc'] = None
-            # X0.loc[X0.true_conc > X0.Y_max, 'true_conc'] = None
-            
-            # y_train_corrected = X0['true_conc']
-            
             y_train_corrected = cc.train_to_validation(st.session_state.x_train, st.session_state.y_train, st.session_state.ces.params_ )
-            st.write("got to line 461")
-            st.write(y_train_corrected)
             
             x_viz = st.session_state.x_train.copy()
-            
-            st.write(x_viz)
-            st.write("got to line 467")
-            x_viz['pred_conc'] = st.session_state.ces.predict(x_viz).pred_conc
-                
-                
+            x_viz['pred_conc'] = st.session_state.ces.predict(x_viz).pred_conc  
             x_viz['Concentration'] = st.session_state.y_train
-                
-            
             x_viz['Corr_Concentration'] = y_train_corrected
-            # st.write(x_viz['Corr_Concentration'])
             x_viz = x_viz.fillna(-1.0)
             
             # x_viz['in_range'] = x_viz.Corr_Concentration.apply(lambda x: heav(x))
