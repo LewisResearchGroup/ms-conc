@@ -426,7 +426,11 @@ try:
         
         
         #### making the figure #####
-
+            st.write("line 429")
+            
+            st.write(st.session_state.x_train)
+            st.write(st.session_state.y_train)
+            st.write(t.session_state.ces.params_)
             y_train_corrected = cc.train_to_validation(st.session_state.x_train, st.session_state.y_train, st.session_state.ces.params_ )
             x_viz = st.session_state.x_train.copy()
             st.write("got to line 432")
