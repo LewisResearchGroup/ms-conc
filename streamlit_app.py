@@ -324,6 +324,7 @@ try:
                                 'Wide fit – the app will not constrain the slope when calculating the line of best fit',))
         
         st.session_state.fl = st.session_state.fl.split(' ')[0].lower()
+        
         st.write(st.session_state.fl)
         
         st.session_state.ces = CE.ConcentrationEstimator()
@@ -336,7 +337,6 @@ try:
 
         
         st.session_state.x_train, st.session_state.y_train = cc.training_from_standard_results(st.session_state.std_results, by = st.session_state.by_)
-        st.write(st.session_state.fl)
         st.session_state.ces.fit(st.session_state.x_train, st.session_state.y_train, v_slope = st.session_state.fl)
 
         
@@ -431,6 +431,7 @@ try:
             y_train_corrected = cc.train_to_validation(st.session_state.x_train, st.session_state.y_train, st.session_state.ces.params_ )
             
             x_viz = st.session_state.x_train.copy()
+            st.write(x_viz)
             x_viz['pred_conc'] = st.session_state.ces.predict(x_viz).pred_conc  
             x_viz['Concentration'] = st.session_state.y_train
             x_viz['Corr_Concentration'] = y_train_corrected
