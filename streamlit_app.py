@@ -437,15 +437,11 @@ try:
             # st.write(st.session_state.ces.params_)
             st.session_state.curves0 = st.session_state.ces.params_.copy()
 
-            st.write("line 440")
-            st.write(st.session_state.curves0.fillna(1e-13)) 
-            st.write("line 442")
-
 
             st.session_state.curves0['Y_min'] = 0
             st.session_state.curves0['Y_min'] = st.session_state.curves0['lin_range_min'].apply(lambda x: np.exp(x- 0.00000001)) 
-            # st.session_state.curves0['Y_max'] = np.exp(st.session_state.curves0['lin_range_max'] + 0.00000001)
-            
+            st.session_state.curves0['Y_max'] = st.session_state.curves0['lin_range_max'].apply(lambda x: np.exp(x- 0.00000001)) 
+            st.write(st.session_state.curves0) 
             st.write("line 449")
             
             # X0['Y_min'] = 0.0
