@@ -428,10 +428,7 @@ try:
         #### making the figure #####
             st.write("line 429")
             
-            # st.write(st.session_state.x_train)
-            # st.write(st.session_state.y_train)
-            # st.write(st.session_state.ces.params_)
-            
+          
             X0 = st.session_state.x_train.copy()
             X0['true_conc'] = st.session_state.y_train.astype(float)
             curves0 = st.session_state.ces.params_.copy().fillna(1e-13)
@@ -439,6 +436,8 @@ try:
             curves0['Y_max'] = np.exp(curves0['lin_range_max'] + 0.00000001)
             X0['Y_min'] = 0.0
             X0['Y_max'] = 0.0
+            st.write("line 439")
+            
             for cp in np.unique(X0['peak_label']):
                 st.write(cp)
                 X0.loc[X0['peak_label'] == cp,"Y_min"] = curves0.Y_min[curves0['peak_label'] == cp].iloc[0]
